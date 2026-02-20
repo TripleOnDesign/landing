@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Burst Canvas</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background-color: #030303;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    canvas {
+      width: 80vw;
+      height: 80vh;
+      filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.2));
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="burstCanvas"></canvas>
+
+  <script>
+    const canvas = document.getElementById('burstCanvas');
+    const ctx = canvas.getContext('2d');
+
+    let width, height, cx, cy;
+    let mouse = { x: -1000, y: -1000 };
+    let autoRotX = 0, autoRotY = 0;
+    let targetTiltX = 0, targetTiltY = 0;
+    let currentTiltX = 0, currentTiltY = 0;
+
+    function resize() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+      cx = width / 2;
+      cy = height / 2;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    window.addEventListener('mousemove', (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+      targetTiltY = (mouse.x - cx) * 0.001;
+      targetTiltX = (mouse.y - cy) * 0.001;
+    });
+
+    window.addEventListener('mouseout', () => {
+      mouse.x = -1000;
+      mouse.y = -1000;
+      targetTiltX = 0;
+      targetTiltY = 0;
+    });
+
+    class LineParticle {
+      constructor(index, total) {
+        const phi = Math.acos(1 - 2 * (index + 0.5) / total);
+        const theta = Math.PI * (1 + Math.sqrt(5)) * index;
+        this.dirX = Math.sin(phi) * Math.cos(theta);
+        this.dirY = Math.sin(phi) * Math.sin(theta);
+        this.dirZ = Math.cos(phi);
+        this.baseLength = 150 + Math.random() * 150;
+        this.currentLength = 0;
+        this.targetLength = this.baseLength;
+        this.innerRadius = 20 + Math.random() * 20;
+        this.brightness = 0.5 + Math.random() * 0.5;
+        this.rotX = 0; this.rotY = 0; this.rotZ = 0;
+      }
+
+      calculate(angleX, angleY) {
+        let y1 = this.dirY * Math.cos(angleX) - this.dirZ * Math.sin(angleX);
+        let z1 = this.dirY * Math.sin(angleX) + this.dirZ * Math.cos(angleX);
+        this.rotX = this.dirX * Math.cos(angleY) + z1 * Math.sin(angleY);
+        this.rotZ = -this.dirX * Math.sin(angleY) + z1 * Math.cos(angleY);
+        this.rotY = y1;
+      }
+
+      draw() {
+        const fov = 600;
+        const scale = fov / (fov + this.rotZ * 200);
+        let endX = cx + this.rotX * this.currentLength * scale;
+        let endY = cy + this.rotY * this.currentLength * scale;
+        let startX = cx + this.rotX * this.innerRadius * scale;
+        let startY = cy + this.rotY * this.innerRadius * scale;
+
+        let mouseDist = Math.hypot(mouse.x - endX, mouse.y - endY);
+        const interactionRadius = 250;
+        let isInteracting = false;
+        let pushStrength = 0;
+
+        if (mouseDist < interactionRadius && mouse.x !== -1000) {
+          isInteracting = true;
+          pushStrength = (interactionRadius - mouseDist) / interactionRadius;
+          this.targetLength = this.baseLength + (pushStrength * 250);
+        } else {
+          this.targetLength = this.baseLength;
+        }
+
+        this.currentLength += (this.targetLength - this.currentLength) * 0.1;
+
+        const depthAlpha = Math.max(0.1, (1 + this.rotZ) / 2);
+        let alpha = depthAlpha * this.brightness;
+        let lineWidth = 1 + (depthAlpha * 2.5);
+
+        ctx.beginPath();
+        ctx.moveTo(startX, startY);
+        ctx.lineTo(endX, endY);
+
+        if (isInteracting) {
+          alpha = Math.min(1, alpha + pushStrength * 0.8);
+          ctx.shadowColor = 'rgba(255, 255, 255, 1)';
+          ctx.shadowBlur = 8 * pushStrength * scale;
+          lineWidth += pushStrength;
+        }
+
+        ctx.strokeStyle = `rgba(255, 255, 255, ${alpha})`;
+        ctx.lineWidth = lineWidth * scale;
+        ctx.stroke();
+
+        ctx.shadowColor = 'transparent';
+        ctx.shadowBlur = 0;
+      }
+    }
+
+    const lines = [];
+    const NUM_LINES = 250;
+    for (let i = 0; i < NUM_LINES; i++) {
+      lines.push(new LineParticle(i, NUM_LINES));
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, width, height);
+      ctx.globalCompositeOperation = 'screen';
+
+      autoRotY += 0.003;
+      autoRotX += 0.001;
+      currentTiltX += (targetTiltX - currentTiltX) * 0.05;
+      currentTiltY += (targetTiltY - currentTiltY) * 0.05;
+      let finalAngleX = autoRotX + currentTiltX;
+      let finalAngleY = autoRotY + currentTiltY;
+
+      lines.forEach(line => line.calculate(finalAngleX, finalAngleY));
+      lines.sort((a, b) => b.rotZ - a.rotZ);
+      lines.forEach(line => line.draw());
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  </script>
+</body>
+</html>

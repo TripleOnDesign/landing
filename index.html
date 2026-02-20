@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TripleOnDesign</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=2">
+</head>
+
+<body>
+    <header>
+        <a href="#" class="logo">
+            <img src="logo.webp" alt="TripleOnDesign Logo">
+        </a>
+        <nav>
+            <ul>
+                <li><a href="#about">About</a></li>
+                <li><a href="#works">Works</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="hero">
+            <div class="hero-content">
+                <h1 id="hero-title">TRIPLE ON DESIGN</h1>
+            </div>
+
+            <div id="ui">
+                <div id="info">Shape: DNA (Click canvas to cycle, Left click to rotate, Right click to pan, Scroll to
+                    zoom)</div>
+            </div>
+
+            <div id="sidebar">
+
+
+                <div class="sidebar-section">
+                    <label>Colors</label>
+                    <div id="color-picker">
+                        <div class="color-option" data-scheme="fire"
+                            style="background: linear-gradient(to bottom right, #ff4500, #ffcc00)"></div>
+                        <div class="color-option" data-scheme="neon"
+                            style="background: linear-gradient(to bottom right, #ff00ff, #00ffff)"></div>
+                        <div class="color-option" data-scheme="nature"
+                            style="background: linear-gradient(to bottom right, #00ff00, #66ffcc)"></div>
+                        <div class="color-option" data-scheme="rainbow"
+                            style="background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet)">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <label>Shapes</label>
+                    <div class="shape-buttons">
+                        <button class="shape-btn" data-shape="DNA">DNA</button>
+                        <button class="shape-btn" data-shape="Galaxy">Galaxy</button>
+                        <button class="shape-btn" data-shape="Virus">Virus</button>
+                        <button class="shape-btn" data-shape="Smile">Smile</button>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <label>Morph Input</label>
+                    <div class="input-group">
+                        <input type="text" id="text-morph-input" placeholder="예)hello" maxlength="8">
+                        <button id="text-morph-btn" aria-label="Morph to text">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="13 17 18 12 13 7"></polyline>
+                                <polyline points="6 17 11 12 6 7"></polyline>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <a href="#about" id="scroll-btn">
+                <span class="icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </span>
+                <span class="text">Show More</span>
+            </a>
+            </div>
+
+
+        </section>
+
+        <section id="about">
+            <div class="about-container">
+                <h2 class="about-title">About TRIPLE ON DESIGN :</h2>
+                <div class="about-intro">
+                    <div class="about-intro-en">
+                        <p>TOD is a design agency for those who push the boundaries of science and technology. We
+                            believe that exceptional research and innovation deserve communication that matches their
+                            ambition. Through refined aesthetics, 3D interactive visuals, and purposeful storytelling,
+                            we transform complex achievements into vivid experiences — and connect them to the world
+                            they were made to change.</p>
+                    </div>
+                    <div class="about-intro-kr-box">
+                        <p>TOD는 과학과 기술의 경계를 넓히는 이들을 위한 디자인 에이전시입니다. 탁월한 연구와 혁신에는 그 가치에 걸맞은 소통이 필요하다고 믿습니다. 정제된 미학과 3D
+                            인터랙티브 비주얼, 목적 중심의 스토리텔링으로 복잡한 성과를 생생한 경험으로 전환하고, 그것이 변화시킬 세계와 연결합니다.</p>
+                    </div>
+                </div>
+                <div class="about-grid">
+                    <div class="about-card">
+                        <h3>GRAPHIC ON.</h3>
+                        <div class="gif-trigger" data-file="protein.html">
+                            <img src="graphic.gif" alt="Graphic ON preview" width="300" height="300">
+                            <div class="gif-overlay">
+                                <p class="gif-overlay-en">Click to experience<br>the 3D interactive model.</p>
+                                <p class="gif-overlay-kr">클릭하시면 3D interactive model을<br>경험하실 수 있습니다.</p>
+                            </div>
+                        </div>
+                        <p class="desc-en">Exceptional work deserves to be seen — fully, clearly, and without
+                            compromise. TOD visualizes our clients' research, technology, and products in their most
+                            complete form, with 3D interactive graphics at the core. We make the invisible visible, and
+                            the complex immediately understood.</p>
+                        <p class="desc-kr"><span class="kr-word">온전.</span> 훌륭한 성과는 온전하게 전달되어야 합니다. TOD는 클라이언트의 연구, 기술,
+                            제품을 3D 인터랙티브 그래픽을 중심으로 빠짐없이, 명확하게 시각화합니다. 보이지 않던 것을 눈앞에 펼치고, 복잡한 것을 직관적으로 풀어냅니다.</p>
+                    </div>
+                    <div class="about-card">
+                        <h3>SWITCH ON.</h3>
+                        <div class="gif-trigger" data-file="switch.html">
+                            <img src="switch.gif" alt="Switch ON preview" width="300" height="300">
+                            <div class="gif-overlay">
+                                <p class="gif-overlay-en">Click to experience<br>the 3D interactive model.</p>
+                                <p class="gif-overlay-kr">클릭하시면 3D interactive model을<br>경험하실 수 있습니다.</p>
+                            </div>
+                        </div>
+                        <p class="desc-en">Like a switch that fills a room with light, TOD illuminates what matters
+                            most. We hold strong energy in careful balance — shaping it into design that is simple,
+                            refined, and quietly arresting. Confident enough to command attention. Restrained enough to
+                            earn lasting trust.</p>
+                        <p class="desc-kr"><span class="kr-word">온유.</span> 스위치를 켜는 순간처럼, TOD는 본질을 선명하게 밝힙니다. 넘치는 에너지를
+                            절제하고, 균형 잡힌 지점에서 표현합니다. 단순하고 정제되어 있지만 시선을 붙잡는 디자인으로 강하되 부드럽고, 주목을 이끌되 신뢰를 만드는 디자인을 지향합니다.
+                        </p>
+                    </div>
+                    <div class="about-card">
+                        <h3>WORLD ON.</h3>
+                        <div class="gif-trigger" data-file="world.html">
+                            <img src="world.gif" alt="World ON preview" width="300" height="300">
+                            <div class="gif-overlay">
+                                <p class="gif-overlay-en">Click to experience<br>the 3D interactive model.</p>
+                                <p class="gif-overlay-kr">클릭하시면 3D interactive model을<br>경험하실 수 있습니다.</p>
+                            </div>
+                        </div>
+                        <p class="desc-en">Science and technology find their true meaning only when they reach the
+                            world. TOD connects our clients' achievements to wider audiences, broader markets, and new
+                            possibilities — extending further than they could alone. Our design doesn't stop at being
+                            seen. It travels until it truly lands.</p>
+                        <p class="desc-kr"><span class="kr-word">온누리.</span> 과학과 기술은 세상에 닿는 순간 비로소 그 의미를 얻습니다. TOD는
+                            클라이언트의 성과가 더 많은 이들에게, 더 넓은 시장으로, 더 새로운 가능성 속으로 뻗어나갈 수 있도록 연결합니다. 우리의 디자인은 보여지는 것에서 멈추지 않고,
+                            세상 속으로 깊이 닿습니다.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="works">
+            <h2>Works</h2>
+            <div class="work-grid">
+                <div class="work-item">Project One</div>
+                <div class="work-item">Project Two</div>
+                <div class="work-item">Project Three</div>
+                <div class="work-item">Project Four</div>
+            </div>
+            <div class="works-more-wrap">
+                <a href="#contact" class="scroll-btn-inline">
+                    <span class="icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </span>
+                    <span class="text">Show More</span>
+                </a>
+            </div>
+        </section>
+
+        <section id="contact">
+            <h2>Contact</h2>
+            <p>Let's create something amazing together.</p>
+            <a href="mailto:hello@tripleondesign.com" class="btn">Get in Touch</a>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 TripleOnDesign. All rights reserved.</p>
+    </footer>
+
+    <!-- Import Map for Three.js and Addons -->
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.163.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.163.0/examples/jsm/",
+          "animejs": "https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.es.js",
+          "simplex-noise": "https://cdn.skypack.dev/simplex-noise@4.0.1"
+        }
+      }
+    </script>
+
+    <!-- CodePen Modal -->
+    <div id="codepen-modal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close-btn" id="modal-close-btn" aria-label="Close">&times;</button>
+            <div id="modal-codepen-container"></div>
+        </div>
+    </div>
+
+    <!-- Three.js Logic -->
+    <script type="module" src="main.js?v=10"></script>
+</body>
+
+</html>

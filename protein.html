@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>3D Protein Viewer</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://3Dmol.csb.pitt.edu/build/3Dmol-min.js"></script>
+
+  <style>
+    :root {
+      --glass-bg: rgba(255, 255, 255, 0.1);
+      --glass-border: rgba(255, 255, 255, 0.2);
+      --accent-gray: rgba(255, 255, 255, 0.3);
+      --active-gray: rgba(100, 100, 100, 0.6);
+    }
+
+    body {
+      margin: 0;
+      overflow: hidden;
+      background-color: #000000;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .main-container {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+    }
+
+    #viewer-container {
+      width: 100%;
+      height: 100%;
+    }
+
+    .control-panel {
+      position: absolute;
+      top: 50%;
+      right: 20px;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 20px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+      z-index: 100;
+    }
+
+    .menu-btn, #reset-btn {
+      width: 140px;
+      padding: 12px 0;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: white;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      outline: none;
+      text-align: center;
+    }
+
+    .menu-btn:hover, #reset-btn:hover {
+      transform: scale(1.05);
+      background: var(--accent-gray);
+      border-color: rgba(255, 255, 255, 0.5);
+    }
+
+    .menu-btn.active, .menu-btn:active {
+      background: var(--active-gray) !important;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    #reset-btn {
+      margin-top: 5px;
+      background: rgba(255, 100, 100, 0.2);
+      font-size: 11px;
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--glass-border);
+      margin: 5px 0;
+    }
+
+    @media (max-width: 768px) {
+      .control-panel {
+        top: auto;
+        bottom: 20px;
+        right: 50%;
+        transform: translateX(50%);
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 90%;
+        max-width: 400px;
+        padding: 15px;
+        gap: 8px;
+        border-radius: 16px;
+      }
+
+      .menu-btn {
+        width: calc(50% - 4px);
+        padding: 10px 0;
+        font-size: 11px;
+      }
+
+      .menu-btn:hover, #reset-btn:hover {
+        transform: scale(1.02);
+      }
+
+      .divider {
+        width: 100%;
+        height: 1px;
+        margin: 4px 0;
+      }
+
+      #reset-btn {
+        width: 100%;
+        margin-top: 0;
+        padding: 12px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="main-container">
+    <div id="viewer-container"></div>
+
+    <div class="control-panel">
+      <button class="menu-btn active" data-style="cartoon">CARTOON</button>
+      <button class="menu-btn" data-style="stick">STICK</button>
+      <button class="menu-btn" data-style="surface">SURFACE</button>
+      <button class="menu-btn" data-style="combined">COMBINED</button>
+
+      <div class="divider"></div>
+
+      <button id="reset-btn">RESET VIEW</button>
+    </div>
+  </div>
+
+  <script>
+    $(document).ready(function() {
+      const element = $('#viewer-container');
+      const config = { backgroundColor: '#000000', alpha: false };
+      const viewer = $3Dmol.createViewer(element, config);
+
+      $3Dmol.download("pdb:6M3T", viewer, {}, function() {
+
+        function renderStyle(styleType) {
+          viewer.removeAllSurfaces();
+
+          switch (styleType) {
+            case 'cartoon':
+              viewer.setStyle({}, { cartoon: { color: 'spectrum' } });
+              break;
+
+            case 'stick':
+              viewer.setStyle({}, { stick: { radius: 0.15, colorscheme: 'amino' } });
+              break;
+
+            case 'surface':
+              viewer.setStyle({}, {});
+              viewer.addSurface($3Dmol.SurfaceType.VDW, { opacity: 1, colorscheme: 'spectrum' }, {});
+              break;
+
+            case 'combined':
+              viewer.setStyle({}, { cartoon: { color: 'spectrum' } });
+              viewer.addStyle({}, { stick: { radius: 0.1, opacity: 0.5, colorscheme: 'greenCarbon' } });
+              viewer.addSurface($3Dmol.SurfaceType.VDW, { opacity: 0.3, color: 'white' }, {});
+              break;
+          }
+
+          viewer.render();
+        }
+
+        renderStyle('cartoon');
+        viewer.zoomTo();
+        viewer.zoom(1.2, 1000);
+
+        $('.menu-btn').click(function() {
+          $('.menu-btn').removeClass('active');
+          $(this).addClass('active');
+          renderStyle($(this).data('style'));
+        });
+
+        $('#reset-btn').click(function() {
+          viewer.zoomTo();
+          viewer.zoom(1.2, 1000);
+        });
+
+      });
+    });
+  </script>
+</body>
+</html>

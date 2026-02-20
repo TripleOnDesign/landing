@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>World</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background-color: #030303;
+    }
+    canvas {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    const BRIGHT_SKY_BLUE = 0x00ffff;
+    const EARTH_RADIUS = 5;
+    const KOREA_ROTATION = 2.5;
+    const BASE_TILT_X = 0.35;
+
+    const rotSpeedNormal = 0.0025;
+    const rotSpeedFast = 0.02;
+    let currentRotSpeed = rotSpeedNormal;
+    let baseRotationY = KOREA_ROTATION;
+
+    let targetTiltX = BASE_TILT_X, targetTiltY = 0;
+    let currentTiltX = BASE_TILT_X, currentTiltY = 0;
+
+    let isMouseDown = false;
+    let mouseDownTime = 0;
+    let isResetting = false;
+    let targetResetRotation = 0;
+
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x010409, 0.015);
+
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 0.5, 26.5);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    document.body.appendChild(renderer.domElement);
+
+    const masterGroup = new THREE.Group();
+    scene.add(masterGroup);
+    const tiltGroup = new THREE.Group();
+    tiltGroup.rotation.z = 23.5 * Math.PI / 180;
+    masterGroup.add(tiltGroup);
+    const earthGroup = new THREE.Group();
+    tiltGroup.add(earthGroup);
+
+    function createGlowTexture() {
+      const canvas = document.createElement('canvas');
+      canvas.width = 64;
+      canvas.height = 64;
+      const ctx = canvas.getContext('2d');
+      const gradient = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+      gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
+      gradient.addColorStop(0.2, 'rgba(255, 255, 255, 0.8)');
+      gradient.addColorStop(0.5, 'rgba(0, 255, 255, 0.2)');
+      gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, 64, 64);
+      const texture = new THREE.Texture(canvas);
+      texture.needsUpdate = true;
+      return texture;
+    }
+    const glowTexture = createGlowTexture();
+
+    const icosaGeo = new THREE.IcosahedronGeometry(EARTH_RADIUS * 0.75, 2);
+    const icosaMat = new THREE.MeshBasicMaterial({
+      color: BRIGHT_SKY_BLUE, wireframe: true, transparent: true,
+      opacity: 0.15, blending: THREE.AdditiveBlending
+    });
+    const innerCoreMesh = new THREE.Mesh(icosaGeo, icosaMat);
+    earthGroup.add(innerCoreMesh);
+
+    const particleGeo = new THREE.BufferGeometry();
+    const particleCount = 600;
+    const posArray = new Float32Array(particleCount * 3);
+    for (let i = 0; i < particleCount * 3; i++) {
+      posArray[i] = (Math.random() - 0.5) * (EARTH_RADIUS * 1.6);
+    }
+    particleGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+    const particleMat = new THREE.PointsMaterial({
+      size: 0.2, map: glowTexture, color: BRIGHT_SKY_BLUE, transparent: true,
+      opacity: 0.4, blending: THREE.AdditiveBlending, depthWrite: false
+    });
+    const innerParticles = new THREE.Points(particleGeo, particleMat);
+    earthGroup.add(innerParticles);
+
+    const baseGeo = new THREE.SphereGeometry(EARTH_RADIUS * 0.98, 64, 64);
+    const baseMat = new THREE.MeshBasicMaterial({ color: 0x000814, transparent: true, opacity: 0.9 });
+    const earthBase = new THREE.Mesh(baseGeo, baseMat);
+    earthGroup.add(earthBase);
+
+    const globalGlowGeo = new THREE.SphereGeometry(EARTH_RADIUS * 0.985, 64, 64);
+    const globalGlowMat = new THREE.MeshBasicMaterial({
+      color: 0x0066ff, transparent: true, opacity: 0.12, blending: THREE.AdditiveBlending
+    });
+    earthGroup.add(new THREE.Mesh(globalGlowGeo, globalGlowMat));
+
+    const textureLoader = new THREE.TextureLoader();
+    const mapUrl = 'https://raw.githubusercontent.com/vasturiano/three-globe/master/example/img/earth-topology.png';
+    textureLoader.load(mapUrl, function(texture) {
+      const mapGeo = new THREE.SphereGeometry(EARTH_RADIUS, 64, 64);
+      const mapMat = new THREE.MeshBasicMaterial({
+        map: texture, color: BRIGHT_SKY_BLUE, transparent: true,
+        opacity: 1.0, blending: THREE.AdditiveBlending, depthWrite: false
+      });
+      const earthMap1 = new THREE.Mesh(mapGeo, mapMat);
+      earthGroup.add(earthMap1);
+      const earthMap2 = earthMap1.clone();
+      earthMap2.scale.set(1.001, 1.001, 1.001);
+      earthGroup.add(earthMap2);
+      const earthMap3 = earthMap1.clone();
+      earthMap3.scale.set(1.002, 1.002, 1.002);
+      earthGroup.add(earthMap3);
+    });
+
+    const cities = [
+      { name: "Seoul",         lat: 37.56,  lon: 126.97 },
+      { name: "Tokyo",         lat: 35.68,  lon: 139.69 },
+      { name: "Beijing",       lat: 39.90,  lon: 116.40 },
+      { name: "Singapore",     lat: 1.35,   lon: 103.81 },
+      { name: "Mumbai",        lat: 19.07,  lon: 72.87  },
+      { name: "Dubai",         lat: 25.20,  lon: 55.27  },
+      { name: "London",        lat: 51.50,  lon: -0.12  },
+      { name: "Paris",         lat: 48.85,  lon: 2.35   },
+      { name: "Moscow",        lat: 55.75,  lon: 37.61  },
+      { name: "Cairo",         lat: 30.04,  lon: 31.23  },
+      { name: "New York",      lat: 40.71,  lon: -74.00 },
+      { name: "San Francisco", lat: 37.77,  lon: -122.41},
+      { name: "Sao Paulo",     lat: -23.55, lon: -46.63 },
+      { name: "Sydney",        lat: -33.86, lon: 151.20 }
+    ];
+
+    function latLongToVector3(lat, lon, radius) {
+      const phi = (90 - lat) * (Math.PI / 180);
+      const theta = (lon + 180) * (Math.PI / 180);
+      return new THREE.Vector3(
+        -(radius * Math.sin(phi) * Math.cos(theta)),
+        radius * Math.cos(phi),
+        radius * Math.sin(phi) * Math.sin(theta)
+      );
+    }
+
+    const travelParticles = [];
+
+    function createConnection(city1, city2) {
+      const start = latLongToVector3(city1.lat, city1.lon, EARTH_RADIUS);
+      const end = latLongToVector3(city2.lat, city2.lon, EARTH_RADIUS);
+      const mid = start.clone().lerp(end, 0.5);
+      mid.normalize().multiplyScalar(EARTH_RADIUS + start.distanceTo(end) * 0.25);
+      const curve = new THREE.CatmullRomCurve3([start, mid, end]);
+
+      const lineGeo = new THREE.BufferGeometry().setFromPoints(curve.getPoints(50));
+      const lineMat = new THREE.LineBasicMaterial({
+        color: 0xffffff, transparent: true, opacity: 0.15, blending: THREE.AdditiveBlending
+      });
+      earthGroup.add(new THREE.Line(lineGeo, lineMat));
+
+      if (Math.random() < 0.3) {
+        const pMat = new THREE.SpriteMaterial({
+          map: glowTexture, color: 0xffffff, transparent: true,
+          opacity: 1.0, blending: THREE.AdditiveBlending, depthWrite: false
+        });
+        const pSprite = new THREE.Sprite(pMat);
+        pSprite.scale.set(0.18, 0.18, 1);
+        earthGroup.add(pSprite);
+        travelParticles.push({
+          mesh: pSprite, curve: curve,
+          speed: 0.002 + Math.random() * 0.004, pos: Math.random()
+        });
+      }
+    }
+
+    for (let i = 0; i < 50; i++) {
+      const cityA = cities[Math.floor(Math.random() * cities.length)];
+      const cityB = cities[Math.floor(Math.random() * cities.length)];
+      if (cityA !== cityB) createConnection(cityA, cityB);
+    }
+
+    const raycaster = new THREE.Raycaster();
+    const clickMouse = new THREE.Vector2();
+
+    window.addEventListener('mousemove', (e) => {
+      targetTiltY = ((e.clientX / window.innerWidth) * 2 - 1) * 0.5;
+      targetTiltX = (-(e.clientY / window.innerHeight) * 2 + 1) * 0.5 + BASE_TILT_X;
+    });
+
+    window.addEventListener('mousedown', () => {
+      isMouseDown = true;
+      isResetting = false;
+      mouseDownTime = Date.now();
+    });
+
+    window.addEventListener('mouseup', (e) => {
+      isMouseDown = false;
+      if (Date.now() - mouseDownTime < 200) {
+        clickMouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+        clickMouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+        raycaster.setFromCamera(clickMouse, camera);
+        if (raycaster.intersectObject(earthBase).length > 0) {
+          isResetting = true;
+          let diff = KOREA_ROTATION - (baseRotationY % (Math.PI * 2));
+          if (diff < -Math.PI) diff += Math.PI * 2;
+          if (diff > Math.PI) diff -= Math.PI * 2;
+          targetResetRotation = baseRotationY + diff;
+          targetTiltX = BASE_TILT_X;
+          targetTiltY = 0;
+        }
+      }
+    });
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    function animate() {
+      requestAnimationFrame(animate);
+
+      innerCoreMesh.rotation.y -= 0.0015;
+      innerCoreMesh.rotation.x += 0.001;
+      innerParticles.rotation.y += 0.002;
+
+      if (isResetting) {
+        baseRotationY += (targetResetRotation - baseRotationY) * 0.05;
+        currentTiltX += (targetTiltX - currentTiltX) * 0.05;
+        currentTiltY += (targetTiltY - currentTiltY) * 0.05;
+        if (Math.abs(targetResetRotation - baseRotationY) < 0.001) {
+          isResetting = false;
+          baseRotationY = targetResetRotation;
+        }
+      } else {
+        currentRotSpeed += ((isMouseDown ? rotSpeedFast : rotSpeedNormal) - currentRotSpeed) * 0.05;
+        baseRotationY += currentRotSpeed;
+        currentTiltX += (targetTiltX - currentTiltX) * 0.05;
+        currentTiltY += (targetTiltY - currentTiltY) * 0.05;
+      }
+
+      earthGroup.rotation.y = baseRotationY;
+      masterGroup.rotation.x = currentTiltX;
+      masterGroup.rotation.y = currentTiltY;
+
+      travelParticles.forEach(p => {
+        p.pos += p.speed;
+        if (p.pos > 1) p.pos = 0;
+        p.mesh.position.copy(p.curve.getPointAt(p.pos));
+      });
+
+      renderer.render(scene, camera);
+    }
+
+    animate();
+  </script>
+</body>
+</html>
