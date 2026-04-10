@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 
 <head>
     <meta charset="UTF-8">
@@ -9,18 +9,28 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=2">
+    <link rel="stylesheet" href="style.css?v=3">
+    <style>
+        .work-modal-trigger {
+            cursor: pointer;
+        }
+        body.hero-locked {
+            overflow: hidden;
+        }
+    </style>
 </head>
 
-<body>
+<body class="hero-locked">
     <header>
         <a href="#" class="logo">
-            <img src="logo.webp" alt="TripleOnDesign Logo">
+            <video autoplay muted loop playsinline>
+                <source src="logo.mp4" type="video/mp4">
+            </video>
         </a>
         <nav>
             <ul>
                 <li><a href="#about">About</a></li>
-                <li><a href="#works">Works</a></li>
+                <li><a href="works.html">Works</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
         </nav>
@@ -33,8 +43,7 @@
             </div>
 
             <div id="ui">
-                <div id="info">Shape: DNA (Click canvas to cycle, Left click to rotate, Right click to pan, Scroll to
-                    zoom)</div>
+                <div id="info">Shape: DNA</div>
             </div>
 
             <div id="sidebar">
@@ -89,112 +98,172 @@
                 </span>
                 <span class="text">Show More</span>
             </a>
-            </div>
 
 
         </section>
 
         <section id="about">
             <div class="about-container">
-                <h2 class="about-title">About TRIPLE ON DESIGN :</h2>
-                <div class="about-intro">
-                    <div class="about-intro-en">
-                        <p>TOD is a design agency for those who push the boundaries of science and technology. We
-                            believe that exceptional research and innovation deserve communication that matches their
-                            ambition. Through refined aesthetics, 3D interactive visuals, and purposeful storytelling,
-                            we transform complex achievements into vivid experiences — and connect them to the world
-                            they were made to change.</p>
-                    </div>
+                <div class="about-title-row reveal-up">
+                    <h2 class="about-title">About TRIPLE ON DESIGN :</h2>
+                </div>
+                <div class="about-intro reveal-up" style="transition-delay: 0.15s;">
                     <div class="about-intro-kr-box">
-                        <p>TOD는 과학과 기술의 경계를 넓히는 이들을 위한 디자인 에이전시입니다. 탁월한 연구와 혁신에는 그 가치에 걸맞은 소통이 필요하다고 믿습니다. 정제된 미학과 3D
-                            인터랙티브 비주얼, 목적 중심의 스토리텔링으로 복잡한 성과를 생생한 경험으로 전환하고, 그것이 변화시킬 세계와 연결합니다.</p>
+                        <p><strong class="about-tagline">CREATE BEYOND.</strong> TOD는 과학과 기술의 경계를 넓히는 이들을 위한 Creative Design Studio입니다. TOD는 디자인의 경계를 넘어 탁월한 연구와 혁신에 걸맞는 소통을 추구합니다.<br>정제된 미학과 3D 인터랙티브 비주얼, 목적 중심의 스토리텔링으로 복잡한 성과를 생생한 경험으로 전환하고, 그것을 변화시킬 세계와 연결합니다.</p>
                     </div>
                 </div>
                 <div class="about-grid">
-                    <div class="about-card">
+                    <div class="about-card reveal-up" style="transition-delay: 0.3s;">
                         <h3>GRAPHIC ON.</h3>
                         <div class="gif-trigger" data-file="protein.html">
                             <img src="graphic.gif" alt="Graphic ON preview" width="300" height="300">
                             <div class="gif-overlay">
-                                <p class="gif-overlay-en">Click to experience<br>the 3D interactive model.</p>
                                 <p class="gif-overlay-kr">클릭하시면 3D interactive model을<br>경험하실 수 있습니다.</p>
                             </div>
                         </div>
-                        <p class="desc-en">Exceptional work deserves to be seen — fully, clearly, and without
-                            compromise. TOD visualizes our clients' research, technology, and products in their most
-                            complete form, with 3D interactive graphics at the core. We make the invisible visible, and
-                            the complex immediately understood.</p>
                         <p class="desc-kr"><span class="kr-word">온전.</span> 훌륭한 성과는 온전하게 전달되어야 합니다. TOD는 클라이언트의 연구, 기술,
                             제품을 3D 인터랙티브 그래픽을 중심으로 빠짐없이, 명확하게 시각화합니다. 보이지 않던 것을 눈앞에 펼치고, 복잡한 것을 직관적으로 풀어냅니다.</p>
                     </div>
-                    <div class="about-card">
+                    <div class="about-card reveal-up" style="transition-delay: 0.45s;">
                         <h3>SWITCH ON.</h3>
                         <div class="gif-trigger" data-file="switch.html">
                             <img src="switch.gif" alt="Switch ON preview" width="300" height="300">
                             <div class="gif-overlay">
-                                <p class="gif-overlay-en">Click to experience<br>the 3D interactive model.</p>
                                 <p class="gif-overlay-kr">클릭하시면 3D interactive model을<br>경험하실 수 있습니다.</p>
                             </div>
                         </div>
-                        <p class="desc-en">Like a switch that fills a room with light, TOD illuminates what matters
-                            most. We hold strong energy in careful balance — shaping it into design that is simple,
-                            refined, and quietly arresting. Confident enough to command attention. Restrained enough to
-                            earn lasting trust.</p>
                         <p class="desc-kr"><span class="kr-word">온유.</span> 스위치를 켜는 순간처럼, TOD는 본질을 선명하게 밝힙니다. 넘치는 에너지를
                             절제하고, 균형 잡힌 지점에서 표현합니다. 단순하고 정제되어 있지만 시선을 붙잡는 디자인으로 강하되 부드럽고, 주목을 이끌되 신뢰를 만드는 디자인을 지향합니다.
                         </p>
                     </div>
-                    <div class="about-card">
+                    <div class="about-card reveal-up" style="transition-delay: 0.6s;">
                         <h3>WORLD ON.</h3>
                         <div class="gif-trigger" data-file="world.html">
                             <img src="world.gif" alt="World ON preview" width="300" height="300">
                             <div class="gif-overlay">
-                                <p class="gif-overlay-en">Click to experience<br>the 3D interactive model.</p>
                                 <p class="gif-overlay-kr">클릭하시면 3D interactive model을<br>경험하실 수 있습니다.</p>
                             </div>
                         </div>
-                        <p class="desc-en">Science and technology find their true meaning only when they reach the
-                            world. TOD connects our clients' achievements to wider audiences, broader markets, and new
-                            possibilities — extending further than they could alone. Our design doesn't stop at being
-                            seen. It travels until it truly lands.</p>
                         <p class="desc-kr"><span class="kr-word">온누리.</span> 과학과 기술은 세상에 닿는 순간 비로소 그 의미를 얻습니다. TOD는
                             클라이언트의 성과가 더 많은 이들에게, 더 넓은 시장으로, 더 새로운 가능성 속으로 뻗어나갈 수 있도록 연결합니다. 우리의 디자인은 보여지는 것에서 멈추지 않고,
-                            세상 속으로 깊이 닿습니다.</p>
+                            세상 속으로 다가갑니다.</p>
                     </div>
+                </div>
+
+                <div class="works-cta">
+                    <a href="works.html" class="works-cta-btn">
+                        <span class="icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="9 6 15 12 9 18"></polyline>
+                            </svg>
+                        </span>
+                        <span class="text">Show Works</span>
+                    </a>
                 </div>
             </div>
         </section>
 
-        <section id="works">
-            <h2>Works</h2>
-            <div class="work-grid">
-                <div class="work-item">Project One</div>
-                <div class="work-item">Project Two</div>
-                <div class="work-item">Project Three</div>
-                <div class="work-item">Project Four</div>
-            </div>
-            <div class="works-more-wrap">
-                <a href="#contact" class="scroll-btn-inline">
-                    <span class="icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="6 9 12 15 18 9"></polyline>
-                        </svg>
-                    </span>
-                    <span class="text">Show More</span>
-                </a>
-            </div>
-        </section>
-
         <section id="contact">
-            <h2>Contact</h2>
-            <p>Let's create something amazing together.</p>
-            <a href="mailto:hello@tripleondesign.com" class="btn">Get in Touch</a>
+            <div class="contact-container">
+                <h2 class="reveal-up">Contact</h2>
+
+                <div class="contact-body reveal-up" style="transition-delay: 0.15s;">
+                    <div class="contact-info-area">
+                        <p class="contact-desc">프로젝트 의뢰는 이메일 및 AI 채팅봇을 통해 받고 있습니다. 아래의 메일 주소로 구체적인 프로젝트에 대한 전반적인 정보를 보내주세요. 검토 후 회신 드리겠습니다.</p>
+
+                        <button id="email-modal-btn" class="email-direct-btn">
+                            <span>&#9993;</span> 이메일 보내기
+                        </button>
+
+                        <div class="contact-details">
+                            <p><a href="mailto:info@tripleondesign.com">info@tripleondesign.com</a></p>
+                            <p>34111</p>
+                            <p>대전광역시 유성구 가정북로 96</p>
+                            <p>B102, B-6</p>
+                        </div>
+                    </div>
+
+                    <div class="chat-container">
+                        <div class="chat-header">
+                            <div class="chat-header-left">
+                                <div class="chat-avatar">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                                        <path d="M2 17l10 5 10-5"></path>
+                                        <path d="M2 12l10 5 10-5"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <div class="chat-title">TOD AI</div>
+                                    <div class="chat-status"><span class="status-dot"></span>Online</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="chat-messages" id="chat-messages">
+                            <div class="chat-msg bot">
+                                <div class="msg-bubble">
+                                    안녕하세요! TOD AI입니다.<br>
+                                    무엇이든 궁금한 점이 있으시면 편하게 물어보세요.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="chat-suggestions" id="chat-suggestions">
+                            <button class="suggestion-btn" data-q="TOD는 어떤 서비스를 제공하나요?">서비스 소개</button>
+                            <button class="suggestion-btn" data-q="프로젝트 의뢰는 어떻게 하나요?">프로젝트 의뢰</button>
+                            <button class="suggestion-btn" data-q="포트폴리오를 볼 수 있나요?">포트폴리오</button>
+                            <button class="suggestion-btn" data-q="연락처를 알려주세요.">연락처</button>
+                        </div>
+
+                        <div class="chat-input-area">
+                            <input type="text" id="chat-input" placeholder="메시지를 입력하세요..." autocomplete="off">
+                            <button id="chat-send-btn" aria-label="Send">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
     </main>
 
+    <!-- Email Modal -->
+    <div id="email-modal" class="email-modal">
+        <div class="email-modal-content">
+            <button class="email-modal-close" id="email-modal-close">&times;</button>
+            <div class="email-modal-header">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                    <path d="M22 7l-10 7L2 7"></path>
+                </svg>
+                <span>Send Email</span>
+            </div>
+            <form id="email-form" class="email-modal-form">
+                <label>보내는 분 이름
+                    <input type="text" name="sender_name" placeholder="홍길동" required>
+                </label>
+                <label>이메일 주소
+                    <input type="email" name="sender_email" placeholder="example@email.com" required>
+                </label>
+                <label>제목
+                    <input type="text" name="subject" placeholder="문의 제목" required>
+                </label>
+                <label>내용
+                    <textarea name="body" rows="5" placeholder="문의 내용을 작성해 주세요." required></textarea>
+                </label>
+                <button type="submit" class="email-modal-submit">보내기</button>
+            </form>
+        </div>
+    </div>
+
     <footer>
-        <p>&copy; 2024 TripleOnDesign. All rights reserved.</p>
+        <div class="footer-info">
+            <p>&copy; 2026 Triple On Design. All rights reserved.</p>
+        </div>
     </footer>
 
     <!-- Import Map for Three.js and Addons -->
@@ -217,8 +286,444 @@
         </div>
     </div>
 
+    <!-- Work Items Modal Trigger -->
+    <script>
+        (function () {
+            const modal = document.getElementById('codepen-modal');
+            const modalContainer = document.getElementById('modal-codepen-container');
+            const modalCloseBtn = document.getElementById('modal-close-btn');
+
+            function closeModal() {
+                if (!modal) return;
+                modal.classList.remove('is-open');
+                modal.classList.remove('ratio-16-10');
+                if (modalContainer) modalContainer.innerHTML = '';
+            }
+
+            function openWorkModal(file) {
+                if (!modal || !modalContainer) return;
+                modalContainer.innerHTML = '<iframe src="' + file + '" style="width:100%;height:100%;border:none;" allowfullscreen title="Preview"></iframe>';
+                if (file.indexOf('works/diet/') !== -1) {
+                    modal.classList.add('ratio-16-10');
+                }
+                modal.classList.add('is-open');
+            }
+
+            // Open on work-item click
+            document.querySelectorAll('.work-modal-trigger').forEach(function (item) {
+                item.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    var file = item.dataset.file;
+                    if (file) openWorkModal(file);
+                });
+            });
+
+            // Close button
+            if (modalCloseBtn) {
+                modalCloseBtn.addEventListener('click', closeModal);
+            }
+
+            // Click backdrop to close
+            if (modal) {
+                modal.addEventListener('click', function (e) {
+                    if (e.target === modal) closeModal();
+                });
+            }
+
+            // Escape key to close
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && modal && modal.classList.contains('is-open')) {
+                    closeModal();
+                }
+            });
+        })();
+    </script>
+
+    <!-- TOD AI Chat Logic -->
+    <script>
+        (function () {
+            const messagesEl = document.getElementById('chat-messages');
+            const inputEl = document.getElementById('chat-input');
+            const sendBtn = document.getElementById('chat-send-btn');
+            const suggestionsEl = document.getElementById('chat-suggestions');
+
+            const responses = {
+                '포트폴리오': '상단의 Works 섹션에서 3D Interactive Lab, Exodus, Mounjaro/Wegovy 기전 시각화 등 다양한 프로젝트를 확인하실 수 있습니다. 더 많은 작업물이 궁금하시면 이메일로 문의해 주세요.',
+                '연락처': '이메일: info@tripleondesign.com\n빠른 상담을 원하시면 프로젝트 개요와 함께 메일을 보내주세요. 영업일 기준 1~2일 내에 회신드리겠습니다.',
+                '가격': '프로젝트의 규모와 범위에 따라 달라집니다. 간단한 프로젝트 개요를 보내주시면 맞춤 견적을 안내해 드리겠습니다. (info@tripleondesign.com)',
+                '기간': '프로젝트 규모에 따라 다르지만, 일반적으로 2주~8주 정도 소요됩니다. 정확한 일정은 상담 시 안내해 드립니다.',
+            };
+
+            const serviceDetails = {
+                '3D 인터랙티브': 'Three.js 기반의 인터랙티브 3D 그래픽을 제작합니다. 분자 구조, 파티클 애니메이션, 제품 뷰어 등 다양한 3D 경험을 웹에서 구현해 드립니다.',
+                '과학·기술 시각화': '복잡한 과학적 메커니즘, 의약품 작용 기전, 연구 데이터를 직관적이고 아름다운 비주얼로 전환합니다. Mounjaro/Wegovy 기전 시각화가 대표적인 사례입니다.',
+                '브랜딩·BI': '연구기관, 바이오텍, 스타트업 등을 위한 브랜드 아이덴티티를 설계합니다. 로고, 컬러 시스템, 타이포그래피, 가이드라인까지 일관된 브랜드 경험을 만들어 드립니다.',
+                '웹 디자인·개발': '반응형 웹사이트, 랜딩 페이지, 인터랙티브 웹 앱을 디자인하고 개발합니다. 최신 기술 스택으로 빠르고 아름다운 웹 경험을 제공합니다.',
+            };
+
+            function addMessage(text, type) {
+                const msg = document.createElement('div');
+                msg.className = 'chat-msg ' + type;
+                const bubble = document.createElement('div');
+                bubble.className = 'msg-bubble';
+                bubble.textContent = text;
+                msg.appendChild(bubble);
+                messagesEl.appendChild(msg);
+                messagesEl.scrollTop = messagesEl.scrollHeight;
+            }
+
+            function addInlineButtons(buttons) {
+                const msg = document.createElement('div');
+                msg.className = 'chat-msg bot';
+                const wrap = document.createElement('div');
+                wrap.className = 'inline-btns';
+                buttons.forEach(function (b) {
+                    const btn = document.createElement('button');
+                    btn.className = 'suggestion-btn';
+                    btn.textContent = b.label;
+                    btn.addEventListener('click', function () {
+                        wrap.remove();
+                        b.action();
+                    });
+                    wrap.appendChild(btn);
+                });
+                msg.appendChild(wrap);
+                messagesEl.appendChild(msg);
+                messagesEl.scrollTop = messagesEl.scrollHeight;
+            }
+
+            function showTyping() {
+                const msg = document.createElement('div');
+                msg.className = 'chat-msg bot';
+                msg.id = 'typing-indicator';
+                msg.innerHTML = '<div class="msg-bubble"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div>';
+                messagesEl.appendChild(msg);
+                messagesEl.scrollTop = messagesEl.scrollHeight;
+            }
+
+            function removeTyping() {
+                const el = document.getElementById('typing-indicator');
+                if (el) el.remove();
+            }
+
+            function botReply(text, delay, callback) {
+                showTyping();
+                setTimeout(function () {
+                    removeTyping();
+                    addMessage(text, 'bot');
+                    if (callback) callback();
+                }, delay || 800);
+            }
+
+            function addResetButton() {
+                addInlineButtons([{
+                    label: '↩ 채팅 처음으로 다시 가기',
+                    action: function () {
+                        messagesEl.innerHTML = '<div class="chat-msg bot"><div class="msg-bubble">안녕하세요! TOD AI입니다.<br>무엇이든 궁금한 점이 있으시면 편하게 물어보세요.</div></div>';
+                        suggestionsEl.style.display = '';
+                    }
+                }]);
+            }
+
+            var serviceButtons = [
+                { label: '3D 인터랙티브', action: function () { handleServiceSelect('3D 인터랙티브'); } },
+                { label: '과학·기술 시각화', action: function () { handleServiceSelect('과학·기술 시각화'); } },
+                { label: '브랜딩·BI', action: function () { handleServiceSelect('브랜딩·BI'); } },
+                { label: '웹 디자인·개발', action: function () { handleServiceSelect('웹 디자인·개발'); } },
+            ];
+
+            function handleServiceFlow() {
+                addMessage('TOD는 어떤 서비스를 제공하나요?', 'user');
+                suggestionsEl.style.display = 'none';
+
+                botReply('TOD는 3D 인터랙티브 비주얼, 브랜딩, 웹 디자인, 과학·기술 시각화 등을 전문으로 합니다. 복잡한 연구 성과나 기술을 직관적이고 아름다운 경험으로 전환해 드립니다.', 900, function () {
+                    botReply('어떠한 디자인 서비스가 필요하신가요?', 1000, function () {
+                        addInlineButtons(serviceButtons);
+                    });
+                });
+            }
+
+            function handleServiceSelect(service) {
+                addMessage(service, 'user');
+                botReply(serviceDetails[service], 900, addResetButton);
+            }
+
+            function handleInquiryFlow() {
+                addMessage('프로젝트 의뢰는 어떻게 하나요?', 'user');
+                suggestionsEl.style.display = 'none';
+
+                botReply('프로젝트 의뢰는 이메일 또는 채팅으로 가능합니다.', 800, function () {
+                    addInlineButtons([
+                        { label: '이메일로 의뢰', action: function () {
+                            addMessage('이메일로 의뢰', 'user');
+                            botReply('info@tripleondesign.com으로 프로젝트 개요, 예상 일정, 예산 범위를 함께 보내주시면 빠르게 상담해 드리겠습니다.', 800, addResetButton);
+                        }},
+                        { label: '채팅으로 의뢰', action: function () {
+                            addMessage('채팅으로 의뢰', 'user');
+                            botReply('의뢰하실 프로젝트는 어떤 내용인가요?', 800, function () {
+                                addInlineButtons([
+                                    { label: '3D 인터랙티브', action: function () { showInquiryForm('3D 인터랙티브'); } },
+                                    { label: '과학·기술 시각화', action: function () { showInquiryForm('과학·기술 시각화'); } },
+                                    { label: '브랜딩·BI', action: function () { showInquiryForm('브랜딩·BI'); } },
+                                    { label: '웹 디자인·개발', action: function () { showInquiryForm('웹 디자인·개발'); } },
+                                ]);
+                            });
+                        }},
+                    ]);
+                });
+            }
+
+            function showInquiryForm(service) {
+                addMessage(service, 'user');
+                botReply('아래 정보를 입력해 주시면 담당자가 확인 후 연락드리겠습니다.', 800, function () {
+                    var msg = document.createElement('div');
+                    msg.className = 'chat-msg bot';
+                    msg.innerHTML =
+                        '<form class="chat-form" id="inquiry-form">' +
+                        '  <input type="hidden" name="service" value="' + service + '">' +
+                        '  <label>담당자 이름<input type="text" name="name" placeholder="홍길동" required></label>' +
+                        '  <label>기관 및 기업<input type="text" name="company" placeholder="기관/기업명"></label>' +
+                        '  <label>이메일<input type="email" name="email" placeholder="example@email.com" required></label>' +
+                        '  <label>전화번호<input type="tel" name="phone" placeholder="010-0000-0000"></label>' +
+                        '  <label>URL<input type="url" name="url" placeholder="https://"></label>' +
+                        '  <label>프로젝트 설명<textarea name="description" rows="3" placeholder="프로젝트에 대해 자유롭게 설명해 주세요."></textarea></label>' +
+                        '  <label>예산<input type="text" name="budget" placeholder="예) 500만원~1000만원"></label>' +
+                        '  <label>제작 기간<input type="text" name="timeline" placeholder="예) 4주~6주"></label>' +
+                        '  <label class="chat-form-check"><input type="checkbox" id="privacy-check" required><span>개인정보보호정책에 동의합니다.</span></label>' +
+                        '  <button type="submit" class="chat-form-submit" disabled>의뢰 보내기</button>' +
+                        '</form>';
+                    messagesEl.appendChild(msg);
+                    messagesEl.scrollTop = messagesEl.scrollHeight;
+
+                    var form = document.getElementById('inquiry-form');
+                    var checkbox = document.getElementById('privacy-check');
+                    var submitBtn = form.querySelector('.chat-form-submit');
+
+                    checkbox.addEventListener('change', function () {
+                        submitBtn.disabled = !this.checked;
+                    });
+
+                    form.addEventListener('submit', function (e) {
+                        e.preventDefault();
+                        var fd = new FormData(form);
+                        var subject = '[TOD 프로젝트 의뢰] ' + fd.get('name') + ' - ' + fd.get('service');
+                        var body = '서비스 영역: ' + fd.get('service') +
+                            '\n예산: ' + (fd.get('budget') || '-') +
+                            '\n제작 기간: ' + (fd.get('timeline') || '-') +
+                            '\n담당자: ' + fd.get('name') +
+                            '\n기관/기업: ' + (fd.get('company') || '-') +
+                            '\n이메일: ' + fd.get('email') +
+                            '\n전화번호: ' + (fd.get('phone') || '-') +
+                            '\nURL: ' + (fd.get('url') || '-') +
+                            '\n\n프로젝트 설명:\n' + (fd.get('description') || '-');
+
+                        var mailLink = document.createElement('a');
+                        mailLink.href = 'mailto:info@tripleondesign.com?subject=' +
+                            encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+                        mailLink.target = '_blank';
+                        mailLink.click();
+
+                        form.style.display = 'none';
+                        addMessage('이메일을 전송했습니다. 영업일 기준 1~2일 안에 연락드리겠습니다.', 'bot');
+                        addResetButton();
+                    });
+                });
+            }
+
+            function getResponse(question) {
+                const q = question.toLowerCase();
+                if (q.includes('서비스')) return '__SERVICE_FLOW__';
+                if (q.includes('의뢰')) return '__INQUIRY_FLOW__';
+                for (var key in responses) {
+                    if (q.includes(key)) return responses[key];
+                }
+                return '감사합니다! 해당 문의는 이메일(info@tripleondesign.com)로 보내주시면 담당자가 상세히 안내해 드리겠습니다.';
+            }
+
+            function handleSend(text) {
+                if (!text.trim()) return;
+                inputEl.value = '';
+                suggestionsEl.style.display = 'none';
+
+                var resp = getResponse(text);
+                if (resp === '__SERVICE_FLOW__') {
+                    handleServiceFlow();
+                    return;
+                }
+                if (resp === '__INQUIRY_FLOW__') {
+                    handleInquiryFlow();
+                    return;
+                }
+
+                addMessage(text, 'user');
+                botReply(resp, 800 + Math.random() * 600, addResetButton);
+            }
+
+            sendBtn.addEventListener('click', function () {
+                handleSend(inputEl.value);
+            });
+
+            inputEl.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter') handleSend(inputEl.value);
+            });
+
+            document.querySelectorAll('.suggestion-btn').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    handleSend(btn.dataset.q);
+                });
+            });
+        })();
+    </script>
+
+    <!-- Email Modal Logic -->
+    <script>
+        (function () {
+            var modal = document.getElementById('email-modal');
+            var openBtn = document.getElementById('email-modal-btn');
+            var closeBtn = document.getElementById('email-modal-close');
+            var form = document.getElementById('email-form');
+
+            openBtn.addEventListener('click', function () {
+                modal.classList.add('is-open');
+            });
+
+            closeBtn.addEventListener('click', function () {
+                modal.classList.remove('is-open');
+            });
+
+            modal.addEventListener('click', function (e) {
+                if (e.target === modal) modal.classList.remove('is-open');
+            });
+
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && modal.classList.contains('is-open')) {
+                    modal.classList.remove('is-open');
+                }
+            });
+
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                var fd = new FormData(form);
+                var subject = fd.get('subject') + ' (' + fd.get('sender_name') + ')';
+                var body = '보내는 분: ' + fd.get('sender_name') +
+                    '\n이메일: ' + fd.get('sender_email') +
+                    '\n\n' + fd.get('body');
+                var mailLink = document.createElement('a');
+                mailLink.href = 'mailto:info@tripleondesign.com?subject=' +
+                    encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+                mailLink.target = '_blank';
+                mailLink.click();
+
+                form.reset();
+                form.style.display = 'none';
+                var msg = document.createElement('div');
+                msg.className = 'email-success-msg';
+                msg.textContent = '이메일을 전송했습니다. 영업일 기준 1~2일 안에 연락드리겠습니다.';
+                form.parentNode.appendChild(msg);
+                setTimeout(function () {
+                    modal.classList.remove('is-open');
+                    msg.remove();
+                    form.style.display = '';
+                }, 3000);
+            });
+        })();
+    </script>
+
     <!-- Three.js Logic -->
-    <script type="module" src="main.js?v=10"></script>
+    <script type="module" src="main.js?v=11"></script>
+
+    <!-- Language Toggle + Scroll Reveal -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Language Toggle
+            var btnKo = document.getElementById('lang-ko');
+            var btnEn = document.getElementById('lang-en');
+
+            if (btnKo && btnEn) {
+                function applyLang(lang) {
+                    document.documentElement.lang = lang;
+
+                    if (lang === 'ko') {
+                        btnKo.style.background = 'rgba(255,255,255,0.25)';
+                        btnKo.style.borderColor = 'rgba(255,255,255,0.55)';
+                        btnKo.style.color = '#ffffff';
+                        btnEn.style.background = 'rgba(255,255,255,0.09)';
+                        btnEn.style.borderColor = 'rgba(255,255,255,0.22)';
+                        btnEn.style.color = 'rgba(255,255,255,0.45)';
+                    } else {
+                        btnEn.style.background = 'rgba(255,255,255,0.25)';
+                        btnEn.style.borderColor = 'rgba(255,255,255,0.55)';
+                        btnEn.style.color = '#ffffff';
+                        btnKo.style.background = 'rgba(255,255,255,0.09)';
+                        btnKo.style.borderColor = 'rgba(255,255,255,0.22)';
+                        btnKo.style.color = 'rgba(255,255,255,0.45)';
+                    }
+
+                    document.querySelectorAll('.about-intro-en').forEach(function (el) {
+                        el.style.display = lang === 'en' ? '' : 'none';
+                    });
+                    document.querySelectorAll('.about-intro-kr-box').forEach(function (el) {
+                        el.style.display = lang === 'ko' ? '' : 'none';
+                    });
+                    document.querySelectorAll('.desc-en').forEach(function (el) {
+                        el.style.display = lang === 'en' ? '' : 'none';
+                    });
+                    document.querySelectorAll('.desc-kr').forEach(function (el) {
+                        el.style.display = lang === 'ko' ? '' : 'none';
+                    });
+                    document.querySelectorAll('.gif-overlay-en').forEach(function (el) {
+                        el.style.display = lang === 'en' ? '' : 'none';
+                    });
+                    document.querySelectorAll('.gif-overlay-kr').forEach(function (el) {
+                        el.style.display = lang === 'ko' ? '' : 'none';
+                    });
+
+                    localStorage.setItem('tod-lang', lang);
+                }
+
+                btnKo.addEventListener('click', function () { applyLang('ko'); });
+                btnEn.addEventListener('click', function () { applyLang('en'); });
+
+                applyLang(localStorage.getItem('tod-lang') || 'ko');
+            }
+
+            // Unlock scroll on Show More click
+            var scrollBtn = document.getElementById('scroll-btn');
+            if (scrollBtn) {
+                scrollBtn.addEventListener('click', function () {
+                    document.body.classList.remove('hero-locked');
+                });
+            }
+
+            // Hide Show More button when scrolled past hero
+            if (scrollBtn) {
+                window.addEventListener('scroll', function () {
+                    var heroHeight = document.getElementById('hero').offsetHeight;
+                    scrollBtn.style.opacity = window.scrollY > heroHeight * 0.6 ? '0' : '1';
+                    scrollBtn.style.pointerEvents = window.scrollY > heroHeight * 0.6 ? 'none' : '';
+                });
+            }
+
+            // Scroll Reveal Animation
+            (function () {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('in-view');
+                        // Optional: Unobserve if you only want the animation to happen once
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+
+            document.querySelectorAll('.reveal-up').forEach(el => {
+                observer.observe(el);
+            });
+            })();
+        });
+    </script>
 </body>
 
 </html>

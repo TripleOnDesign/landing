@@ -449,8 +449,14 @@ function init() {
     scene.fog = new THREE.FogExp2(0x000308, 0.03);
 
     camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.set(0, 8, 28);
-    camera.lookAt(scene.position);
+    // Apply mobile camera position offset on load
+    if (window.innerWidth <= 768) {
+        camera.position.set(0, 8, 38);
+        camera.lookAt(new THREE.Vector3(0, -2.5, 0));
+    } else {
+        camera.position.set(0, 8, 28);
+        camera.lookAt(scene.position);
+    }
 
     renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
     renderer.domElement.id = 'particleCanvas';
@@ -470,6 +476,8 @@ function init() {
     controls.enableDamping = true; controls.dampingFactor = 0.05;
     controls.minDistance = 5; controls.maxDistance = 80;
     controls.autoRotate = true; controls.autoRotateSpeed = 0.3;
+    controls.enableZoom = false;
+    renderer.domElement.style.touchAction = 'pan-y';
 
     scene.add(new THREE.AmbientLight(0x404060));
     const dirLight1 = new THREE.DirectionalLight(0xffffff, 1.5);
@@ -482,9 +490,8 @@ function init() {
     setupParticleSystem();
 
     window.addEventListener('resize', onWindowResize);
-    document.addEventListener('click', (e) => {
-        // Only trigger morph if clicking on canvas/background, not UI
-        if (!e.target.closest('#sidebar') && !e.target.closest('input')) {
+    heroSection.addEventListener('click', (e) => {
+        if (!e.target.closest('#sidebar') && !e.target.closest('input') && !e.target.closest('a')) {
             onCanvasClick(e);
         }
     });
@@ -634,7 +641,7 @@ function triggerMorphToShape(shapeName) {
         complete: () => {
             console.log("Morphing complete.");
             if (infoEl) {
-                infoEl.innerText = `Shape: "${SHAPES[currentShapeIndex].name}" (Click canvas to cycle, Left click to rotate, Right click to pan, Scroll to zoom)`;
+                infoEl.innerText = `Shape: "${SHAPES[currentShapeIndex].name}"`;
                 infoEl.style.textShadow = '0 0 5px rgba(0, 128, 255, 0.8)';
             }
             currentPositions.set(targetPositions[currentShapeIndex]);
@@ -715,7 +722,7 @@ function triggerMorphToText(text) {
         complete: () => {
             console.log("Morphing complete.");
             if (infoEl) {
-                infoEl.innerText = `Shape: "${text}" (Click canvas to cycle, Left click to rotate, Right click to pan, Scroll to zoom)`;
+                infoEl.innerText = `Shape: "${text}"`;
                 infoEl.style.textShadow = '0 0 5px rgba(0, 128, 255, 0.8)';
             }
             currentPositions.set(targetPositions[currentShapeIndex]);
@@ -933,7 +940,7 @@ function triggerMorph() {
             if (infoEl) {
                 // Ensure SHAPES has the name, or fallback
                 const shapeName = SHAPES[currentShapeIndex] ? SHAPES[currentShapeIndex].name : 'Custom';
-                infoEl.innerText = `Shape: ${shapeName} (Click canvas to cycle, Left click to rotate, Right click to pan, Scroll to zoom)`;
+                infoEl.innerText = `Shape: ${shapeName}`;
                 infoEl.style.textShadow = '0 0 5px rgba(0, 128, 255, 0.8)';
             }
             currentPositions.set(targetPositions[currentShapeIndex]);
@@ -1048,6 +1055,16 @@ function onWindowResize() {
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
     composer.setSize(window.innerWidth, window.innerHeight);
+
+    // Adjust camera position for mobile screens
+    if (window.innerWidth <= 768) {
+        camera.position.set(0, 8, 38); // Further back to fit better on narrow screens
+        // Lower the lookAt target slightly to pull the graphic down
+        camera.lookAt(new THREE.Vector3(0, -2.5, 0));
+    } else {
+        camera.position.set(0, 8, 28);
+        camera.lookAt(scene.position);
+    }
 }
 
 init();

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,11 +12,13 @@
       overflow: hidden;
       background-color: #030303;
     }
+
     canvas {
       display: block;
     }
   </style>
 </head>
+
 <body>
   <script>
     const BRIGHT_SKY_BLUE = 0x00ffff;
@@ -40,7 +43,8 @@
     scene.fog = new THREE.FogExp2(0x010409, 0.015);
 
     const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.set(0, 0.5, 26.5);
+    var camZ = window.innerWidth <= 768 ? 32 : 16;
+    camera.position.set(0, 0.5, camZ);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -108,7 +112,7 @@
 
     const textureLoader = new THREE.TextureLoader();
     const mapUrl = 'https://raw.githubusercontent.com/vasturiano/three-globe/master/example/img/earth-topology.png';
-    textureLoader.load(mapUrl, function(texture) {
+    textureLoader.load(mapUrl, function (texture) {
       const mapGeo = new THREE.SphereGeometry(EARTH_RADIUS, 64, 64);
       const mapMat = new THREE.MeshBasicMaterial({
         map: texture, color: BRIGHT_SKY_BLUE, transparent: true,
@@ -125,20 +129,20 @@
     });
 
     const cities = [
-      { name: "Seoul",         lat: 37.56,  lon: 126.97 },
-      { name: "Tokyo",         lat: 35.68,  lon: 139.69 },
-      { name: "Beijing",       lat: 39.90,  lon: 116.40 },
-      { name: "Singapore",     lat: 1.35,   lon: 103.81 },
-      { name: "Mumbai",        lat: 19.07,  lon: 72.87  },
-      { name: "Dubai",         lat: 25.20,  lon: 55.27  },
-      { name: "London",        lat: 51.50,  lon: -0.12  },
-      { name: "Paris",         lat: 48.85,  lon: 2.35   },
-      { name: "Moscow",        lat: 55.75,  lon: 37.61  },
-      { name: "Cairo",         lat: 30.04,  lon: 31.23  },
-      { name: "New York",      lat: 40.71,  lon: -74.00 },
-      { name: "San Francisco", lat: 37.77,  lon: -122.41},
-      { name: "Sao Paulo",     lat: -23.55, lon: -46.63 },
-      { name: "Sydney",        lat: -33.86, lon: 151.20 }
+      { name: "Seoul", lat: 37.56, lon: 126.97 },
+      { name: "Tokyo", lat: 35.68, lon: 139.69 },
+      { name: "Beijing", lat: 39.90, lon: 116.40 },
+      { name: "Singapore", lat: 1.35, lon: 103.81 },
+      { name: "Mumbai", lat: 19.07, lon: 72.87 },
+      { name: "Dubai", lat: 25.20, lon: 55.27 },
+      { name: "London", lat: 51.50, lon: -0.12 },
+      { name: "Paris", lat: 48.85, lon: 2.35 },
+      { name: "Moscow", lat: 55.75, lon: 37.61 },
+      { name: "Cairo", lat: 30.04, lon: 31.23 },
+      { name: "New York", lat: 40.71, lon: -74.00 },
+      { name: "San Francisco", lat: 37.77, lon: -122.41 },
+      { name: "Sao Paulo", lat: -23.55, lon: -46.63 },
+      { name: "Sydney", lat: -33.86, lon: 151.20 }
     ];
 
     function latLongToVector3(lat, lon, radius) {
@@ -263,4 +267,5 @@
     animate();
   </script>
 </body>
+
 </html>

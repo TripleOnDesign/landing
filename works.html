@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Works — TripleOnDesign</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #000000;
+            --text-color: #ffffff;
+            --font-main: 'Inter', sans-serif;
+            --padding-page: 2rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-main);
+            font-optical-sizing: auto;
+            min-height: 100vh;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem var(--padding-page);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .logo video {
+            height: 48px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: #ffffff;
+        }
+
+        main {
+            padding-top: 120px;
+            padding-bottom: 4rem;
+        }
+
+        .works-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--padding-page);
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            letter-spacing: -0.02em;
+        }
+
+        .category-filter {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 18px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: transparent;
+            color: rgba(255, 255, 255, 0.5);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .filter-btn:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.25);
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .filter-btn.active {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.4);
+            color: #ffffff;
+        }
+
+        .works-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .work-card {
+            position: relative;
+            aspect-ratio: 16 / 9;
+            border-radius: 16px;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            cursor: pointer;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .work-card:hover {
+            transform: scale(1.03);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .work-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top center;
+            display: block;
+            transition: opacity 0.3s ease;
+        }
+
+        .work-card-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 50%, rgba(0, 0, 0, 0.75) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 14px 16px;
+        }
+
+        .work-card-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: white;
+            line-height: 1.3;
+        }
+
+        /* Category badge — above title, bottom-left */
+        .work-card-category {
+            position: static;
+            font-size: 0.6rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.55);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 4px;
+        }
+
+        /* PPT card: contain image with padding, bottom gradient fade */
+        .work-card[data-slides] {
+            background: #000;
+        }
+
+        .work-card[data-slides] img {
+            object-fit: cover;
+            object-position: top center;
+        }
+
+        .work-card[data-slides] .work-card-overlay {
+            background: linear-gradient(0deg, #000 0%, rgba(0,0,0,0.7) 35%, transparent 65%);
+        }
+
+        .work-card.hidden {
+            display: none;
+        }
+
+        footer {
+            padding: 2.5rem var(--padding-page);
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .footer-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            text-align: center;
+        }
+
+        .footer-info p {
+            margin: 0;
+            font-size: 0.78rem;
+            color: rgba(255, 255, 255, 0.35);
+            line-height: 1.5;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 2000;
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.is-open {
+            display: flex;
+        }
+
+        .modal-content {
+            position: relative;
+            width: 96vw;
+            height: 92vh;
+            max-width: none;
+            background: #000;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+        }
+
+        .modal.ratio-16-10 .modal-content {
+            aspect-ratio: 16 / 10;
+            height: auto;
+            max-height: 92vh;
+            width: 90vw;
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 14px;
+            right: 18px;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 1.4rem;
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .modal-close-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        #modal-container {
+            width: 100%;
+            height: 100%;
+        }
+
+        #modal-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+
+        /* ── Slide gallery ── */
+        .slide-gallery {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            background: #0a0a0a;
+            user-select: none;
+            overflow: hidden;
+        }
+
+        /* Main image area */
+        .slide-main {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding: 60px 0;
+        }
+
+        /* invisible sizer: takes up space so container has height */
+        .slide-main .slide-sizer {
+            width: 100%;
+            visibility: hidden;
+            display: block;
+        }
+
+        .slide-main img:not(.slide-sizer) {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            position: absolute;
+            transition: opacity 0.4s cubic-bezier(.4,0,.2,1), transform 0.4s cubic-bezier(.4,0,.2,1);
+        }
+
+        .slide-main img.slide-enter-right {
+            opacity: 0;
+            transform: translateX(60px);
+        }
+
+        .slide-main img.slide-enter-left {
+            opacity: 0;
+            transform: translateX(-60px);
+        }
+
+        .slide-main img.slide-active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .slide-main img.slide-exit-left {
+            opacity: 0;
+            transform: translateX(-60px);
+        }
+
+        .slide-main img.slide-exit-right {
+            opacity: 0;
+            transform: translateX(60px);
+        }
+
+        /* Navigation row between main image and thumbs */
+        .slide-nav-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            padding: 10px 0;
+            flex-shrink: 0;
+        }
+
+        .slide-arrow {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.06);
+            color: rgba(255,255,255,0.7);
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.25s, border-color 0.25s, color 0.25s;
+        }
+
+        .slide-arrow:hover {
+            background: rgba(255,255,255,0.14);
+            border-color: rgba(255,255,255,0.3);
+            color: #fff;
+        }
+
+        .slide-counter {
+            font-size: 0.72rem;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            color: rgba(255,255,255,0.45);
+        }
+
+        /* Thumbnail strip */
+        .slide-thumbs {
+            display: flex;
+            gap: 8px;
+            padding: 0 16px 14px;
+            justify-content: center;
+            background: transparent;
+            flex-shrink: 0;
+        }
+
+        .slide-thumb {
+            width: calc((100% - 24px) / 4);
+            max-width: 180px;
+            aspect-ratio: 16 / 9;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid transparent;
+            opacity: 0.45;
+            transition: opacity 0.3s, border-color 0.3s, transform 0.25s;
+            flex-shrink: 0;
+        }
+
+        .slide-thumb:hover {
+            opacity: 0.75;
+            transform: scale(1.03);
+        }
+
+        .slide-thumb.active {
+            opacity: 1;
+            border-color: rgba(255,255,255,0.6);
+        }
+
+        .slide-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* PPT modal sizing */
+        .modal.ppt-modal .modal-content {
+            width: 720px;
+            height: auto;
+            max-height: 96vh;
+            max-width: 96vw;
+        }
+
+        /* Web modal: scrollable jpg + video */
+        .modal.web-modal .modal-content {
+            width: 720px;
+            height: 90vh;
+            max-width: 96vw;
+            overflow: hidden;
+        }
+
+        .web-viewer {
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            background: #0a0a0a;
+        }
+
+        .web-viewer img {
+            width: 100%;
+            display: block;
+        }
+
+        .web-video-wrap {
+            position: relative;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .web-viewer video {
+            width: 100%;
+            display: block;
+        }
+
+        .web-play-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(60, 60, 60, 0.5);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.35);
+            color: rgba(255,255,255,0.9);
+            font-size: 1.6rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.25s, transform 0.25s, opacity 0.3s;
+            z-index: 5;
+        }
+
+        .web-play-btn:hover {
+            background: rgba(80, 80, 80, 0.65);
+            transform: translate(-50%, -50%) scale(1.08);
+        }
+
+        .web-play-btn.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        @media (max-width: 600px) {
+            .modal.web-modal .modal-content {
+                width: 100vw;
+                height: 100vh;
+                max-width: 100vw;
+                border-radius: 0;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .modal.ppt-modal .modal-content {
+                width: 100vw;
+                height: 100vh;
+                max-width: 100vw;
+                aspect-ratio: auto;
+                border-radius: 0;
+            }
+
+            .slide-arrow {
+                width: 36px;
+                height: 36px;
+                font-size: 1.1rem;
+            }
+
+            .slide-arrow.prev { left: 8px; }
+            .slide-arrow.next { right: 8px; }
+
+            .slide-thumbs {
+                gap: 5px;
+                padding: 8px 8px 10px;
+            }
+
+            .slide-thumb {
+                width: calc((100% - 15px) / 4);
+                border-radius: 5px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .works-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .works-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .modal-content {
+                width: 100vw;
+                height: 95vh;
+                border-radius: 0;
+            }
+
+            /* Mobile: override ratio constraint so iframe gets full height */
+            .modal.ratio-16-10 .modal-content {
+                aspect-ratio: auto;
+                width: 100vw;
+                height: 100vh;
+                max-height: 100vh;
+                border-radius: 0;
+            }
+
+            .logo video {
+                height: 36px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <a href="index.html" class="logo">
+            <video autoplay muted loop playsinline>
+                <source src="logo.mp4" type="video/mp4">
+            </video>
+        </a>
+        <nav>
+            <ul>
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="works.html" class="active">Works</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="works-container">
+            <h1>Works</h1>
+
+            <div class="category-filter">
+                <button class="filter-btn active" data-category="all">All</button>
+                <button class="filter-btn" data-category="ppt">PPT</button>
+                <button class="filter-btn" data-category="3d">3D Art Works</button>
+                <button class="filter-btn" data-category="web">Web</button>
+                <button class="filter-btn" data-category="branding">Branding</button>
+            </div>
+
+            <div class="works-grid">
+                <div class="work-card" data-category="ppt" data-slides="works/ppt/AI Nanobody Platform/" data-count="11">
+                    <img src="works/ppt/AI Nanobody Platform/screen1.png" alt="AI Nanobody Platform">
+                    <div class="work-card-overlay">
+                        <div class="work-card-title">AI Nanobody Platform</div>
+                        <div class="work-card-category">PPT</div>
+                    </div>
+                </div>
+
+                <div class="work-card" data-category="ppt" data-slides="works/ppt/Rapid Dx Platform/" data-count="9">
+                    <img src="works/ppt/Rapid Dx Platform/screen1.png" alt="Rapid Dx Platform">
+                    <div class="work-card-overlay">
+                        <div class="work-card-title">Rapid Dx Platform</div>
+                        <div class="work-card-category">PPT</div>
+                    </div>
+                </div>
+
+                <div class="work-card" data-category="ppt" data-slides="works/ppt/protein design/" data-count="12">
+                    <img src="works/ppt/protein design/screen1.png" alt="Protein Design" style="object-position: center calc(50% - 10px);">
+                    <div class="work-card-overlay">
+                        <div class="work-card-title">Protein Design</div>
+                        <div class="work-card-category">PPT</div>
+                    </div>
+                </div>
+
+                <div class="work-card" data-category="3d" data-file="works/3D Art/3D/3D.html">
+                    <img src="works/3D Art/3D/thumb.png" alt="3D Interactive Lab">
+                    <div class="work-card-overlay">
+                        <div class="work-card-title">3D Interactive Lab</div>
+                        <div class="work-card-category">3D Art Works</div>
+                    </div>
+                </div>
+
+                <div class="work-card" data-category="3d" data-file="works/3D Art/exodus/exodus.html">
+                    <img src="works/3D Art/exodus/thumb.png" alt="Exodus · Parting of the Sea">
+                    <div class="work-card-overlay">
+                        <div class="work-card-title">Exodus · Parting of the Sea</div>
+                        <div class="work-card-category">3D Art Works</div>
+                    </div>
+                </div>
+
+                <div class="work-card" data-category="3d" data-file="works/3D Art/diet/mounjaro.html" data-ratio="16-10">
+                    <img src="works/3D Art/diet/thumb.png" alt="Mounjaro/Wegovy Mechanism">
+                    <div class="work-card-overlay">
+                        <div class="work-card-title">Mounjaro/Wegovy 기전</div>
+                        <div class="work-card-category">3D Art Works</div>
+                    </div>
+                </div>
+
+                <div class="work-card" data-category="web" data-web-img="works/web/cleaning/cleaning.jpg" data-web-video="works/web/cleaning/cleaning.mp4">
+                    <img src="works/web/cleaning/cleaning.jpg" alt="Cleaning">
+                    <div class="work-card-overlay">
+                        <div class="work-card-title">Cleaning</div>
+                        <div class="work-card-category">Web</div>
+                    </div>
+                </div>
+
+                <div class="work-card" data-category="web" data-web-img="works/web/furniture/Furniture.jpg">
+                    <img src="works/web/furniture/Furniture.jpg" alt="Furniture">
+                    <div class="work-card-overlay">
+                        <div class="work-card-title">Furniture</div>
+                        <div class="work-card-category">Web</div>
+                    </div>
+                </div>
+
+                <div class="work-card" data-category="web" data-web-img="works/web/interior/interior.jpg" data-web-video="works/web/interior/interior.mp4">
+                    <img src="works/web/interior/interior.jpg" alt="Interior">
+                    <div class="work-card-overlay">
+                        <div class="work-card-title">Interior</div>
+                        <div class="work-card-category">Web</div>
+                    </div>
+                </div>
+
+                <div class="work-card" data-category="web" data-web-img="works/web/kids game/kidsgame.jpg" data-web-video="works/web/kids game/kids game.mp4">
+                    <img src="works/web/kids game/kidsgame.jpg" alt="Kids Game">
+                    <div class="work-card-overlay">
+                        <div class="work-card-title">Kids Game</div>
+                        <div class="work-card-category">Web</div>
+                    </div>
+                </div>
+
+                <div class="work-card" data-category="web" data-web-img="works/web/GLOW CLINIC/glow clinic.jpg" data-web-video="works/web/GLOW CLINIC/glow clinic.mp4">
+                    <img src="works/web/GLOW CLINIC/glow clinic.jpg" alt="GLOW CLINIC">
+                    <div class="work-card-overlay">
+                        <div class="work-card-title">GLOW CLINIC</div>
+                        <div class="work-card-category">Web</div>
+                    </div>
+                </div>
+
+                <div class="work-card" data-category="web" data-web-img="works/web/sushi/sushi.jpg" data-web-video="works/web/sushi/sushi.mp4">
+                    <img src="works/web/sushi/sushi.jpg" alt="Sushi">
+                    <div class="work-card-overlay">
+                        <div class="work-card-title">Sushi</div>
+                        <div class="work-card-category">Web</div>
+                    </div>
+                </div>
+
+                <div class="work-card" data-category="web" data-web-img="works/web/cosmetic/cosmetic1.jpg" data-web-img2="works/web/cosmetic/cosmetic2.jpg" data-web-video="works/web/cosmetic/cosmetic.mp4">
+                    <img src="works/web/cosmetic/cosmetic1.jpg" alt="Cosmetic">
+                    <div class="work-card-overlay">
+                        <div class="work-card-title">Cosmetic</div>
+                        <div class="work-card-category">Web</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-info">
+            <p>&copy; 2026 Triple On Design. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Modal -->
+    <div id="work-modal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close-btn" id="modal-close-btn">&times;</button>
+            <div id="modal-container"></div>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            var filterBtns = document.querySelectorAll('.filter-btn');
+            var cards = document.querySelectorAll('.work-card');
+
+            filterBtns.forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    filterBtns.forEach(function (b) { b.classList.remove('active'); });
+                    btn.classList.add('active');
+                    var cat = btn.dataset.category;
+                    cards.forEach(function (card) {
+                        if (cat === 'all' || card.dataset.category === cat) {
+                            card.classList.remove('hidden');
+                        } else {
+                            card.classList.add('hidden');
+                        }
+                    });
+                });
+            });
+
+            var modal = document.getElementById('work-modal');
+            var modalContainer = document.getElementById('modal-container');
+            var closeBtn = document.getElementById('modal-close-btn');
+
+            function closeModal() {
+                modal.classList.remove('is-open');
+                modal.classList.remove('ratio-16-10');
+                modal.classList.remove('ppt-modal');
+                modal.classList.remove('web-modal');
+                modalContainer.innerHTML = '';
+            }
+
+            cards.forEach(function (card) {
+                card.addEventListener('click', function () {
+                    var webImg = card.dataset.webImg;
+                    if (webImg) {
+                        var webVideo = card.dataset.webVideo;
+                        var webImg2 = card.dataset.webImg2;
+                        var html = '<div class="web-viewer">' +
+                            '<img src="' + webImg + '" alt="Preview">';
+                        if (webImg2) {
+                            html += '<img src="' + webImg2 + '" alt="Preview 2">';
+                        }
+                        if (webVideo) {
+                            html += '<div class="web-video-wrap">' +
+                                '<video src="' + webVideo + '" playsinline preload="metadata"></video>' +
+                                '<button class="web-play-btn">&#9654;</button>' +
+                                '</div>';
+                        }
+                        html += '</div>';
+                        modalContainer.innerHTML = html;
+                        if (webVideo) {
+                            var wrap = modalContainer.querySelector('.web-video-wrap');
+                            var vid = wrap.querySelector('video');
+                            var playBtn = wrap.querySelector('.web-play-btn');
+                            playBtn.addEventListener('click', function (e) {
+                                e.stopPropagation();
+                                vid.controls = true;
+                                vid.play();
+                                playBtn.classList.add('hidden');
+                            });
+                            vid.addEventListener('pause', function () {
+                                if (!vid.ended) playBtn.classList.remove('hidden');
+                            });
+                            vid.addEventListener('ended', function () {
+                                playBtn.classList.remove('hidden');
+                            });
+                            vid.addEventListener('play', function () {
+                                playBtn.classList.add('hidden');
+                            });
+                        }
+                        modal.classList.add('web-modal');
+                        modal.classList.add('is-open');
+                        return;
+                    }
+                    var file = card.dataset.file;
+                    var slides = card.dataset.slides;
+
+                    if (slides) {
+                        var count = parseInt(card.dataset.count, 10);
+                        var idx = 0;
+                        var animating = false;
+
+                        function buildGallery() {
+                            var html = '<div class="slide-gallery">' +
+                                '<div class="slide-main">' +
+                                '<img class="slide-sizer" src="' + slides + 'screen1.png" alt="">' +
+                                '<img src="' + slides + 'screen1.png" class="slide-active" alt="Slide 1">' +
+                                '</div>' +
+                                '<div class="slide-nav-row">' +
+                                '<button class="slide-arrow prev">&#8249;</button>' +
+                                '<span class="slide-counter">1 / ' + count + '</span>' +
+                                '<button class="slide-arrow next">&#8250;</button>' +
+                                '</div>' +
+                                '<div class="slide-thumbs">';
+                            for (var t = 0; t < Math.min(4, count); t++) {
+                                html += '<div class="slide-thumb' + (t === 0 ? ' active' : '') + '" data-idx="' + t + '">' +
+                                    '<img src="' + slides + 'screen' + (t + 1) + '.png" alt="Thumb ' + (t + 1) + '">' +
+                                    '</div>';
+                            }
+                            html += '</div></div>';
+                            modalContainer.innerHTML = html;
+
+                            var mainArea = modalContainer.querySelector('.slide-main');
+                            var counter = modalContainer.querySelector('.slide-counter');
+                            var thumbs = modalContainer.querySelectorAll('.slide-thumb');
+
+                            function goTo(newIdx, direction) {
+                                if (animating || newIdx === idx) return;
+                                animating = true;
+
+                                var oldImg = mainArea.querySelector('img.slide-active');
+                                var newImg = document.createElement('img');
+                                newImg.src = slides + 'screen' + (newIdx + 1) + '.png';
+                                newImg.alt = 'Slide ' + (newIdx + 1);
+                                newImg.className = direction === 'right' ? 'slide-enter-right' : 'slide-enter-left';
+                                mainArea.appendChild(newImg);
+
+                                requestAnimationFrame(function () {
+                                    requestAnimationFrame(function () {
+                                        oldImg.className = direction === 'right' ? 'slide-exit-left' : 'slide-exit-right';
+                                        newImg.className = 'slide-active';
+                                    });
+                                });
+
+                                setTimeout(function () {
+                                    if (oldImg.parentNode) oldImg.parentNode.removeChild(oldImg);
+                                    animating = false;
+                                }, 420);
+
+                                idx = newIdx;
+                                counter.textContent = (idx + 1) + ' / ' + count;
+                                updateThumbs();
+                            }
+
+                            function updateThumbs() {
+                                var page = Math.floor(idx / 4);
+                                thumbs.forEach(function (th, i) {
+                                    var tIdx = page * 4 + i;
+                                    if (tIdx < count) {
+                                        th.style.display = '';
+                                        th.dataset.idx = tIdx;
+                                        th.querySelector('img').src = slides + 'screen' + (tIdx + 1) + '.png';
+                                        th.classList.toggle('active', tIdx === idx);
+                                    } else {
+                                        th.style.display = 'none';
+                                    }
+                                });
+                            }
+
+                            var gallery = modalContainer.querySelector('.slide-gallery');
+                            gallery.querySelector('.slide-arrow.prev').addEventListener('click', function (e) {
+                                e.stopPropagation();
+                                goTo((idx - 1 + count) % count, 'left');
+                            });
+                            gallery.querySelector('.slide-arrow.next').addEventListener('click', function (e) {
+                                e.stopPropagation();
+                                goTo((idx + 1) % count, 'right');
+                            });
+
+                            thumbs.forEach(function (th) {
+                                th.addEventListener('click', function (e) {
+                                    e.stopPropagation();
+                                    var tIdx = parseInt(th.dataset.idx, 10);
+                                    goTo(tIdx, tIdx > idx ? 'right' : 'left');
+                                });
+                            });
+                        }
+
+                        buildGallery();
+                        modal.classList.add('ppt-modal');
+                        modal.classList.add('is-open');
+                        return;
+                    }
+
+                    if (!file) return;
+                    modalContainer.innerHTML = '<iframe src="' + file + '" allowfullscreen title="Preview"></iframe>';
+                    if (card.dataset.ratio === '16-10') {
+                        modal.classList.add('ratio-16-10');
+                    }
+                    modal.classList.add('is-open');
+                });
+            });
+
+            closeBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', function (e) {
+                if (e.target === modal) closeModal();
+            });
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
+            });
+        })();
+    </script>
+</body>
+
+</html>
