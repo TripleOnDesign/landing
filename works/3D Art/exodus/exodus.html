@@ -891,6 +891,7 @@
 
     <script>
         const isTouchDevice = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
+        const isMobile = isTouchDevice || window.innerWidth <= 768;
         if (isTouchDevice) {
             document.getElementById('guideText').textContent = 'Touch and drag to part the sea';
             document.getElementById('dragText').textContent = 'Drag your finger to widen the path!';
@@ -902,12 +903,17 @@
         scene.fog = new THREE.Fog(0x010810, 500, 1800);
 
         const camera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, 0.1, 3000);
-        camera.position.set(0, 55, 220);
-        camera.lookAt(0, 80, -300);
+        if (isMobile) {
+            camera.position.set(0, 85, 280);
+            camera.lookAt(0, 120, -300);
+        } else {
+            camera.position.set(0, 55, 220);
+            camera.lookAt(0, 80, -300);
+        }
 
-        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        const renderer = new THREE.WebGLRenderer({ antialias: isMobile ? false : true, alpha: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, isTouchDevice ? 1.5 : 2));
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.0 : 2));
         renderer.domElement.style.display = 'block';
         document.getElementById('container').appendChild(renderer.domElement);
 
@@ -930,7 +936,7 @@
         scene.add(skyPointLight);
 
         // ── 반짝이는 별 파티클 ──
-        const starCount = 6000;
+        const starCount = isMobile ? 1500 : 6000;
         const starGeo = new THREE.BufferGeometry();
         const starPositions = new Float32Array(starCount * 3);
         const starPhases = new Float32Array(starCount);
@@ -1096,7 +1102,7 @@
         // ── NEW: 번개 시스템 (Lightning) ──
         // ═══════════════════════════════════════════
         const lightningBolts = [];
-        const maxBolts = 5;
+        const maxBolts = isMobile ? 2 : 5;
         const lightningFlashLight = new THREE.PointLight(0xaabbff, 0, 2000);
         lightningFlashLight.position.set(0, 400, -300);
         scene.add(lightningFlashLight);
@@ -1187,7 +1193,7 @@
         // ═══════════════════════════════════════════
         // ── NEW: God Rays (하늘에서 내려오는 빛줄기) ──
         // ═══════════════════════════════════════════
-        const godRayCount = 8;
+        const godRayCount = isMobile ? 3 : 8;
         const godRays = [];
         for (let i = 0; i < godRayCount; i++) {
             const rayGeo = new THREE.CylinderGeometry(0, 60 + Math.random() * 40, 800, 8, 1, true);
@@ -1282,7 +1288,7 @@
         }
 
         // 간솎기: 너무 많으면 랜덤 샘플링
-        const maxTitlePts = 40000;
+        const maxTitlePts = isMobile ? 12000 : 40000;
         let finalTitlePts = titlePoints3D;
         if (titlePoints3D.length > maxTitlePts) {
             finalTitlePts = [];
@@ -1297,7 +1303,7 @@
         const titleBaseSizes = new Float32Array(titleCount);
         const titleLayers = new Float32Array(titleCount);
 
-        const titleY = 150;
+        const titleY = isMobile ? 200 : 150;
         const titleZ = -300;
         for (let i = 0; i < titleCount; i++) {
             titlePosArr[i * 3]     = finalTitlePts[i].x;
@@ -1368,7 +1374,7 @@
         });
         const titleParticles = new THREE.Points(titleGeo, titleMat);
         const mobileTitleScale = Math.min(window.innerWidth / 1024, 1.0);
-        const titleScaleFactor = isTouchDevice ? Math.max(mobileTitleScale * 0.55, 0.25) : 1.0;
+        const titleScaleFactor = isMobile ? Math.max(mobileTitleScale * 0.7, 0.35) : 1.0;
         titleParticles.scale.setScalar(titleScaleFactor);
         scene.add(titleParticles);
 
@@ -1544,7 +1550,8 @@
         });
 
         // 4. 바다 (Sea)
-        const seaGeo = new THREE.PlaneGeometry(4000, 4000, 420, 420);
+        const seaSub = isMobile ? 160 : 420;
+        const seaGeo = new THREE.PlaneGeometry(4000, 4000, seaSub, seaSub);
 
         const waterUniforms = {
             time: { value: 0.0 },
@@ -1570,7 +1577,8 @@
         scene.add(sea);
 
         // 5. 마른 땅 (Ground)
-        const groundGeo = new THREE.PlaneGeometry(4000, 4000, 300, 300);
+        const groundSub = isMobile ? 120 : 300;
+        const groundGeo = new THREE.PlaneGeometry(4000, 4000, groundSub, groundSub);
         const groundUniforms = { uTime: { value: 0.0 }, uPathWidth: { value: 10.0 }, uPartProgress: { value: 0.0 } };
         const groundMat = new THREE.ShaderMaterial({
             uniforms: groundUniforms,
@@ -1584,7 +1592,7 @@
         scene.add(ground);
 
         // 6. 파티클 시스템 (물보라 + 미스트 + 낙하 물방울) — 강화됨
-        const particleCount = 6000;
+        const particleCount = isMobile ? 1500 : 6000;
         const particleGeo = new THREE.BufferGeometry();
         const particlePos = new Float32Array(particleCount * 3);
         const particleSizes = new Float32Array(particleCount);
@@ -1645,8 +1653,8 @@
         scene.add(wallLightR);
 
         // 6-c. 별똥별 시스템 (화려한 유성우)
-        const meteorMax = 20;
-        const trailLen = 15;
+        const meteorMax = isMobile ? 6 : 20;
+        const trailLen = isMobile ? 8 : 15;
         const meteorTotalVerts = meteorMax * trailLen;
         const meteorGeo = new THREE.BufferGeometry();
         const mPos = new Float32Array(meteorTotalVerts * 3);
@@ -1710,7 +1718,10 @@
         // 7. 영화 같은 발광(Bloom) 포스트 프로세싱 적용
         const composer = new THREE.EffectComposer(renderer);
         composer.addPass(new THREE.RenderPass(scene, camera));
-        const bloomPass = new THREE.UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 2.2, 0.5, 0.55);
+        const bloomRes = isMobile
+            ? new THREE.Vector2(Math.floor(window.innerWidth / 2), Math.floor(window.innerHeight / 2))
+            : new THREE.Vector2(window.innerWidth, window.innerHeight);
+        const bloomPass = new THREE.UnrealBloomPass(bloomRes, isMobile ? 1.5 : 2.2, 0.5, isMobile ? 0.7 : 0.55);
         composer.addPass(bloomPass);
 
         // 8. 인터랙션 및 상태 관리
@@ -1870,8 +1881,8 @@
             scene.fog.near = THREE.MathUtils.lerp(500, 800, partProgress);
 
             // ── EXODUS 타이틀: 물이 갈라지면 하늘 위로 이동하며 작아짐 ──
-            const titleBaseY = 150;
-            const titleLiftY = 450;
+            const titleBaseY = titleY;
+            const titleLiftY = isMobile ? 500 : 450;
             const titleTargetY = THREE.MathUtils.lerp(titleBaseY, titleLiftY, partProgress);
             titleParticles.position.y = titleTargetY - titleBaseY;
             const titleScale = THREE.MathUtils.lerp(titleScaleFactor, titleScaleFactor * 0.45, partProgress);
@@ -2111,14 +2122,14 @@
             // ── 카메라 제어 ──
             // 평소: EXODUS 타이틀이 보이는 정면 시점
             // 갈라질 때: 수면 바로 위 극적인 저각 — 물벽이 좌우로 솟구치는 것을 정면에서
-            const baseY    = 55;
-            const baseZ    = 220;
-            const partY    = 18 + (currentPathWidth - 60) * 0.05;
-            const partZ    = 280 + (currentPathWidth - 60) * 1.5;
+            const baseY    = isMobile ? 85 : 55;
+            const baseZ    = isMobile ? 280 : 220;
+            const partY    = (isMobile ? 30 : 18) + (currentPathWidth - 60) * 0.05;
+            const partZ    = (isMobile ? 320 : 280) + (currentPathWidth - 60) * 1.5;
 
             const camY = THREE.MathUtils.lerp(baseY, partY, partProgress);
             const camZ = THREE.MathUtils.lerp(baseZ, partZ, partProgress);
-            const camX = mouse.x * THREE.MathUtils.lerp(30, 15, partProgress);
+            const camX = mouse.x * THREE.MathUtils.lerp(isMobile ? 15 : 30, 15, partProgress);
 
             targetCameraPos.set(camX, camY, camZ);
             camera.position.lerp(targetCameraPos, 0.05);
@@ -2126,8 +2137,8 @@
             camera.position.add(cameraShake);
 
             // lookAt: 평소엔 EXODUS 중앙, 갈라질 땐 수면 정면 응시
-            const lookX = THREE.MathUtils.lerp(mouse.x * 20, mouse.x * 15, partProgress);
-            const lookY = THREE.MathUtils.lerp(80,  8 + partProgress * 30, partProgress);
+            const lookX = THREE.MathUtils.lerp(mouse.x * (isMobile ? 10 : 20), mouse.x * 15, partProgress);
+            const lookY = THREE.MathUtils.lerp(isMobile ? 120 : 80,  8 + partProgress * 30, partProgress);
             const lookZ = THREE.MathUtils.lerp(-300, -120, partProgress);
             camera.lookAt(lookX, lookY, lookZ);
 
@@ -2137,7 +2148,7 @@
                 const sizes = particles.geometry.attributes.size.array;
 
                 // 한 프레임에 여러 파티클 스폰 — 강화됨
-                const spawnCount = Math.min(14, particleCount - pIndex);
+                const spawnCount = Math.min(isMobile ? 5 : 14, particleCount - pIndex);
                 for (let s = 0; s < spawnCount; s++) {
                     const type = Math.random();
                     const side = (Math.random() > 0.5 ? 1 : -1);

@@ -65,6 +65,30 @@
       targetTiltY = 0;
     });
 
+    window.addEventListener('touchstart', (e) => {
+      const touch = e.touches[0];
+      mouse.x = touch.clientX;
+      mouse.y = touch.clientY;
+      targetTiltY = (mouse.x - cx) * 0.001;
+      targetTiltX = (mouse.y - cy) * 0.001;
+    }, { passive: true });
+
+    window.addEventListener('touchmove', (e) => {
+      e.preventDefault();
+      const touch = e.touches[0];
+      mouse.x = touch.clientX;
+      mouse.y = touch.clientY;
+      targetTiltY = (mouse.x - cx) * 0.001;
+      targetTiltX = (mouse.y - cy) * 0.001;
+    }, { passive: false });
+
+    window.addEventListener('touchend', () => {
+      mouse.x = -1000;
+      mouse.y = -1000;
+      targetTiltX = 0;
+      targetTiltY = 0;
+    });
+
     class LineParticle {
       constructor(index, total) {
         const phi = Math.acos(1 - 2 * (index + 0.5) / total);

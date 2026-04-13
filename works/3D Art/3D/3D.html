@@ -141,6 +141,34 @@
             width: clamp(700px, 110vmin, 1400px);
             height: clamp(700px, 110vmin, 1400px);
         }
+
+        @media (max-width: 768px) {
+            .model-frame.size-world {
+                width: clamp(180px, 52vmin, 340px);
+                height: clamp(180px, 52vmin, 340px);
+            }
+            .model-frame.size-saturn {
+                width: clamp(220px, 65vmin, 420px);
+                height: clamp(220px, 65vmin, 420px);
+            }
+            .model-frame.size-md {
+                width: clamp(180px, 52vmin, 340px);
+                height: clamp(180px, 52vmin, 340px);
+            }
+            .model-frame.size-cell {
+                width: clamp(150px, 40vmin, 260px);
+                height: clamp(150px, 40vmin, 260px);
+            }
+            .model-frame.size-switch {
+                width: clamp(160px, 44vmin, 300px);
+                height: clamp(160px, 44vmin, 300px);
+                transform: scale(0.9);
+            }
+            .model-frame.size-pyramid {
+                width: clamp(200px, 60vmin, 380px);
+                height: clamp(200px, 60vmin, 380px);
+            }
+        }
     </style>
 </head>
 
@@ -266,8 +294,9 @@
         function positionSlotsAtAngle(baseAngle) {
             var cx = W / 2;
             var cy = H / 2;
-            var rx = W * 0.40;
-            var ry = H * 0.28;
+            var isMobile = W <= 768;
+            var rx = W * (isMobile ? 0.28 : 0.40);
+            var ry = H * (isMobile ? 0.20 : 0.28);
             var tiltX = Math.sin(orbitPhase * 0.14) * 0.30;
             var tiltZ = Math.cos(orbitPhase * 0.09) * 0.22;
             var cosTX = Math.cos(tiltX), sinTX = Math.sin(tiltX);
@@ -287,7 +316,9 @@
                     el.style.left = (cx + rx2) + "px";
                     el.style.top = (cy + ry2) + "px";
                     var depth = rz2 / (ry * 1.2);
-                    var scale = 0.65 + 0.35 * (1 - depth) / 2;
+                    var baseScale = isMobile ? 0.45 : 0.65;
+                    var scaleRange = isMobile ? 0.25 : 0.35;
+                    var scale = baseScale + scaleRange * (1 - depth) / 2;
                     var zi = Math.round(10 + (1 - depth) * 5);
                     el.style.zIndex = zi;
                     el.style.transform = "translate(-50%, -50%) scale(" + scale.toFixed(3) + ")";

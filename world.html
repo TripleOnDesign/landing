@@ -223,6 +223,41 @@
       }
     });
 
+    window.addEventListener('touchstart', (e) => {
+      isMouseDown = true;
+      isResetting = false;
+      mouseDownTime = Date.now();
+      const touch = e.touches[0];
+      targetTiltY = ((touch.clientX / window.innerWidth) * 2 - 1) * 0.5;
+      targetTiltX = (-(touch.clientY / window.innerHeight) * 2 + 1) * 0.5 + BASE_TILT_X;
+    }, { passive: true });
+
+    window.addEventListener('touchmove', (e) => {
+      e.preventDefault();
+      const touch = e.touches[0];
+      targetTiltY = ((touch.clientX / window.innerWidth) * 2 - 1) * 0.5;
+      targetTiltX = (-(touch.clientY / window.innerHeight) * 2 + 1) * 0.5 + BASE_TILT_X;
+    }, { passive: false });
+
+    window.addEventListener('touchend', (e) => {
+      isMouseDown = false;
+      if (Date.now() - mouseDownTime < 200) {
+        const touch = e.changedTouches[0];
+        clickMouse.x = (touch.clientX / window.innerWidth) * 2 - 1;
+        clickMouse.y = -(touch.clientY / window.innerHeight) * 2 + 1;
+        raycaster.setFromCamera(clickMouse, camera);
+        if (raycaster.intersectObject(earthBase).length > 0) {
+          isResetting = true;
+          let diff = KOREA_ROTATION - (baseRotationY % (Math.PI * 2));
+          if (diff < -Math.PI) diff += Math.PI * 2;
+          if (diff > Math.PI) diff -= Math.PI * 2;
+          targetResetRotation = baseRotationY + diff;
+          targetTiltX = BASE_TILT_X;
+          targetTiltY = 0;
+        }
+      }
+    });
+
     window.addEventListener('resize', () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();

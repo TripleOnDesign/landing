@@ -429,26 +429,46 @@
                     form.addEventListener('submit', function (e) {
                         e.preventDefault();
                         var fd = new FormData(form);
-                        var subject = '[TOD 프로젝트 의뢰] ' + fd.get('name') + ' - ' + fd.get('service');
-                        var body = '서비스 영역: ' + fd.get('service') +
-                            '\n예산: ' + (fd.get('budget') || '-') +
-                            '\n제작 기간: ' + (fd.get('timeline') || '-') +
-                            '\n담당자: ' + fd.get('name') +
-                            '\n기관/기업: ' + (fd.get('company') || '-') +
-                            '\n이메일: ' + fd.get('email') +
-                            '\n전화번호: ' + (fd.get('phone') || '-') +
-                            '\nURL: ' + (fd.get('url') || '-') +
-                            '\n\n프로젝트 설명:\n' + (fd.get('description') || '-');
+                        var submitBtn = form.querySelector('.chat-form-submit');
+                        submitBtn.disabled = true;
+                        submitBtn.textContent = '전송 중...';
 
-                        var mailLink = document.createElement('a');
-                        mailLink.href = 'mailto:info@tripleondesign.com?subject=' +
-                            encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
-                        mailLink.target = '_blank';
-                        mailLink.click();
+                        var payload = {
+                            access_key: 'b90dd32e-fa11-44ca-adab-69aa0b53884c',
+                            subject: '[TOD 프로젝트 의뢰] ' + fd.get('name') + ' - ' + fd.get('service'),
+                            from_name: fd.get('name') || '',
+                            email: fd.get('email') || '',
+                            message: '서비스 영역: ' + fd.get('service') +
+                                '\n예산: ' + (fd.get('budget') || '-') +
+                                '\n제작 기간: ' + (fd.get('timeline') || '-') +
+                                '\n담당자: ' + fd.get('name') +
+                                '\n기관/기업: ' + (fd.get('company') || '-') +
+                                '\n이메일: ' + fd.get('email') +
+                                '\n전화번호: ' + (fd.get('phone') || '-') +
+                                '\nURL: ' + (fd.get('url') || '-') +
+                                '\n\n프로젝트 설명:\n' + (fd.get('description') || '-')
+                        };
 
-                        form.style.display = 'none';
-                        addMessage('이메일을 전송했습니다. 영업일 기준 1~2일 안에 연락드리겠습니다.', 'bot');
-                        addResetButton();
+                        fetch('https://api.web3forms.com/submit', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        }).then(function (res) { return res.json(); })
+                        .then(function (data) {
+                            if (data.success) {
+                                form.style.display = 'none';
+                                addMessage('문의가 전송되었습니다. 영업일 기준 1~2일 안에 연락드리겠습니다.', 'bot');
+                                addResetButton();
+                            } else {
+                                submitBtn.disabled = false;
+                                submitBtn.textContent = '의뢰 보내기';
+                                addMessage('전송에 실패했습니다. 다시 시도해 주세요.', 'bot');
+                            }
+                        }).catch(function () {
+                            submitBtn.disabled = false;
+                            submitBtn.textContent = '의뢰 보내기';
+                            addMessage('네트워크 오류가 발생했습니다. 다시 시도해 주세요.', 'bot');
+                        });
                     });
                 });
             }

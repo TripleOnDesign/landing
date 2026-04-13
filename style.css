@@ -1536,12 +1536,24 @@ footer {
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
     header {
-        padding: 0.8rem 1rem;
+        padding: 0.5rem 0.5rem;
+    }
+
+    .logo {
+        margin-left: -0.25rem;
     }
 
     .logo img,
     .logo video {
         height: 80px;
+    }
+
+    nav ul {
+        gap: 1.2rem;
+    }
+
+    nav a {
+        font-size: 0.82rem;
     }
 
     section {
@@ -1801,5 +1813,10 @@ footer {
         max-width: 300px;
         height: auto;
         aspect-ratio: 1;
+    }
+
+    .gif-trigger .gif-overlay {
+        opacity: 1;
+        background: rgba(0, 0, 0, 0.35);
     }
 }
