@@ -186,16 +186,16 @@
         }
 
         /* PPT card: contain image with padding, bottom gradient fade */
-        .work-card[data-slides] {
+        .work-card[data-slide-ids] {
             background: #000;
         }
 
-        .work-card[data-slides] img {
+        .work-card[data-slide-ids] img {
             object-fit: cover;
             object-position: top center;
         }
 
-        .work-card[data-slides] .work-card-overlay {
+        .work-card[data-slide-ids] .work-card-overlay {
             background: linear-gradient(0deg, #000 0%, rgba(0,0,0,0.7) 35%, transparent 65%);
         }
 
@@ -264,8 +264,8 @@
             top: 14px;
             right: 18px;
             z-index: 10;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(80, 80, 80, 0.3);
+            border: 1px solid rgba(0, 0, 0, 0.1);
             color: white;
             font-size: 1.4rem;
             width: 36px;
@@ -279,7 +279,7 @@
         }
 
         .modal-close-btn:hover {
-            background: rgba(255, 255, 255, 0.25);
+            background: rgba(80, 80, 80, 0.5);
         }
 
         #modal-container {
@@ -439,6 +439,7 @@
             height: auto;
             max-height: 96vh;
             max-width: 96vw;
+            overflow-y: auto;
         }
 
         /* Web modal: scrollable jpg + video */
@@ -467,42 +468,140 @@
             border-top: 1px solid rgba(255,255,255,0.06);
         }
 
-        .web-viewer video {
+        .web-video-wrap iframe {
             width: 100%;
+            aspect-ratio: 16 / 9;
+            border: none;
             display: block;
         }
 
-        .web-play-btn {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 64px;
-            height: 64px;
-            border-radius: 50%;
-            border: 1px solid rgba(255,255,255,0.2);
-            background: rgba(60, 60, 60, 0.5);
+        /* ── Inquiry button & form ── */
+        .inquiry-section {
+            padding: 24px 20px 28px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .inquiry-btn {
+            width: 100%;
+            max-width: 400px;
+            padding: 14px 24px;
+            border-radius: 14px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(80, 80, 80, 0.3);
             backdrop-filter: blur(14px);
             -webkit-backdrop-filter: blur(14px);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.35);
-            color: rgba(255,255,255,0.9);
-            font-size: 1.6rem;
+            color: rgba(255,255,255,0.85);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
             cursor: pointer;
+            transition: background 0.25s, border-color 0.25s;
+        }
+
+        .inquiry-btn:hover {
+            background: rgba(80, 80, 80, 0.5);
+            border-color: rgba(255,255,255,0.25);
+        }
+
+        .inquiry-btn.hidden {
+            display: none;
+        }
+
+        .inquiry-form {
+            width: 100%;
+            max-width: 400px;
+            display: none;
+            flex-direction: column;
+            gap: 14px;
+            animation: inquirySlideIn 0.35s ease;
+        }
+
+        .inquiry-form.is-open {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.25s, transform 0.25s, opacity 0.3s;
+        }
+
+        @keyframes inquirySlideIn {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .inquiry-form label {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: rgba(255,255,255,0.55);
+        }
+
+        .inquiry-form input,
+        .inquiry-form textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.06);
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.82rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .inquiry-form input:focus,
+        .inquiry-form textarea:focus {
+            border-color: rgba(255,255,255,0.35);
+        }
+
+        .inquiry-form input::placeholder,
+        .inquiry-form textarea::placeholder {
+            color: rgba(255,255,255,0.25);
+        }
+
+        .inquiry-form textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .inquiry-submit {
+            padding: 13px 24px;
+            border-radius: 12px;
+            border: none;
+            background: rgba(255,255,255,0.12);
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 4px;
+        }
+
+        .inquiry-submit:hover {
+            background: rgba(255,255,255,0.22);
+        }
+
+        .inquiry-thanks {
+            text-align: center;
+            padding: 16px 0;
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.7);
+            animation: inquirySlideIn 0.3s ease;
+        }
+
+        /* 3D/iframe modal: inquiry floats at bottom */
+        #modal-container > .inquiry-section {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10,10,10,0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255,255,255,0.08);
             z-index: 5;
-        }
-
-        .web-play-btn:hover {
-            background: rgba(80, 80, 80, 0.65);
-            transform: translate(-50%, -50%) scale(1.08);
-        }
-
-        .web-play-btn.hidden {
-            opacity: 0;
-            pointer-events: none;
         }
 
         @media (max-width: 600px) {
@@ -590,9 +689,9 @@
         </a>
         <nav>
             <ul>
-                <li><a href="index.html#about">About</a></li>
+                <li><a href="about.html">About</a></li>
                 <li><a href="works.html" class="active">Works</a></li>
-                <li><a href="index.html#contact">Contact</a></li>
+                <li><a href="about.html#contact">Contact</a></li>
             </ul>
         </nav>
     </header>
@@ -610,24 +709,24 @@
             </div>
 
             <div class="works-grid">
-                <div class="work-card" data-category="ppt" data-slides="works/ppt/AI Nanobody Platform/" data-count="11">
-                    <img src="works/ppt/AI Nanobody Platform/screen1.png" alt="AI Nanobody Platform">
+                <div class="work-card" data-category="ppt" data-slide-ids="1qDIwztBYOQ9ojj2W4tzTQxF3Y0LCKM4e,1m37Xu_gXDeJYWbEcm2xGY70ObW5Z1Gd6,1BmgoZ4lO4vJKQx5hxGd5WYpG4qrFpCtm,1ffBIAMQKaQt9MFcrk1uAfVBfnaGDLCAM,1yZUV5Q7gRZZeTcvuYoIf7zBGzxnS9c8v,1bdBKA6MSq6oweTbs9QDEjLDxL4G-fvyh,1qf3JASMYM_8qyWkjLWr7cFLV3LfjT-SC,1lUK7SRCOx0J_0X19brvI0EKntzuigknY,1UrShyvH2xycRv03iN6t90qvy-5oI79Ow,1yWThY3jCMndlUifXc3azf6svaELDMrsC,1d9gfIkjfsWnm0m5ZXGPYTpjcOr2zBbgs">
+                    <img src="https://lh3.googleusercontent.com/d/1qDIwztBYOQ9ojj2W4tzTQxF3Y0LCKM4e" referrerpolicy="no-referrer" alt="AI Nanobody Platform">
                     <div class="work-card-overlay">
                         <div class="work-card-title">AI Nanobody Platform</div>
                         <div class="work-card-category">PPT</div>
                     </div>
                 </div>
 
-                <div class="work-card" data-category="ppt" data-slides="works/ppt/Rapid Dx Platform/" data-count="9">
-                    <img src="works/ppt/Rapid Dx Platform/screen1.png" alt="Rapid Dx Platform">
+                <div class="work-card" data-category="ppt" data-slide-ids="1OYeEATXOtStFHT9X3L1Hkfuyas8cZJjV,1gu-83CDgI3dZzav0luhLh5ByZh7B2jnI,1DonE6JwlyEyDuEufOP5wFMpufTsZqShz,1qtp-9Ooz01Vo0Ozrqr-cOzn-u49WRBIK,1ioSuv4gaKZXqGDWWcVapnY_UwvY2Mc9k,1LJCOubfbWpEe2SG5cLP_DOLHDEosPKW8,1S2CX2u6wHV6zm6Ck2wsCYeWtJpLLB5ce,1fE64jMEdZfEB-VJLH9Wj4jxmPDxplLaJ,1deg9dNicdKxbUVN69MygwKLVhU_Boatm">
+                    <img src="https://lh3.googleusercontent.com/d/1OYeEATXOtStFHT9X3L1Hkfuyas8cZJjV" referrerpolicy="no-referrer" alt="Rapid Dx Platform">
                     <div class="work-card-overlay">
                         <div class="work-card-title">Rapid Dx Platform</div>
                         <div class="work-card-category">PPT</div>
                     </div>
                 </div>
 
-                <div class="work-card" data-category="ppt" data-slides="works/ppt/protein design/" data-count="12">
-                    <img src="works/ppt/protein design/screen1.png" alt="Protein Design" style="object-position: center calc(50% - 10px);">
+                <div class="work-card" data-category="ppt" data-slide-ids="1gDIPEfJV3E0qN4fB2UGpg9Gm8wmI6goi,1NvnWwJ8pQe6XG0Cqqs4zgzlPzz-x2pRa,1_ocVvOlFZXjKDYA-0669RZdp4ykb0Gp9,1XvELE7WyOhOcxMTW4XiL-xyhavuWvHfa,1kughbdB7Hsc4oFzjMWA-9mSTvF_pKrzW,1gK9LZTI0bk9Lq6kjPvOUKRO37fSKi4ad,1DUJGl-6cDsuf-G7JC-2N-JGsj-AxxLjc,1nYV7NhHxsBb3e4XEh1rmH2FDAy42Wm2K,1DPCJS9njJW97YL0Ti3Gwd3K8X5rFtJgF,1MtrZMcWpg0SWcD5P84yUPz-BGj6bVZDG,1f4EnkGgdaaVc-uJcS_QMxyRyBuzj0QlF,1wcpWIjCO052vr-ehkJvo3-1EbnJ69U53">
+                    <img src="https://lh3.googleusercontent.com/d/1gDIPEfJV3E0qN4fB2UGpg9Gm8wmI6goi" referrerpolicy="no-referrer" alt="Protein Design" style="object-position: center calc(50% - 10px);">
                     <div class="work-card-overlay">
                         <div class="work-card-title">Protein Design</div>
                         <div class="work-card-category">PPT</div>
@@ -635,7 +734,7 @@
                 </div>
 
                 <div class="work-card" data-category="3d" data-file="works/3D Art/3D/3D.html">
-                    <img src="works/3D Art/3D/thumb.png" alt="3D Interactive Lab">
+                    <img src="https://lh3.googleusercontent.com/d/12E92yYYoRYpeXzSqq1Cp1Bbq_jPqnJ3b" referrerpolicy="no-referrer" alt="3D Interactive Lab">
                     <div class="work-card-overlay">
                         <div class="work-card-title">3D Interactive Lab</div>
                         <div class="work-card-category">3D Art Works</div>
@@ -643,7 +742,7 @@
                 </div>
 
                 <div class="work-card" data-category="3d" data-file="works/3D Art/exodus/exodus.html">
-                    <img src="works/3D Art/exodus/thumb.png" alt="Exodus · Parting of the Sea">
+                    <img src="https://lh3.googleusercontent.com/d/1u7kSpiW_ByvJC2L5FUErL0HCUJhMHQjR" referrerpolicy="no-referrer" alt="Exodus · Parting of the Sea">
                     <div class="work-card-overlay">
                         <div class="work-card-title">Exodus · Parting of the Sea</div>
                         <div class="work-card-category">3D Art Works</div>
@@ -651,14 +750,14 @@
                 </div>
 
                 <div class="work-card" data-category="3d" data-file="works/3D Art/diet/mounjaro.html" data-ratio="16-10">
-                    <img src="works/3D Art/diet/thumb.png" alt="Mounjaro/Wegovy Mechanism">
+                    <img src="https://lh3.googleusercontent.com/d/1As6Q5VjDSnc5TZkVeAOVx_q1aHjcHN6d" referrerpolicy="no-referrer" alt="Mounjaro/Wegovy Mechanism">
                     <div class="work-card-overlay">
                         <div class="work-card-title">Mounjaro/Wegovy 기전</div>
                         <div class="work-card-category">3D Art Works</div>
                     </div>
                 </div>
 
-                <div class="work-card" data-category="web" data-web-img="works/web/cleaning/cleaning.jpg" data-web-video="works/web/cleaning/cleaning.mp4">
+                <div class="work-card" data-category="web" data-web-img="works/web/cleaning/cleaning.jpg" data-web-video="youtube:f8SrM5ctYNA">
                     <img src="works/web/cleaning/cleaning.jpg" alt="Cleaning">
                     <div class="work-card-overlay">
                         <div class="work-card-title">Cleaning</div>
@@ -666,7 +765,7 @@
                     </div>
                 </div>
 
-                <div class="work-card" data-category="web" data-web-img="works/web/furniture/Furniture.jpg">
+                <div class="work-card" data-category="web" data-web-img="works/web/furniture/Furniture.jpg" data-web-video="youtube:M1Fg2RT-Jj0">
                     <img src="works/web/furniture/Furniture.jpg" alt="Furniture">
                     <div class="work-card-overlay">
                         <div class="work-card-title">Furniture</div>
@@ -674,7 +773,7 @@
                     </div>
                 </div>
 
-                <div class="work-card" data-category="web" data-web-img="works/web/interior/interior.jpg" data-web-video="works/web/interior/interior.mp4">
+                <div class="work-card" data-category="web" data-web-img="works/web/interior/interior.jpg" data-web-video="youtube:BcLUWmbwDZM">
                     <img src="works/web/interior/interior.jpg" alt="Interior">
                     <div class="work-card-overlay">
                         <div class="work-card-title">Interior</div>
@@ -682,7 +781,7 @@
                     </div>
                 </div>
 
-                <div class="work-card" data-category="web" data-web-img="works/web/kids game/kidsgame.jpg" data-web-video="works/web/kids game/kids game.mp4">
+                <div class="work-card" data-category="web" data-web-img="works/web/kids game/kidsgame.jpg" data-web-video="youtube:cu6rQ1edX_o">
                     <img src="works/web/kids game/kidsgame.jpg" alt="Kids Game">
                     <div class="work-card-overlay">
                         <div class="work-card-title">Kids Game</div>
@@ -690,7 +789,7 @@
                     </div>
                 </div>
 
-                <div class="work-card" data-category="web" data-web-img="works/web/GLOW CLINIC/glow clinic.jpg" data-web-video="works/web/GLOW CLINIC/glow clinic.mp4">
+                <div class="work-card" data-category="web" data-web-img="works/web/GLOW CLINIC/glow clinic.jpg" data-web-video="youtube:J9hNe23CKsE">
                     <img src="works/web/GLOW CLINIC/glow clinic.jpg" alt="GLOW CLINIC">
                     <div class="work-card-overlay">
                         <div class="work-card-title">GLOW CLINIC</div>
@@ -698,7 +797,7 @@
                     </div>
                 </div>
 
-                <div class="work-card" data-category="web" data-web-img="works/web/sushi/sushi.jpg" data-web-video="works/web/sushi/sushi.mp4">
+                <div class="work-card" data-category="web" data-web-img="works/web/sushi/sushi.jpg" data-web-video="youtube:fkPPtqcUHtM">
                     <img src="works/web/sushi/sushi.jpg" alt="Sushi">
                     <div class="work-card-overlay">
                         <div class="work-card-title">Sushi</div>
@@ -706,7 +805,7 @@
                     </div>
                 </div>
 
-                <div class="work-card" data-category="web" data-web-img="works/web/cosmetic/cosmetic1.jpg" data-web-img2="works/web/cosmetic/cosmetic2.jpg" data-web-video="works/web/cosmetic/cosmetic.mp4">
+                <div class="work-card" data-category="web" data-web-img="works/web/cosmetic/cosmetic1.jpg" data-web-img2="works/web/cosmetic/cosmetic2.jpg" data-web-video="youtube:4Q8qWae0hi0">
                     <img src="works/web/cosmetic/cosmetic1.jpg" alt="Cosmetic">
                     <div class="work-card-overlay">
                         <div class="work-card-title">Cosmetic</div>
@@ -763,62 +862,115 @@
                 modalContainer.innerHTML = '';
             }
 
+            var WEB3FORMS_KEY = 'b90dd32e-fa11-44ca-adab-69aa0b53884c';
+
+            function buildInquiryHTML(workTitle) {
+                return '<div class="inquiry-section" data-work-title="' + workTitle + '">' +
+                    '<button class="inquiry-btn">이런 스타일로 작업문의하기</button>' +
+                    '<form class="inquiry-form">' +
+                    '<input type="checkbox" name="botcheck" style="display:none!important" tabindex="-1" autocomplete="off">' +
+                    '<label>이름<input type="text" name="sender_name" placeholder="홍길동" required></label>' +
+                    '<label>이메일<input type="email" name="sender_email" placeholder="example@email.com" required></label>' +
+                    '<label>제목<input type="text" name="subject" placeholder="문의 제목" required></label>' +
+                    '<label>내용<textarea name="body" rows="4" placeholder="문의 내용을 작성해 주세요." required></textarea></label>' +
+                    '<button type="submit" class="inquiry-submit">보내기</button>' +
+                    '</form></div>';
+            }
+
+            function bindInquiry(container) {
+                var section = container.querySelector('.inquiry-section');
+                if (!section) return;
+                var btn = section.querySelector('.inquiry-btn');
+                var form = section.querySelector('.inquiry-form');
+                var workTitle = section.dataset.workTitle || '';
+                btn.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    btn.classList.add('hidden');
+                    form.classList.add('is-open');
+                    form.querySelector('input').focus();
+                    section.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                });
+                form.addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    var submitBtn = form.querySelector('.inquiry-submit');
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = '전송 중...';
+                    var fd = new FormData(form);
+                    var payload = {
+                        access_key: WEB3FORMS_KEY,
+                        subject: '[Works 문의 – ' + workTitle + '] ' + (fd.get('subject') || ''),
+                        from_name: fd.get('sender_name') || '',
+                        email: fd.get('sender_email') || '',
+                        message: '📌 참고 작품: ' + workTitle + '\n\n' + (fd.get('body') || ''),
+                        botcheck: fd.get('botcheck') || ''
+                    };
+                    fetch('https://api.web3forms.com/submit', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    }).then(function (res) { return res.json(); })
+                    .then(function (data) {
+                        if (data.success) {
+                            section.innerHTML = '<div class="inquiry-thanks">문의가 전송되었습니다. 빠른 시일 내에 회신드리겠습니다.</div>';
+                        } else {
+                            submitBtn.disabled = false;
+                            submitBtn.textContent = '보내기';
+                            alert('전송에 실패했습니다. 다시 시도해 주세요.');
+                        }
+                    }).catch(function () {
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = '보내기';
+                        alert('네트워크 오류가 발생했습니다. 다시 시도해 주세요.');
+                    });
+                });
+            }
+
             cards.forEach(function (card) {
                 card.addEventListener('click', function () {
+                    var cardTitle = card.querySelector('.work-card-title').textContent;
                     var webImg = card.dataset.webImg;
                     if (webImg) {
                         var webVideo = card.dataset.webVideo;
                         var webImg2 = card.dataset.webImg2;
                         var html = '<div class="web-viewer">' +
-                            '<img src="' + webImg + '" alt="Preview">';
+                            '<img src="' + webImg + '" referrerpolicy="no-referrer" alt="Preview">';
                         if (webImg2) {
-                            html += '<img src="' + webImg2 + '" alt="Preview 2">';
+                            html += '<img src="' + webImg2 + '" referrerpolicy="no-referrer" alt="Preview 2">';
                         }
                         if (webVideo) {
+                            var videoSrc;
+                            if (webVideo.indexOf('youtube:') === 0) {
+                                videoSrc = 'https://www.youtube.com/embed/' + webVideo.split(':')[1];
+                            } else {
+                                videoSrc = 'https://drive.google.com/file/d/' + webVideo + '/preview';
+                            }
                             html += '<div class="web-video-wrap">' +
-                                '<video src="' + webVideo + '" playsinline preload="metadata"></video>' +
-                                '<button class="web-play-btn">&#9654;</button>' +
+                                '<iframe src="' + videoSrc + '" allow="autoplay" allowfullscreen></iframe>' +
                                 '</div>';
                         }
-                        html += '</div>';
+                        html += buildInquiryHTML(cardTitle) + '</div>';
                         modalContainer.innerHTML = html;
-                        if (webVideo) {
-                            var wrap = modalContainer.querySelector('.web-video-wrap');
-                            var vid = wrap.querySelector('video');
-                            var playBtn = wrap.querySelector('.web-play-btn');
-                            playBtn.addEventListener('click', function (e) {
-                                e.stopPropagation();
-                                vid.controls = true;
-                                vid.play();
-                                playBtn.classList.add('hidden');
-                            });
-                            vid.addEventListener('pause', function () {
-                                if (!vid.ended) playBtn.classList.remove('hidden');
-                            });
-                            vid.addEventListener('ended', function () {
-                                playBtn.classList.remove('hidden');
-                            });
-                            vid.addEventListener('play', function () {
-                                playBtn.classList.add('hidden');
-                            });
-                        }
+                        bindInquiry(modalContainer);
                         modal.classList.add('web-modal');
                         modal.classList.add('is-open');
                         return;
                     }
                     var file = card.dataset.file;
-                    var slides = card.dataset.slides;
+                    var slideIds = card.dataset.slideIds;
 
-                    if (slides) {
-                        var count = parseInt(card.dataset.count, 10);
+                    if (slideIds) {
+                        var imgBase = 'https://lh3.googleusercontent.com/d/';
+                        var ids = slideIds.split(',');
+                        var count = ids.length;
                         var idx = 0;
                         var animating = false;
 
                         function buildGallery() {
                             var html = '<div class="slide-gallery">' +
                                 '<div class="slide-main">' +
-                                '<img class="slide-sizer" src="' + slides + 'screen1.png" alt="">' +
-                                '<img src="' + slides + 'screen1.png" class="slide-active" alt="Slide 1">' +
+                                '<img class="slide-sizer" src="' + imgBase + ids[0] + '" referrerpolicy="no-referrer" alt="">' +
+                                '<img src="' + imgBase + ids[0] + '" referrerpolicy="no-referrer" class="slide-active" alt="Slide 1">' +
                                 '</div>' +
                                 '<div class="slide-nav-row">' +
                                 '<button class="slide-arrow prev">&#8249;</button>' +
@@ -828,7 +980,7 @@
                                 '<div class="slide-thumbs">';
                             for (var t = 0; t < Math.min(4, count); t++) {
                                 html += '<div class="slide-thumb' + (t === 0 ? ' active' : '') + '" data-idx="' + t + '">' +
-                                    '<img src="' + slides + 'screen' + (t + 1) + '.png" alt="Thumb ' + (t + 1) + '">' +
+                                    '<img src="' + imgBase + ids[t] + '" referrerpolicy="no-referrer" alt="Thumb ' + (t + 1) + '">' +
                                     '</div>';
                             }
                             html += '</div></div>';
@@ -844,7 +996,8 @@
 
                                 var oldImg = mainArea.querySelector('img.slide-active');
                                 var newImg = document.createElement('img');
-                                newImg.src = slides + 'screen' + (newIdx + 1) + '.png';
+                                newImg.referrerPolicy = 'no-referrer';
+                                newImg.src = imgBase + ids[newIdx];
                                 newImg.alt = 'Slide ' + (newIdx + 1);
                                 newImg.className = direction === 'right' ? 'slide-enter-right' : 'slide-enter-left';
                                 mainArea.appendChild(newImg);
@@ -873,7 +1026,7 @@
                                     if (tIdx < count) {
                                         th.style.display = '';
                                         th.dataset.idx = tIdx;
-                                        th.querySelector('img').src = slides + 'screen' + (tIdx + 1) + '.png';
+                                        th.querySelector('img').src = imgBase + ids[tIdx];
                                         th.classList.toggle('active', tIdx === idx);
                                     } else {
                                         th.style.display = 'none';
@@ -901,13 +1054,16 @@
                         }
 
                         buildGallery();
+                        modalContainer.insertAdjacentHTML('beforeend', buildInquiryHTML(cardTitle));
+                        bindInquiry(modalContainer);
                         modal.classList.add('ppt-modal');
                         modal.classList.add('is-open');
                         return;
                     }
 
                     if (!file) return;
-                    modalContainer.innerHTML = '<iframe src="' + file + '" allowfullscreen title="Preview"></iframe>';
+                    modalContainer.innerHTML = '<iframe src="' + file + '" allowfullscreen title="Preview"></iframe>' + buildInquiryHTML(cardTitle);
+                    bindInquiry(modalContainer);
                     if (card.dataset.ratio === '16-10') {
                         modal.classList.add('ratio-16-10');
                     }

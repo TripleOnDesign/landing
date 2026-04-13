@@ -240,12 +240,8 @@ button.lang-btn:hover {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    padding-top: 250px;
+    padding: 100px var(--padding-page) 40px;
     background-color: #000000;
-    position: relative;
-    z-index: 10;
-    /* Very dark background */
-    padding: 0 var(--padding-page);
     position: relative;
     z-index: 5;
 }
@@ -260,7 +256,7 @@ button.lang-btn:hover {
     font-size: 1.5rem;
     font-weight: 600;
     color: rgba(255, 255, 255, 0.5);
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
     text-align: left;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -290,7 +286,7 @@ button.lang-btn:hover {
     display: flex;
     gap: 3rem;
     align-items: flex-start;
-    margin-bottom: 3.5rem;
+    margin-bottom: 2rem;
 }
 
 .about-intro-en {
@@ -331,7 +327,7 @@ button.lang-btn:hover {
 .about-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 4rem;
+    gap: 2.5rem;
     width: 100%;
 }
 
@@ -469,7 +465,7 @@ button.lang-btn:hover {
     }
 
     #about {
-        padding-top: 6rem;
+        padding-top: 100px;
         padding-bottom: 6rem;
         min-height: auto;
     }
@@ -877,6 +873,7 @@ h2 {
 /* ── Contact Section ────────────────────── */
 #contact {
     min-height: 80vh;
+    padding-top: 5rem;
 }
 
 .contact-container {
@@ -1453,7 +1450,7 @@ h2 {
 /* Works CTA Button */
 .works-cta {
     text-align: center;
-    margin-top: 20px;
+    margin-top: 1.5rem;
 }
 
 .works-cta-btn {
