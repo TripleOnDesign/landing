@@ -15,6 +15,7 @@
 
     canvas {
       display: block;
+      touch-action: none;
     }
   </style>
 </head>
@@ -224,13 +225,14 @@
     });
 
     window.addEventListener('touchstart', (e) => {
+      e.preventDefault();
       isMouseDown = true;
       isResetting = false;
       mouseDownTime = Date.now();
       const touch = e.touches[0];
       targetTiltY = ((touch.clientX / window.innerWidth) * 2 - 1) * 0.5;
       targetTiltX = (-(touch.clientY / window.innerHeight) * 2 + 1) * 0.5 + BASE_TILT_X;
-    }, { passive: true });
+    }, { passive: false });
 
     window.addEventListener('touchmove', (e) => {
       e.preventDefault();
@@ -240,6 +242,7 @@
     }, { passive: false });
 
     window.addEventListener('touchend', (e) => {
+      e.preventDefault();
       isMouseDown = false;
       if (Date.now() - mouseDownTime < 200) {
         const touch = e.changedTouches[0];
@@ -256,7 +259,7 @@
           targetTiltY = 0;
         }
       }
-    });
+    }, { passive: false });
 
     window.addEventListener('resize', () => {
       camera.aspect = window.innerWidth / window.innerHeight;

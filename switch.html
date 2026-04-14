@@ -51,43 +51,48 @@
     window.addEventListener('resize', resize);
     resize();
 
-    window.addEventListener('mousemove', (e) => {
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
+    function clientToCanvas(clientX, clientY) {
+      const rect = canvas.getBoundingClientRect();
+      return {
+        x: (clientX - rect.left) * (width / rect.width),
+        y: (clientY - rect.top) * (height / rect.height)
+      };
+    }
+
+    function updatePointer(clientX, clientY) {
+      const pos = clientToCanvas(clientX, clientY);
+      mouse.x = pos.x;
+      mouse.y = pos.y;
       targetTiltY = (mouse.x - cx) * 0.001;
       targetTiltX = (mouse.y - cy) * 0.001;
-    });
+    }
 
-    window.addEventListener('mouseout', () => {
+    function clearPointer() {
       mouse.x = -1000;
       mouse.y = -1000;
       targetTiltX = 0;
       targetTiltY = 0;
-    });
+    }
 
-    window.addEventListener('touchstart', (e) => {
-      const touch = e.touches[0];
-      mouse.x = touch.clientX;
-      mouse.y = touch.clientY;
-      targetTiltY = (mouse.x - cx) * 0.001;
-      targetTiltX = (mouse.y - cy) * 0.001;
-    }, { passive: true });
+    window.addEventListener('mousemove', (e) => updatePointer(e.clientX, e.clientY));
+    window.addEventListener('mouseout', clearPointer);
 
-    window.addEventListener('touchmove', (e) => {
+    canvas.addEventListener('touchstart', (e) => {
       e.preventDefault();
-      const touch = e.touches[0];
-      mouse.x = touch.clientX;
-      mouse.y = touch.clientY;
-      targetTiltY = (mouse.x - cx) * 0.001;
-      targetTiltX = (mouse.y - cy) * 0.001;
+      const t = e.touches[0];
+      updatePointer(t.clientX, t.clientY);
     }, { passive: false });
 
-    window.addEventListener('touchend', () => {
-      mouse.x = -1000;
-      mouse.y = -1000;
-      targetTiltX = 0;
-      targetTiltY = 0;
-    });
+    canvas.addEventListener('touchmove', (e) => {
+      e.preventDefault();
+      const t = e.touches[0];
+      updatePointer(t.clientX, t.clientY);
+    }, { passive: false });
+
+    canvas.addEventListener('touchend', (e) => {
+      e.preventDefault();
+      clearPointer();
+    }, { passive: false });
 
     class LineParticle {
       constructor(index, total) {

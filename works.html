@@ -733,7 +733,7 @@
                     </div>
                 </div>
 
-                <div class="work-card" data-category="3d" data-file="works/3D Art/3D/3D.html">
+                <div class="work-card" data-category="3d" data-file="works/3D Art/3D/3D.html" data-file-mobile="works/3D Art/3D/3D_mobile.html">
                     <img src="https://lh3.googleusercontent.com/d/12E92yYYoRYpeXzSqq1Cp1Bbq_jPqnJ3b" referrerpolicy="no-referrer" alt="3D Interactive Lab">
                     <div class="work-card-overlay">
                         <div class="work-card-title">3D Interactive Lab</div>
@@ -1062,8 +1062,32 @@
                     }
 
                     if (!file) return;
-                    modalContainer.innerHTML = '<iframe src="' + file + '" allowfullscreen title="Preview"></iframe>' + buildInquiryHTML(cardTitle);
+
+                    var fileMobile = card.dataset.fileMobile;
+                    var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+                        || (navigator.maxTouchPoints > 1 && window.innerWidth <= 1024);
+                    var targetFile = (isMobile && fileMobile) ? fileMobile : file;
+
+                    var iframe = document.createElement('iframe');
+                    iframe.allowFullscreen = true;
+                    iframe.title = 'Preview';
+                    iframe.src = targetFile;
+                    modalContainer.innerHTML = '';
+                    modalContainer.appendChild(iframe);
+                    modalContainer.insertAdjacentHTML('beforeend', buildInquiryHTML(cardTitle));
                     bindInquiry(modalContainer);
+
+                    if (!isMobile && fileMobile && targetFile === file) {
+                        var fallbackTimer = setTimeout(function () {
+                            if (modal.classList.contains('is-open') && iframe.parentNode) {
+                                iframe.src = fileMobile;
+                            }
+                        }, 10000);
+                        iframe.addEventListener('load', function () {
+                            clearTimeout(fallbackTimer);
+                        });
+                    }
+
                     if (card.dataset.ratio === '16-10') {
                         modal.classList.add('ratio-16-10');
                     }
