@@ -54,6 +54,7 @@ const TITLES = [
     "WORLD ON"
 ];
 let currentShapeIndex = 0;
+let cameraLocked = false;
 
 const morphState = { progress: 0.0 };
 
@@ -531,6 +532,7 @@ function init() {
     currentPositions.set(initialTextPositions);
     sourcePositions.set(initialTextPositions);
     particlesGeometry.attributes.position.needsUpdate = true;
+    updateColors();
     const infoInit = document.getElementById('info');
     if (infoInit) infoInit.innerText = 'CREATE BEYOND.';
 
@@ -707,31 +709,19 @@ function triggerMorphToText(text) {
     const textInput = document.getElementById('text-morph-input');
     if (textInput) textInput.blur();
 
-    // Reset camera to center position (PC & mobile)
-    const isMobile = window.innerWidth <= 768;
-    const resetCam = () => {
-        if (isMobile) {
-            camera.position.set(0, 8, 38);
-            controls.target.set(0, -2.5, 0);
-        } else {
-            camera.position.set(0, 8, 28);
-            controls.target.set(0, 0, 0);
-        }
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        composer.setSize(window.innerWidth, window.innerHeight);
-        // Save new state and reset to flush OrbitControls internal rotation
-        controls.saveState();
-        controls.reset();
-    };
+    // Lock camera to center and disable user orbit during text morph
+    controls.enabled = false;
+    cameraLocked = true;
 
-    if (isMobile) {
+    if (window.innerWidth <= 768) {
         window.scrollTo(0, 0);
-        setTimeout(() => { window.scrollTo(0, 0); resetCam(); }, 500);
-        setTimeout(resetCam, 900);
-    } else {
-        resetCam();
+        setTimeout(() => {
+            window.scrollTo(0, 0);
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            composer.setSize(window.innerWidth, window.innerHeight);
+        }, 500);
     }
 
     const infoEl = document.getElementById('info');
@@ -806,6 +796,18 @@ function triggerMorphToText(text) {
             particlesGeometry.attributes.aEffectStrength.needsUpdate = true;
             sourcePositions.set(targetPositions[currentShapeIndex]);
             updateColors();
+            // Unlock camera and re-enable controls with centered position
+            cameraLocked = false;
+            if (window.innerWidth <= 768) {
+                camera.position.set(0, 8, 38);
+                controls.target.set(0, -2.5, 0);
+            } else {
+                camera.position.set(0, 8, 28);
+                controls.target.set(0, 0, 0);
+            }
+            controls.saveState();
+            controls.reset();
+            controls.enabled = true;
             isMorphing = false; controls.autoRotate = true;
         }
     });
@@ -1063,6 +1065,16 @@ function animate() {
     if (!isInitialized) return;
     const elapsedTime = clock.getElapsedTime();
     const deltaTime = clock.getDelta();
+    // Force camera to center when locked (during text morph)
+    if (cameraLocked) {
+        if (window.innerWidth <= 768) {
+            camera.position.set(0, 8, 38);
+            controls.target.set(0, -2.5, 0);
+        } else {
+            camera.position.set(0, 8, 28);
+            controls.target.set(0, 0, 0);
+        }
+    }
     controls.update();
     const positions = particlesGeometry.attributes.position.array;
     const effectStrengths = particlesGeometry.attributes.aEffectStrength.array;
