@@ -224,8 +224,11 @@
       }
     });
 
-    window.addEventListener('touchstart', (e) => {
+    const domEl = renderer.domElement;
+
+    domEl.addEventListener('touchstart', (e) => {
       e.preventDefault();
+      e.stopPropagation();
       isMouseDown = true;
       isResetting = false;
       mouseDownTime = Date.now();
@@ -234,15 +237,17 @@
       targetTiltX = (-(touch.clientY / window.innerHeight) * 2 + 1) * 0.5 + BASE_TILT_X;
     }, { passive: false });
 
-    window.addEventListener('touchmove', (e) => {
+    domEl.addEventListener('touchmove', (e) => {
       e.preventDefault();
+      e.stopPropagation();
       const touch = e.touches[0];
       targetTiltY = ((touch.clientX / window.innerWidth) * 2 - 1) * 0.5;
       targetTiltX = (-(touch.clientY / window.innerHeight) * 2 + 1) * 0.5 + BASE_TILT_X;
     }, { passive: false });
 
-    window.addEventListener('touchend', (e) => {
+    domEl.addEventListener('touchend', (e) => {
       e.preventDefault();
+      e.stopPropagation();
       isMouseDown = false;
       if (Date.now() - mouseDownTime < 200) {
         const touch = e.changedTouches[0];
@@ -260,6 +265,10 @@
         }
       }
     }, { passive: false });
+
+    domEl.addEventListener('touchcancel', () => {
+      isMouseDown = false;
+    });
 
     window.addEventListener('resize', () => {
       camera.aspect = window.innerWidth / window.innerHeight;
