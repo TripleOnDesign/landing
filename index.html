@@ -17,12 +17,83 @@
         body.hero-locked {
             overflow: hidden;
         }
+
+        /* Mobile 2-row sidebar layout */
+        @media (max-width: 768px) {
+            #sidebar {
+                display: flex;
+                flex-direction: column;
+                gap: 6px;
+                padding: 0 10px;
+            }
+
+            .sidebar-row {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+            }
+
+            .sidebar-row-top {
+                gap: 12px;
+            }
+
+            .sidebar-row-top .sidebar-section {
+                margin: 0;
+                padding: 0;
+            }
+
+            .sidebar-row-top .sidebar-colors label,
+            .sidebar-row-top .sidebar-morph label {
+                display: none;
+            }
+
+            .sidebar-row-top #color-picker {
+                display: flex;
+                gap: 6px;
+            }
+
+            .sidebar-row-top .input-group {
+                display: flex;
+                gap: 4px;
+                margin: 0;
+            }
+
+            .sidebar-row-top .input-group input {
+                width: 90px;
+                font-size: 12px;
+                padding: 5px 8px;
+            }
+
+            .sidebar-row-top .input-group button {
+                padding: 4px 6px;
+            }
+
+            .sidebar-row-bottom {
+                justify-content: center;
+            }
+
+            .sidebar-row-bottom .sidebar-shapes {
+                margin: 0;
+                padding: 0;
+            }
+
+            .sidebar-row-bottom .shape-buttons {
+                display: flex;
+                gap: 6px;
+            }
+
+            .sidebar-row-bottom .shape-btn {
+                font-size: 11px;
+                padding: 5px 10px;
+            }
+        }
     </style>
 </head>
 
 <body class="hero-locked">
     <header>
-        <a href="#" class="logo">
+        <a href="index.html" class="logo">
             <video autoplay muted loop playsinline>
                 <source src="logo.mp4" type="video/mp4">
             </video>
@@ -43,48 +114,51 @@
             </div>
 
             <div id="ui">
-                <div id="info">Shape: DNA</div>
+                <div id="info">CREATE BEYOND.</div>
             </div>
 
             <div id="sidebar">
+                <!-- Row 1: Colors + Text Input -->
+                <div class="sidebar-row sidebar-row-top">
+                    <div class="sidebar-section sidebar-colors">
+                        <label>Colors</label>
+                        <div id="color-picker">
+                            <div class="color-option" data-scheme="fire"
+                                style="background: linear-gradient(to bottom right, #ff4500, #ffcc00)"></div>
+                            <div class="color-option" data-scheme="neon"
+                                style="background: linear-gradient(to bottom right, #ff00ff, #00ffff)"></div>
+                            <div class="color-option" data-scheme="nature"
+                                style="background: linear-gradient(to bottom right, #00ff00, #66ffcc)"></div>
+                            <div class="color-option" data-scheme="rainbow"
+                                style="background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet)">
+                            </div>
+                        </div>
+                    </div>
 
-
-                <div class="sidebar-section">
-                    <label>Colors</label>
-                    <div id="color-picker">
-                        <div class="color-option" data-scheme="fire"
-                            style="background: linear-gradient(to bottom right, #ff4500, #ffcc00)"></div>
-                        <div class="color-option" data-scheme="neon"
-                            style="background: linear-gradient(to bottom right, #ff00ff, #00ffff)"></div>
-                        <div class="color-option" data-scheme="nature"
-                            style="background: linear-gradient(to bottom right, #00ff00, #66ffcc)"></div>
-                        <div class="color-option" data-scheme="rainbow"
-                            style="background: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet)">
+                    <div class="sidebar-section sidebar-morph">
+                        <label>Text</label>
+                        <div class="input-group">
+                            <input type="text" id="text-morph-input" placeholder="예)hello" maxlength="18">
+                            <button id="text-morph-btn" aria-label="Morph to text">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="13 17 18 12 13 7"></polyline>
+                                    <polyline points="6 17 11 12 6 7"></polyline>
+                                </svg>
+                            </button>
                         </div>
                     </div>
                 </div>
 
-                <div class="sidebar-section">
-                    <label>Shapes</label>
-                    <div class="shape-buttons">
-                        <button class="shape-btn" data-shape="DNA">DNA</button>
-                        <button class="shape-btn" data-shape="Galaxy">Galaxy</button>
-                        <button class="shape-btn" data-shape="Virus">Virus</button>
-                        <button class="shape-btn" data-shape="Smile">Smile</button>
-                    </div>
-                </div>
-
-                <div class="sidebar-section">
-                    <label>Morph Input</label>
-                    <div class="input-group">
-                        <input type="text" id="text-morph-input" placeholder="예)hello" maxlength="8">
-                        <button id="text-morph-btn" aria-label="Morph to text">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <polyline points="13 17 18 12 13 7"></polyline>
-                                <polyline points="6 17 11 12 6 7"></polyline>
-                            </svg>
-                        </button>
+                <!-- Row 2: Shape Buttons -->
+                <div class="sidebar-row sidebar-row-bottom">
+                    <div class="sidebar-section sidebar-shapes">
+                        <div class="shape-buttons">
+                            <button class="shape-btn" data-shape="DNA">DNA</button>
+                            <button class="shape-btn" data-shape="Galaxy">Galaxy</button>
+                            <button class="shape-btn" data-shape="Virus">Virus</button>
+                            <button class="shape-btn" data-shape="Smile">Smile</button>
+                        </div>
                     </div>
                 </div>
             </div>

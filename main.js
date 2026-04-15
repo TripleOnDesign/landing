@@ -396,18 +396,48 @@ function generateDNA(count, size) {
 
 function generateText(count, size, text) {
     const points = new Float32Array(count * 3);
+    const MAX_CHARS_PER_LINE = 7;
+
+    // Smart line splitting: by words if spaces exist, by chars otherwise
+    let lines = [];
+    if (text.includes(' ')) {
+        const words = text.split(' ');
+        let currentLine = '';
+        for (const word of words) {
+            if (currentLine && (currentLine.length + 1 + word.length) > MAX_CHARS_PER_LINE) {
+                lines.push(currentLine);
+                currentLine = word;
+            } else {
+                currentLine = currentLine ? currentLine + ' ' + word : word;
+            }
+        }
+        if (currentLine) lines.push(currentLine);
+    } else {
+        for (let i = 0; i < text.length; i += MAX_CHARS_PER_LINE) {
+            lines.push(text.slice(i, i + MAX_CHARS_PER_LINE));
+        }
+    }
+    const lineCount = lines.length;
+
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
-    const W = 500; const H = 200;
+    const W = 500;
+    const lineH = 95;
+    const H = Math.max(200, lineCount * lineH + 20);
     canvas.width = W; canvas.height = H;
 
     ctx.fillStyle = '#000000';
     ctx.fillRect(0, 0, W, H);
-    ctx.font = 'bold 100px Inter, sans-serif';
+    ctx.font = 'bold 90px Inter, sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillStyle = '#ffffff';
-    ctx.fillText(text, W / 2, H / 2);
+
+    const totalTextH = lineCount * lineH;
+    const startY = (H - totalTextH) / 2 + lineH / 2;
+    for (let l = 0; l < lineCount; l++) {
+        ctx.fillText(lines[l], W / 2, startY + l * lineH);
+    }
 
     const imageData = ctx.getImageData(0, 0, W, H).data;
     const validPixels = [];
@@ -425,9 +455,10 @@ function generateText(count, size, text) {
     if (validPixels.length === 0) return generateSphere(count, size);
 
     const isMobile = window.innerWidth <= 768;
-    const scaleX = isMobile ? size * 0.75 : size * 1.5;
-    const scaleY = isMobile ? size * 0.3 : size * 0.6;
-    const scaleZ = size * 0.2;
+    const scaleX = isMobile ? size * 1.1 : size * 1.5;
+    const baseScaleY = isMobile ? size * 0.55 : size * 0.6;
+    const scaleY = baseScaleY * Math.max(1, lineCount * 0.65);
+    const scaleZ = isMobile ? size * 0.35 : size * 0.2;
 
     for (let i = 0; i < count; i++) {
         const pixel = validPixels[Math.floor(Math.random() * validPixels.length)];
@@ -489,6 +520,18 @@ function init() {
     setupPostProcessing();
     createStarfield();
     setupParticleSystem();
+
+    // Set initial shape to "CREATE BEYOND." text instead of DNA
+    const initialText = 'CREATE BEYOND.';
+    const initialTextPositions = generateText(CONFIG.particleCount, CONFIG.shapeSize, initialText);
+    targetPositions.push(initialTextPositions);
+    currentShapeIndex = targetPositions.length - 1;
+    SHAPES[currentShapeIndex] = { name: 'Text: ' + initialText };
+    currentPositions.set(initialTextPositions);
+    sourcePositions.set(initialTextPositions);
+    particlesGeometry.attributes.position.needsUpdate = true;
+    const infoInit = document.getElementById('info');
+    if (infoInit) infoInit.innerText = 'CREATE BEYOND.';
 
     window.addEventListener('resize', onWindowResize);
     heroSection.addEventListener('click', (e) => {
@@ -664,14 +707,12 @@ function triggerMorphToText(text) {
     if (textInput) textInput.blur();
 
     if (window.innerWidth <= 768) {
-        // Wait for keyboard to fully close, then restore viewport
         window.scrollTo(0, 0);
         setTimeout(() => {
             window.scrollTo(0, 0);
-            onWindowResize();  // This sets target to (0, -2.5, 0) for mobile — keep it
+            onWindowResize();
             controls.update();
         }, 500);
-        // Second pass to catch late viewport restoration on slow devices
         setTimeout(() => {
             onWindowResize();
             controls.update();
@@ -934,7 +975,7 @@ function triggerMorph() {
     sourcePositions.set(currentPositions);
 
     let nextShapeIndex = (currentShapeIndex + 1);
-    if (nextShapeIndex >= SHAPES.length) nextShapeIndex = 0;
+    if (nextShapeIndex >= 4) nextShapeIndex = 0;  // Cycle only base shapes (0-3)
 
     updateTitle(nextShapeIndex);
 
