@@ -300,7 +300,7 @@
             height: 100%;
             display: flex;
             flex-direction: column;
-            background: #0a0a0a;
+            background: #000;
             user-select: none;
             overflow: hidden;
         }
@@ -308,11 +308,13 @@
         /* Main image area */
         .slide-main {
             position: relative;
+            flex: 1 1 0%;
+            min-height: 0;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            padding: 60px 0;
+            padding: 40px 0;
         }
 
         /* invisible sizer: takes up space so container has height */
@@ -455,7 +457,7 @@
             height: 100%;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
-            background: #0a0a0a;
+            background: #000;
         }
 
         .web-viewer img {
@@ -473,6 +475,72 @@
             aspect-ratio: 16 / 9;
             border: none;
             display: block;
+        }
+
+        /* ── Style Header in Modal ── */
+        .style-header {
+            position: relative;
+            padding: 40px 32px 28px;
+            background: #000;
+            text-align: left;
+            flex-shrink: 0;
+        }
+
+        .style-title {
+            font-family: 'Inter', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: #ffffff;
+            margin: 0 0 14px;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+        }
+
+        .style-tags {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .style-tag {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            letter-spacing: 0.03em;
+        }
+
+        .style-desc {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.5);
+            line-height: 1.75;
+            margin: 0;
+        }
+
+        .iframe-viewer {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+            background: #000;
+        }
+
+        #modal-container .iframe-viewer iframe {
+            flex: 1;
+            width: 100%;
+            height: 0;
+            min-height: 0;
+            border: none;
         }
 
         /* ── Inquiry button & form ── */
@@ -604,6 +672,37 @@
             z-index: 5;
         }
 
+        .style-header .inquiry-section {
+            position: absolute;
+            top: 55px;
+            right: 18px;
+            background: transparent;
+            border-top: none;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+            padding: 0;
+            align-items: flex-end;
+        }
+
+        .style-header .inquiry-btn {
+            width: auto;
+            max-width: none;
+            padding: 8px 16px;
+            font-size: 0.75rem;
+            border-radius: 10px;
+        }
+
+        .style-header .inquiry-form {
+            max-width: 320px;
+            background: rgba(10, 10, 10, 0.92);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 14px;
+            padding: 16px;
+            margin-top: 8px;
+        }
+
         @media (max-width: 600px) {
             .modal.web-modal .modal-content {
                 width: 100vw;
@@ -649,6 +748,18 @@
         }
 
         @media (max-width: 600px) {
+            .style-header {
+                padding: 28px 20px 20px;
+            }
+
+            .style-title {
+                font-size: 22px;
+            }
+
+            .style-desc {
+                font-size: 0.8rem;
+            }
+
             h1 {
                 font-size: 2rem;
             }
@@ -862,6 +973,88 @@
                 modalContainer.innerHTML = '';
             }
 
+            var STYLE_META = {
+                'AI Nanobody Platform': {
+                    title: '클린 테크사이언스 스타일',
+                    tags: ['#연구제안서', '#정부과제', '#바이오AI'],
+                    desc: '라이트 그레이 배경 위에 아이스 블루-네이비 듀오톤 액센트와 포토리얼 3D 단백질 구조 렌더링을 핵심 비주얼로 활용하고, 거버닝 메시지 중심의 헤드라인 위계와 단계별 순환 다이어그램\u00b7아이소메트릭 인포그래픽을 통해 AI-실험 파이프라인의 논리적 흐름을 시각화하여 국가 R&D 과제 제안서 및 바이오\u00b7AI 융합 기술 세미나 발표에 적합합니다.'
+                },
+                'Rapid Dx Platform': {
+                    title: '테크 이노베이션 스타일',
+                    tags: ['#진단', '#헬스케어', '#연구제안발표', '#기술기획안'],
+                    desc: '빠르고 정확한 진단 기술의 핵심 가치를 다이나믹한 데이터 시각화와 클린한 구성으로 표현합니다.'
+                },
+                'Protein Design': {
+                    title: '다크 사이언스 스타일',
+                    tags: ['#연구발표', '#기술세미나', '#단백질공학'],
+                    desc: '다크 그린-그레이 그러데이션 배경 위에 티얼/골드 액센트와 고해상도 3D 단백질 구조 렌더링을 풀블리드로 배치하고, 볼드 산세리프 영문 헤드라인과 단계별 파이프라인 다이어그램\u00b7FACS 플롯\u00b7SDS-PAGE 등 실험 데이터를 좌\u2192우 흐름의 프로세스 레이아웃으로 구성하여 AI 기반 단백질 디자인 연구 발표 및 구조생물학 기술 세미나에 적합합니다.'
+                },
+                '3D Interactive Lab': {
+                    title: '오로라 코스믹 스타일',
+                    tags: ['#디자인스튜디오', '#크리에이티브랩'],
+                    desc: '오로라 그라디언트 애니메이션과 라이트빔 인트로 시퀀스를 구현하고, I3D 모델 오빗 갤러리를 조합하여 인터랙티브 3D 포트폴리오 및 크리에이티브 스튜디오 쇼케이스 페이지에 적합합니다.'
+                },
+                'Exodus \u00b7 Parting of the Sea': {
+                    title: '시네마틱 에픽 스타일',
+                    tags: ['#전시설치', '#인터랙티브아트', '#상상을시각화'],
+                    desc: '심해 네이비 배경 위에 커스텀 GLSL 셰이더로 물벽 파팅 시뮬레이션과 번개 스크린 플래시를 구현하고, Cinzel 세리프 타이포와 필름 그레인\u00b7비네트 포스트프로세싱으로 시네마틱 몰입감을 극대화하여 디지털 아트 전시 및 인터랙티브 설치 작품에 적합합니다.'
+                },
+                'Mounjaro/Wegovy \uae30\uc804': {
+                    title: '다크 글래스 바이오텍 스타일',
+                    tags: ['#제약', '#사이언스커뮤니케이션'],
+                    desc: '딥 퍼플-블랙 배경에 그린/오렌지/블루 3색 컬러코딩과 글래스모피즘 패널을 적용하고, Three.js 분자 구조 시각화를 단계별 애니메이션 플레이어로 제어하여 제약 MOA 인터랙티브 콘텐츠 및 약물 작용기전 교육 자료에 적합합니다.'
+                },
+                'Cleaning': {
+                    title: '프렌들리 블루 스타일',
+                    tags: ['#청소서비스', '#생활플랫폼'],
+                    desc: '화이트 베이스에 코발트 블루 액센트와 3D 캐릭터 일러스트를 활용하고, 서비스 유형별 지그재그 레이아웃과 후기 캐러셀\u00b7프로모션 배너를 친근한 톤으로 구성하여 가정\u00b7기업 대상 청소 대행 및 생활 서비스 플랫폼 사이트에 적합합니다.'
+                },
+                'Furniture': {
+                    title: '모노크롬 럭셔리 스타일',
+                    tags: ['#가구브랜드', '#인테리어'],
+                    desc: '순수 흑백 팔레트 위에 볼드 세리프 타이포그래피와 미드센추리 아이코닉 제품 이미지를 대비시키고, 정제된 그리드 레이아웃과 라인아트 아이콘으로 절제된 고급감을 구성하여 프리미엄 가구 및 인테리어 브랜드 커머스 페이지에 적합합니다.'
+                },
+                'Interior': {
+                    title: '흑백 시네마틱 스타일',
+                    tags: ['#인테리어스튜디오', '#건축사무소', '#개인포트폴리오'],
+                    desc: '풀블랙 배경 위에 모노크롬 인테리어 촬영 이미지를 대형으로 배치하고, 볼드 산세리프 타이포와 화이트 라인 기반의 견적 계산기\u00b7컨택트 폼을 절제된 레이아웃으로 구성하여 하이엔드 인테리어 및 공간 디자인 스튜디오 브랜드 사이트에 적합합니다.'
+                },
+                'Kids Game': {
+                    title: '플레이풀 옐로우 스타일',
+                    tags: ['#키즈교육', '#에듀테크'],
+                    desc: '화이트 베이스에 옐로우 단일 액센트와 손그림 느낌의 일러스트레이션을 활용하고, 단계별 학습 흐름과 가격표\u00b7FAQ 아코디언을 명쾌한 카드 구조로 배치하여 유아 창의력 교육 앱 및 에듀테크 서비스 랜딩페이지에 적합합니다.'
+                },
+                'GLOW CLINIC': {
+                    title: '소프트 글로우 스타일',
+                    tags: ['#성형외과', '#뷰티클리닉', '#팬시제품', '#디저트카페'],
+                    desc: '핑크-라벤더 그러데이션 배경 위에 골드 액센트와 부드러운 곡선 카드 UI를 배치하고, 비포/애프터 사례와 의료진 프로필을 신뢰감 있는 그리드로 구성하여 프리미엄 성형외과 및 피부과 클리닉 랜딩페이지에 적합합니다.'
+                },
+                'Sushi': {
+                    title: '와비사비 프리미엄 스타일',
+                    tags: ['#오마카세', '#일식레스토랑', '#디저트카페'],
+                    desc: '크림 화이트와 다크 차콜 섹션을 교차 배치하고, 캘리그래피 영문 스크립트와 정갈한 코스 요리 사진을 여백 중심의 레이아웃으로 구성하여 프리미엄 오마카세 및 고급 일식 레스토랑 예약 사이트에 적합합니다.'
+                },
+                'Cosmetic': {
+                    title: '사이언스 블루 스타일',
+                    tags: ['#코스메틱브랜드', '#더마사이언스'],
+                    desc: '아이스 블루-네이비 그러데이션 위에 유리질감 제품 이미지와 임상 데이터 수치를 배치하고, 수상 이력 그리드와 이노베이션 타임라인을 통해 과학적 신뢰감을 구축하여 바이오테크 기반 프리미엄 스킨케어 브랜드 사이트에 적합합니다.'
+                }
+            };
+
+            function buildStyleHeader(cardTitle) {
+                var meta = STYLE_META[cardTitle];
+                if (!meta) return '';
+                var tagsHtml = '';
+                meta.tags.forEach(function (tag) {
+                    tagsHtml += '<span class="style-tag">' + tag + '</span>';
+                });
+                return '<div class="style-header">' +
+                    '<h2 class="style-title">' + meta.title + '</h2>' +
+                    '<div class="style-tags">' + tagsHtml + '</div>' +
+                    '<p class="style-desc">' + meta.desc + '</p>' +
+                    '</div>';
+            }
+
             var WEB3FORMS_KEY = 'b90dd32e-fa11-44ca-adab-69aa0b53884c';
 
             function buildInquiryHTML(workTitle) {
@@ -934,6 +1127,7 @@
                         var webVideo = card.dataset.webVideo;
                         var webImg2 = card.dataset.webImg2;
                         var html = '<div class="web-viewer">' +
+                            buildStyleHeader(cardTitle) +
                             '<img src="' + webImg + '" referrerpolicy="no-referrer" alt="Preview">';
                         if (webImg2) {
                             html += '<img src="' + webImg2 + '" referrerpolicy="no-referrer" alt="Preview 2">';
@@ -968,6 +1162,7 @@
 
                         function buildGallery() {
                             var html = '<div class="slide-gallery">' +
+                                buildStyleHeader(cardTitle) +
                                 '<div class="slide-main">' +
                                 '<img class="slide-sizer" src="' + imgBase + ids[0] + '" referrerpolicy="no-referrer" alt="">' +
                                 '<img src="' + imgBase + ids[0] + '" referrerpolicy="no-referrer" class="slide-active" alt="Slide 1">' +
@@ -1054,7 +1249,12 @@
                         }
 
                         buildGallery();
-                        modalContainer.insertAdjacentHTML('beforeend', buildInquiryHTML(cardTitle));
+                        var pptHeader = modalContainer.querySelector('.style-header');
+                        if (pptHeader) {
+                            pptHeader.insertAdjacentHTML('beforeend', buildInquiryHTML(cardTitle));
+                        } else {
+                            modalContainer.insertAdjacentHTML('beforeend', buildInquiryHTML(cardTitle));
+                        }
                         bindInquiry(modalContainer);
                         modal.classList.add('ppt-modal');
                         modal.classList.add('is-open');
@@ -1068,13 +1268,23 @@
                         || (navigator.maxTouchPoints > 1 && window.innerWidth <= 1024);
                     var targetFile = (isMobile && fileMobile) ? fileMobile : file;
 
+                    var headerHtml = buildStyleHeader(cardTitle);
                     var iframe = document.createElement('iframe');
                     iframe.allowFullscreen = true;
                     iframe.title = 'Preview';
                     iframe.src = targetFile;
-                    modalContainer.innerHTML = '';
-                    modalContainer.appendChild(iframe);
-                    modalContainer.insertAdjacentHTML('beforeend', buildInquiryHTML(cardTitle));
+                    if (headerHtml) {
+                        modalContainer.innerHTML = '<div class="iframe-viewer">' + headerHtml + '</div>';
+                        modalContainer.querySelector('.iframe-viewer').appendChild(iframe);
+                        var iframeHeader = modalContainer.querySelector('.style-header');
+                        if (iframeHeader) {
+                            iframeHeader.insertAdjacentHTML('beforeend', buildInquiryHTML(cardTitle));
+                        }
+                    } else {
+                        modalContainer.innerHTML = '';
+                        modalContainer.appendChild(iframe);
+                        modalContainer.insertAdjacentHTML('beforeend', buildInquiryHTML(cardTitle));
+                    }
                     bindInquiry(modalContainer);
 
                     if (!isMobile && fileMobile && targetFile === file) {
