@@ -353,6 +353,10 @@
             box-shadow: 0 0 0 2px rgba(124, 58, 237, .2)
         }
 
+        .mob-stage-desc {
+            display: none;
+        }
+
         .speed-row {
             display: flex;
             align-items: center;
@@ -878,71 +882,21 @@
         /* ── Mobile (≤ 600px) ─────────────────────────── */
         @media (max-width: 600px) {
 
-            /* ① Canvas: shifted up 50px */
+            /* ① Canvas: full screen */
             #canvas-container {
                 position: fixed;
-                top: -50px;
-                left: 0;
-                right: 0;
-                height: calc(100vh + 50px);
-                bottom: auto;
-            }
-
-            /* ② Stage subtitle: top of screen on mobile */
-            #stage-subtitle {
-                position: fixed;
                 top: 0;
-                bottom: auto;
                 left: 0;
                 right: 0;
-                width: 100%;
-                min-width: unset;
-                max-width: unset;
-                transform: none;
-                border-radius: 0;
-                padding: 10px 12px 10px;
-                gap: 8px;
-                background: linear-gradient(180deg, rgba(14, 6, 28, 0.95) 0%, rgba(14, 6, 28, 0.85) 100%);
-                border-top: none;
-                border-bottom: 1px solid rgba(160, 110, 240, 0.15);
-                box-shadow: 0 4px 20px rgba(0, 0, 0, .3);
-                touch-action: manipulation;
+                bottom: 0;
+                height: 100vh;
             }
 
-            /* Show stage body text — make description readable */
-            #sub-body {
-                display: flex;
-                font-size: 0.75rem;
-                margin-top: 4px;
-                padding-top: 4px;
-                line-height: 1.55;
-                color: #c0b8d8;
-                border-top: 1px solid rgba(255, 255, 255, .05);
+            #labels-container {
+                left: 0;
             }
 
-            #sub-ko {
-                font-size: 0.88rem;
-                line-height: 1.25;
-                letter-spacing: -0.01em;
-            }
-
-            #sub-en {
-                font-size: 0.68rem;
-                margin-top: 1px;
-            }
-
-            #sub-num {
-                font-size: 9px;
-                margin-bottom: 2px;
-            }
-
-            .nav-arrow {
-                width: 30px;
-                height: 30px;
-                font-size: 15px;
-            }
-
-            /* ③ Info panel: compact, controls first */
+            /* ③ Info panel: simplified — dots + description only */
             #info-panel {
                 position: fixed;
                 top: auto;
@@ -950,9 +904,9 @@
                 left: 0;
                 right: 0;
                 width: 100%;
-                max-height: 28vh;
-                border-radius: 0;
-                padding: 6px 12px env(safe-area-inset-bottom, 12px);
+                max-height: 45vh;
+                border-radius: 16px 16px 0 0;
+                padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0px));
                 overflow-y: auto;
                 -webkit-overflow-scrolling: touch;
                 touch-action: pan-y;
@@ -961,140 +915,86 @@
                 z-index: 35;
                 background: rgba(10, 6, 20, 0.92);
                 backdrop-filter: blur(20px);
-                border-top: 1px solid rgba(255, 255, 255, .06);
+                border-top: 1px solid rgba(160, 110, 240, 0.15);
             }
 
             /* Hide logo/title/desc */
-            .logo-row {
-                display: none;
-            }
+            .logo-row { display: none; }
+            .panel-title { display: none; }
+            .panel-desc { display: none; }
+            .legend { display: none; }
 
-            .panel-title {
-                display: none;
-            }
-
-            .panel-desc {
-                display: none;
-            }
-
-            .legend {
-                display: none;
-            }
-
-            /* player-section first; toggle rows/lang hidden inside it */
+            /* Hide everything inside player-section, then show only dots + description */
             #player-section {
                 order: 1;
                 margin-top: 0;
-                padding: 4px;
+                padding: 0;
+                background: none;
+                border: none;
             }
 
-            #player-section .toggle-row,
-            #player-section .lang-row {
-                display: none;
+            #player-section > * {
+                display: none !important;
             }
 
-            /* When options panel open, show toggles */
-            #player-section .toggle-row.mob-show,
-            #player-section .lang-row.mob-show {
-                display: flex;
-            }
-
-            /* Mobile action buttons row */
-            #mob-action-row {
-                order: 2;
-                display: flex;
-                gap: 6px;
-                margin-top: 6px;
-            }
-
-            .mob-action-btn {
-                flex: 1;
-                padding: 7px 8px;
-                border-radius: 9px;
-                font-size: 0.73rem;
-                font-weight: 600;
-                font-family: 'DM Sans', sans-serif;
-                cursor: pointer;
-                border: 1.5px solid rgba(255, 255, 255, 0.16);
-                background: rgba(255, 255, 255, 0.06);
-                color: var(--text);
-                transition: background 0.18s, border-color 0.18s, color 0.18s;
-                display: flex;
-                align-items: center;
-                justify-content: center;
+            #player-section > .stage-dots {
+                display: flex !important;
                 gap: 4px;
+                justify-content: center;
+                margin-bottom: 0;
             }
 
-            .mob-action-btn.active {
-                background: rgba(124, 58, 237, 0.18);
-                border-color: rgba(124, 58, 237, 0.6);
-                color: var(--accent);
-            }
-
-            /* Expandable options area */
-            #mob-options-panel {
-                order: 3;
-                display: none;
-                flex-direction: column;
-                padding-top: 6px;
-                border-top: 1px solid rgba(255, 255, 255, 0.08);
-                margin-top: 4px;
-            }
-
-            #mob-options-panel.mob-show {
-                display: flex;
-            }
-
-            /* Data panel hidden by default, shown via button */
-            #data-panel {
-                order: 4;
-                display: none;
-                margin-top: 6px;
-                padding-top: 6px;
-            }
-
-            #data-panel.mob-show {
-                display: block;
+            #player-section > .mob-stage-desc {
+                display: block !important;
             }
 
             .stage-dots {
-                gap: 2px;
+                gap: 4px;
             }
 
             .stage-dot {
-                width: 28px;
-                height: 22px;
-                font-size: 10px;
+                width: 40px;
+                height: 30px;
+                border-radius: 8px;
+                font-size: 12px;
+                font-weight: 700;
             }
 
-            .ctrl-btn {
-                width: 34px;
-                height: 34px;
-                font-size: 15px;
+            /* Mobile stage description box */
+            .mob-stage-desc {
+                display: block !important;
+                margin-top: 10px;
+                padding: 10px 14px;
+                background: rgba(77, 166, 255, .06);
+                border: 1px solid rgba(167, 139, 250, .2);
+                border-radius: 12px;
             }
 
-            .ctrl-btn.primary {
-                width: 34px;
-                height: 34px;
-                font-size: 15px;
+            .mob-desc-title {
+                font-size: 0.85rem;
+                font-weight: 700;
+                color: #f0ecff;
+                margin-bottom: 6px;
+                line-height: 1.3;
             }
 
-            .leg-row {
-                font-size: .7rem;
-                margin-bottom: 1px;
+            .mob-desc-body {
+                font-size: 0.73rem;
+                line-height: 1.6;
+                color: #a8a0c0;
             }
 
-
-            /* Receptor buttons compact on mobile */
-            #player-section>div:last-child {
-                margin-top: 6px;
-                padding-top: 6px;
+            /* Hide top subtitle bar on mobile */
+            #stage-subtitle {
+                display: none !important;
             }
 
-            #player-section>div:last-child button {
-                padding: 6px 0 !important;
-                font-size: .65rem !important;
-            }
+            /* Hide mobile action/options panels */
+            #mob-action-row { display: none !important; }
+            #mob-options-panel { display: none !important; }
+
+            /* Hide data panel */
+            #data-panel { display: none !important; }
 
             /* ④ Organ popups: full-width bottom sheet */
             #brain-popup,
@@ -1287,28 +1187,6 @@
 
         @media (max-width: 600px) {
             #btn-wegovy-link {
-                position: fixed;
-                bottom: 28vh;
-                top: auto;
-                right: 8px;
-                left: auto;
-                width: auto;
-                padding: 10px 16px;
-                gap: 8px;
-                border-radius: 12px;
-                z-index: 40;
-                margin-bottom: 8px;
-            }
-
-            .wegovy-link-icon {
-                font-size: 1.1rem;
-            }
-
-            .wegovy-link-text strong {
-                font-size: 0.75rem;
-            }
-
-            .wegovy-link-text em {
                 display: none;
             }
         }
@@ -1344,6 +1222,7 @@
                 <div class="stage-dot">5</div>
                 <div class="stage-dot">6</div>
             </div>
+            <div id="mob-stage-desc" class="mob-stage-desc"></div>
             <div class="player-row">
                 <button class="ctrl-btn" id="btn-restart">↺</button>
                 <button class="ctrl-btn primary" id="btn-play">⏸</button>
@@ -2694,6 +2573,12 @@
             document.getElementById('progress-fill').style.width = Math.min(globalTime / TT * 100, 100) + '%';
             document.getElementById('stage-short-label').innerHTML = '<b>단계 ' + (s + 1) + ' / 6</b>';
             document.querySelectorAll('.stage-dot').forEach((d, i) => { d.classList.remove('active', 'done'); if (i < s) d.classList.add('done'); else if (i === s) d.classList.add('active') });
+            // Mobile stage description
+            const mobDesc = document.getElementById('mob-stage-desc');
+            if (mobDesc) {
+                const title = (isKo ? '단계 ' : 'Step ') + (s + 1) + ': ' + (isKo ? st.ko : st.en);
+                mobDesc.innerHTML = '<div class="mob-desc-title">' + title + '</div><div class="mob-desc-body">' + bodyText + '</div>';
+            }
         }
         window.addEventListener('resize', () => { camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); renderer.setSize(innerWidth, innerHeight); labelRenderer.setSize(innerWidth, innerHeight) });
         try {
