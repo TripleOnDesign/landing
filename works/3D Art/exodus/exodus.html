@@ -37,14 +37,19 @@
             position: fixed;
             top: 0;
             left: 0;
+            touch-action: none;
+        }
+        #container canvas {
+            touch-action: none;
+            display: block;
         }
 
         /* 글라스모피즘 모달 */
         #guideModal {
             position: fixed;
-            bottom: 60px;
+            top: max(env(safe-area-inset-top, 20px), 20px);
             left: 50%;
-            transform: translateX(-50%) translateY(30px);
+            transform: translateX(-50%) translateY(-20px);
             z-index: 200;
             padding: 16px 24px;
             max-width: calc(100vw - 40px);
@@ -67,7 +72,7 @@
         }
         #guideModal.fadeout {
             opacity: 0;
-            transform: translateX(-50%) translateY(20px);
+            transform: translateX(-50%) translateY(-20px);
             pointer-events: none;
         }
         #guideModal .guide-text {
@@ -82,9 +87,9 @@
 
         #dragHint {
             position: fixed;
-            bottom: 60px;
+            top: max(env(safe-area-inset-top, 20px), 20px);
             left: 50%;
-            transform: translateX(-50%) translateY(20px);
+            transform: translateX(-50%) translateY(-20px);
             z-index: 200;
             padding: 16px 24px;
             max-width: calc(100vw - 40px);
@@ -106,7 +111,7 @@
         }
         #dragHint.fadeout {
             opacity: 0;
-            transform: translateX(-50%) translateY(20px);
+            transform: translateX(-50%) translateY(-20px);
         }
         #dragHint .guide-text {
             font-family: 'Cinzel', serif;
@@ -893,7 +898,7 @@
         const isTouchDevice = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
         const isMobile = isTouchDevice || window.innerWidth <= 768;
         if (isTouchDevice) {
-            document.getElementById('guideText').textContent = 'Touch and drag to part the sea';
+            document.getElementById('guideText').textContent = 'Touch and drag the staff to part the sea and create a path!';
             document.getElementById('dragText').textContent = 'Drag your finger to widen the path!';
             document.body.style.cursor = 'auto';
         }
@@ -905,7 +910,7 @@
         const camera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, 0.1, 3000);
         if (isMobile) {
             camera.position.set(0, 85, 280);
-            camera.lookAt(0, 120, -300);
+            camera.lookAt(0, 180, -300);
         } else {
             camera.position.set(0, 55, 220);
             camera.lookAt(0, 80, -300);
@@ -915,6 +920,7 @@
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.0 : 2));
         renderer.domElement.style.display = 'block';
+        renderer.domElement.style.touchAction = 'none';
         document.getElementById('container').appendChild(renderer.domElement);
 
         // 2. 조명 — 밤하늘 조명
@@ -1303,7 +1309,7 @@
         const titleBaseSizes = new Float32Array(titleCount);
         const titleLayers = new Float32Array(titleCount);
 
-        const titleY = isMobile ? 200 : 150;
+        const titleY = isMobile ? 320 : 150;
         const titleZ = -300;
         for (let i = 0; i < titleCount; i++) {
             titlePosArr[i * 3]     = finalTitlePts[i].x;
@@ -1742,6 +1748,16 @@
         let dragHintShown = false;
         let movedWhileHolding = false;
 
+        // Auto-show guide on mobile after delay
+        if (isMobile) {
+            setTimeout(() => {
+                if (!modalShown) {
+                    modalShown = true;
+                    guideModal.classList.add('visible');
+                }
+            }, 2000);
+        }
+
         let lastTouchX = 0;
         let lastTouchY = 0;
 
@@ -1816,33 +1832,47 @@
         });
         window.addEventListener('mouseup', handlePointerUp);
 
-        window.addEventListener('touchstart', (e) => {
+        // Mobile: bind touch to renderer canvas for reliable capture
+        const touchTarget = renderer.domElement;
+        touchTarget.style.touchAction = 'none';
+        touchTarget.style.webkitTouchCallout = 'none';
+        touchTarget.style.webkitUserSelect = 'none';
+        touchTarget.style.userSelect = 'none';
+        
+        // Also bind to window as fallback for mobile Safari
+        const handleTouchStart = (e) => {
             e.preventDefault();
+            e.stopPropagation();
             const t = e.touches[0];
             lastTouchX = t.clientX;
             lastTouchY = t.clientY;
+            handlePointerMove(t.clientX, t.clientY, 0, 0);
             handlePointerDown(t.clientX, t.clientY);
-        }, { passive: false });
-
-        window.addEventListener('touchmove', (e) => {
+        };
+        const handleTouchMove = (e) => {
             e.preventDefault();
+            e.stopPropagation();
             const t = e.touches[0];
             const dx = t.clientX - lastTouchX;
             const dy = t.clientY - lastTouchY;
             lastTouchX = t.clientX;
             lastTouchY = t.clientY;
             handlePointerMove(t.clientX, t.clientY, dx, dy);
-        }, { passive: false });
-
-        window.addEventListener('touchend', (e) => {
+        };
+        const handleTouchEnd = (e) => {
             e.preventDefault();
             handlePointerUp();
-        }, { passive: false });
-
-        window.addEventListener('touchcancel', (e) => {
-            e.preventDefault();
-            handlePointerUp();
-        }, { passive: false });
+        };
+        
+        touchTarget.addEventListener('touchstart', handleTouchStart, { passive: false });
+        touchTarget.addEventListener('touchmove', handleTouchMove, { passive: false });
+        touchTarget.addEventListener('touchend', handleTouchEnd, { passive: false });
+        touchTarget.addEventListener('touchcancel', handleTouchEnd, { passive: false });
+        // Window fallback
+        window.addEventListener('touchstart', handleTouchStart, { passive: false });
+        window.addEventListener('touchmove', handleTouchMove, { passive: false });
+        window.addEventListener('touchend', handleTouchEnd, { passive: false });
+        window.addEventListener('touchcancel', handleTouchEnd, { passive: false });
 
         function handleResize() {
             const w = window.innerWidth;
@@ -1860,6 +1890,9 @@
         const raycaster = new THREE.Raycaster();
         const targetPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), -20);
         const targetPos = new THREE.Vector3();
+        // Mobile: use a plane perpendicular to camera for reliable touch tracking
+        const mobilePlane = new THREE.Plane();
+        const mobilePlaneTarget = new THREE.Vector3();
 
         // 9. 애니메이션 루프
         const clock = new THREE.Clock();
@@ -2083,11 +2116,27 @@
             waterUniforms.pathWidth.value = currentPathWidth;
 
             raycaster.setFromCamera(mouse, camera);
-            raycaster.ray.intersectPlane(targetPlane, targetPos);
+            
+            let hitFound = false;
+            if (isMobile) {
+                // Mobile: use a plane facing camera at fixed depth for reliable tracking
+                const camDir = new THREE.Vector3();
+                camera.getWorldDirection(camDir);
+                const planePoint = new THREE.Vector3().copy(camera.position).addScaledVector(camDir, 350);
+                mobilePlane.setFromNormalAndCoplanarPoint(camDir, planePoint);
+                const result = raycaster.ray.intersectPlane(mobilePlane, mobilePlaneTarget);
+                if (result) {
+                    targetPos.copy(mobilePlaneTarget);
+                    hitFound = true;
+                }
+            } else {
+                const result = raycaster.ray.intersectPlane(targetPlane, targetPos);
+                if (result) hitFound = true;
+            }
 
-            if (targetPos) {
+            if (hitFound) {
                 // 지팡이가 커서 역할 — 빠르게 따라감
-                const staffLerp = 0.18;
+                const staffLerp = isMobile ? 0.4 : 0.18;
                 const staffTargetZ = THREE.MathUtils.lerp(targetPos.z, targetPos.z - 180, partProgress);
                 const staffTargetY = THREE.MathUtils.lerp(targetPos.y, -5, partProgress);
                 staffGroup.position.x = THREE.MathUtils.lerp(staffGroup.position.x, targetPos.x, staffLerp);
@@ -2138,7 +2187,7 @@
 
             // lookAt: 평소엔 EXODUS 중앙, 갈라질 땐 수면 정면 응시
             const lookX = THREE.MathUtils.lerp(mouse.x * (isMobile ? 10 : 20), mouse.x * 15, partProgress);
-            const lookY = THREE.MathUtils.lerp(isMobile ? 120 : 80,  8 + partProgress * 30, partProgress);
+            const lookY = THREE.MathUtils.lerp(isMobile ? 180 : 80,  8 + partProgress * 30, partProgress);
             const lookZ = THREE.MathUtils.lerp(-300, -120, partProgress);
             camera.lookAt(lookX, lookY, lookZ);
 
