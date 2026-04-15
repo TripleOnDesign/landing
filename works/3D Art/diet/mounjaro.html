@@ -849,6 +849,9 @@
             border-color: rgba(255, 170, 48, 0.4);
         }
 
+        /* Mobile nav button: hidden on desktop */
+        #mob-nav-float { display: none; }
+
         /* ── Tablet (≤ 900px) ─────────────────────────── */
         @media (max-width: 900px) {
 
@@ -882,40 +885,40 @@
         /* ── Mobile (≤ 600px) ─────────────────────────── */
         @media (max-width: 600px) {
 
-            /* ① Canvas: full screen */
+            /* ① Canvas: full screen, shifted up to remove top gap */
             #canvas-container {
                 position: fixed;
-                top: 0;
+                top: -40px;
                 left: 0;
                 right: 0;
                 bottom: 0;
-                height: 100vh;
+                height: calc(100vh + 40px);
             }
 
             #labels-container {
                 left: 0;
             }
 
-            /* ③ Info panel: simplified — dots + description only */
+            /* ③ Info panel: transparent wrapper — only mob-stage-desc shows as box */
             #info-panel {
                 position: fixed;
                 top: auto;
-                bottom: 0;
+                bottom: 40px;
                 left: 0;
                 right: 0;
                 width: 100%;
-                max-height: 45vh;
-                border-radius: 16px 16px 0 0;
-                padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0px));
-                overflow-y: auto;
-                -webkit-overflow-scrolling: touch;
-                touch-action: pan-y;
+                max-height: 40vh;
+                border-radius: 0;
+                padding: 0 16px calc(env(safe-area-inset-bottom, 0px));
+                overflow-y: visible;
                 display: flex;
                 flex-direction: column;
                 z-index: 35;
-                background: rgba(10, 6, 20, 0.92);
-                backdrop-filter: blur(20px);
-                border-top: 1px solid rgba(160, 110, 240, 0.15);
+                background: none;
+                backdrop-filter: none;
+                -webkit-backdrop-filter: none;
+                border: none;
+                box-shadow: none;
             }
 
             /* Hide logo/title/desc */
@@ -924,13 +927,14 @@
             .panel-desc { display: none; }
             .legend { display: none; }
 
-            /* Hide everything inside player-section, then show only dots + description */
+            /* Hide everything inside player-section, then show only description */
             #player-section {
                 order: 1;
                 margin-top: 0;
                 padding: 0;
                 background: none;
                 border: none;
+                position: relative;
             }
 
             #player-section > * {
@@ -938,13 +942,14 @@
             }
 
             #player-section > .stage-dots {
-                display: flex !important;
-                gap: 4px;
-                justify-content: center;
-                margin-bottom: 0;
+                display: none !important;
             }
 
             #player-section > .mob-stage-desc {
+                display: block !important;
+            }
+
+            #player-section > #mob-nav-float {
                 display: block !important;
             }
 
@@ -963,11 +968,38 @@
             /* Mobile stage description box */
             .mob-stage-desc {
                 display: block !important;
-                margin-top: 10px;
-                padding: 10px 14px;
-                background: rgba(77, 166, 255, .06);
+                margin-top: 6px;
+                padding: 12px 14px;
+                background: rgba(10, 6, 20, 0.88);
+                backdrop-filter: blur(16px);
+                -webkit-backdrop-filter: blur(16px);
                 border: 1px solid rgba(167, 139, 250, .2);
                 border-radius: 12px;
+            }
+
+            /* Navigation button - top-right of description area */
+            #mob-nav-float {
+                display: block !important;
+                position: absolute;
+                top: -28px;
+                right: 0;
+                z-index: 5;
+                padding: 4px 12px;
+                font-size: 0.7rem;
+                font-weight: 600;
+                color: rgba(150, 240, 230, 0.9);
+                background: rgba(0, 160, 180, 0.25);
+                border: 1px solid rgba(0, 200, 210, 0.35);
+                border-radius: 16px;
+                cursor: pointer;
+                text-decoration: none;
+                font-family: 'DM Sans', sans-serif;
+                letter-spacing: 0.02em;
+                backdrop-filter: blur(8px);
+                -webkit-backdrop-filter: blur(8px);
+            }
+            #mob-nav-float:active {
+                background: rgba(0, 160, 180, 0.45);
             }
 
             .mob-desc-title {
@@ -1222,6 +1254,7 @@
                 <div class="stage-dot">5</div>
                 <div class="stage-dot">6</div>
             </div>
+            <a id="mob-nav-float" href="wegovy.html">Wegovy →</a>
             <div id="mob-stage-desc" class="mob-stage-desc"></div>
             <div class="player-row">
                 <button class="ctrl-btn" id="btn-restart">↺</button>
