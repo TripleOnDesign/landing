@@ -709,8 +709,7 @@ function triggerMorphToText(text) {
     const textInput = document.getElementById('text-morph-input');
     if (textInput) textInput.blur();
 
-    // Lock camera to center and disable user orbit during text morph
-    controls.enabled = false;
+    // Lock camera to centered view during text morph
     cameraLocked = true;
 
     if (window.innerWidth <= 768) {
@@ -796,18 +795,13 @@ function triggerMorphToText(text) {
             particlesGeometry.attributes.aEffectStrength.needsUpdate = true;
             sourcePositions.set(targetPositions[currentShapeIndex]);
             updateColors();
-            // Unlock camera and re-enable controls with centered position
-            cameraLocked = false;
-            if (window.innerWidth <= 768) {
-                camera.position.set(0, 8, 38);
-                controls.target.set(0, -2.5, 0);
-            } else {
-                camera.position.set(0, 8, 28);
-                controls.target.set(0, 0, 0);
-            }
+            // Unlock camera: reset controls to match the centered position
+            const isMob = window.innerWidth <= 768;
+            camera.position.set(0, 8, isMob ? 38 : 28);
+            controls.target.set(0, isMob ? -2.5 : 0, 0);
             controls.saveState();
             controls.reset();
-            controls.enabled = true;
+            cameraLocked = false;
             isMorphing = false; controls.autoRotate = true;
         }
     });
@@ -1067,15 +1061,13 @@ function animate() {
     const deltaTime = clock.getDelta();
     // Force camera to center when locked (during text morph)
     if (cameraLocked) {
-        if (window.innerWidth <= 768) {
-            camera.position.set(0, 8, 38);
-            controls.target.set(0, -2.5, 0);
-        } else {
-            camera.position.set(0, 8, 28);
-            controls.target.set(0, 0, 0);
-        }
+        const isMob = window.innerWidth <= 768;
+        camera.position.set(0, 8, isMob ? 38 : 28);
+        camera.lookAt(0, isMob ? -2.5 : 0, 0);
+        // Skip controls.update() entirely — it would override our position
+    } else {
+        controls.update();
     }
-    controls.update();
     const positions = particlesGeometry.attributes.position.array;
     const effectStrengths = particlesGeometry.attributes.aEffectStrength.array;
 
