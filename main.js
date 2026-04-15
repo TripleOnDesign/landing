@@ -61,7 +61,7 @@ const COLOR_SCHEMES = {
     fire: { startHue: 0, endHue: 45, saturation: 0.95, lightness: 0.6 },
     neon: { startHue: 300, endHue: 180, saturation: 1.0, lightness: 0.65 },
     nature: { startHue: 90, endHue: 160, saturation: 0.85, lightness: 0.55 },
-    rainbow: { startHue: 0, endHue: 360, saturation: 0.9, lightness: 0.6 }
+    rainbow: { startHue: 0, endHue: 360, saturation: 1.0, lightness: 0.62 }
 };
 
 const tempVec = new THREE.Vector3();
@@ -510,6 +510,7 @@ function init() {
         controls.target.set(0, -2.5, 0);
     }
     controls.update();
+    controls.saveState();
 
     scene.add(new THREE.AmbientLight(0x404060));
     const dirLight1 = new THREE.DirectionalLight(0xffffff, 1.5);
@@ -706,17 +707,31 @@ function triggerMorphToText(text) {
     const textInput = document.getElementById('text-morph-input');
     if (textInput) textInput.blur();
 
-    if (window.innerWidth <= 768) {
+    // Reset camera to center position (PC & mobile)
+    const isMobile = window.innerWidth <= 768;
+    const resetCam = () => {
+        if (isMobile) {
+            camera.position.set(0, 8, 38);
+            controls.target.set(0, -2.5, 0);
+        } else {
+            camera.position.set(0, 8, 28);
+            controls.target.set(0, 0, 0);
+        }
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        composer.setSize(window.innerWidth, window.innerHeight);
+        // Save new state and reset to flush OrbitControls internal rotation
+        controls.saveState();
+        controls.reset();
+    };
+
+    if (isMobile) {
         window.scrollTo(0, 0);
-        setTimeout(() => {
-            window.scrollTo(0, 0);
-            onWindowResize();
-            controls.update();
-        }, 500);
-        setTimeout(() => {
-            onWindowResize();
-            controls.update();
-        }, 900);
+        setTimeout(() => { window.scrollTo(0, 0); resetCam(); }, 500);
+        setTimeout(resetCam, 900);
+    } else {
+        resetCam();
     }
 
     const infoEl = document.getElementById('info');
@@ -933,8 +948,37 @@ function updateColorArray(colors, positionsArray) {
         const dist = tempVec.distanceTo(center);
         let hue;
         if (CONFIG.colorScheme === 'rainbow') {
-            const normX = (tempVec.x / maxRadius + 1) / 2; const normY = (tempVec.y / maxRadius + 1) / 2; const normZ = (tempVec.z / maxRadius + 1) / 2;
-            hue = (normX * 120 + normY * 120 + normZ * 120) % 360;
+            // Map X position to full 0-360 hue spectrum for even rainbow spread
+            const normX = (tempVec.x / maxRadius + 1) / 2;  // 0 to 1
+            const normY = (tempVec.y / maxRadius + 1) / 2;
+            // Primary hue from X, slight shift from Y for depth
+            hue = (normX * 330 + normY * 30) % 360;
+            // Neon color stops: hot pink(330) → red(0) → orange(25) → yellow(55) → lime(90) → cyan(180) → blue(240) → purple(280)
+            // Remap to emphasize neon tones
+            const t = hue / 360;
+            const neonStops = [
+                { at: 0.00, h: 330 },  // hot pink
+                { at: 0.15, h: 15  },  // red-orange
+                { at: 0.28, h: 40  },  // orange
+                { at: 0.38, h: 58  },  // yellow
+                { at: 0.50, h: 95  },  // lime green
+                { at: 0.65, h: 175 },  // cyan
+                { at: 0.78, h: 210 },  // sky blue
+                { at: 0.90, h: 275 },  // purple
+                { at: 1.00, h: 330 },  // back to hot pink
+            ];
+            // Find segment and interpolate
+            for (let s = 0; s < neonStops.length - 1; s++) {
+                if (t <= neonStops[s + 1].at) {
+                    const segT = (t - neonStops[s].at) / (neonStops[s + 1].at - neonStops[s].at);
+                    let h0 = neonStops[s].h, h1 = neonStops[s + 1].h;
+                    // Handle hue wrapping (e.g. 330 → 15)
+                    if (h1 < h0 - 180) h1 += 360;
+                    if (h0 < h1 - 180) h0 += 360;
+                    hue = (h0 + (h1 - h0) * segT) % 360;
+                    break;
+                }
+            }
         } else {
             hue = THREE.MathUtils.mapLinear(dist, 0, maxRadius, colorScheme.startHue, colorScheme.endHue);
         }
