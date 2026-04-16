@@ -117,19 +117,25 @@
         /* Nav buttons */
         #nav {
             position: absolute;
-            top: 52px;
+            bottom: 0;
             left: 0; right: 0;
             z-index: 200;
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
             gap: 8px;
-            padding: 0 20px;
+            padding: 0 20px max(env(safe-area-inset-bottom, 14px), 14px);
             opacity: 0;
             animation: navIn 0.6s ease 0.3s forwards;
         }
+        #nav .nav-row {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+        }
         @keyframes navIn {
-            0% { opacity: 0; transform: translateY(-8px); }
+            0% { opacity: 0; transform: translateY(8px); }
             100% { opacity: 1; transform: translateY(0); }
         }
         .nav-btn {
@@ -206,11 +212,15 @@
         <div id="loader"><div class="ring"></div></div>
 
         <div id="nav">
-            <button class="nav-btn active" data-idx="0"><span class="label">World</span></button>
-            <button class="nav-btn" data-idx="1"><span class="label">Pyramid</span></button>
-            <button class="nav-btn" data-idx="2"><span class="label">Saturn</span></button>
-            <button class="nav-btn" data-idx="3"><span class="label">Bee</span></button>
-            <button class="nav-btn" data-idx="4"><span class="label">Cell</span></button>
+            <div class="nav-row">
+                <button class="nav-btn active" data-idx="0"><span class="label">World</span></button>
+                <button class="nav-btn" data-idx="1"><span class="label">Pyramid</span></button>
+                <button class="nav-btn" data-idx="2"><span class="label">Saturn</span></button>
+            </div>
+            <div class="nav-row">
+                <button class="nav-btn" data-idx="3"><span class="label">Bee</span></button>
+                <button class="nav-btn" data-idx="4"><span class="label">Cell</span></button>
+            </div>
         </div>
     </div>
 
