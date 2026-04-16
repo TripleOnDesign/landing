@@ -619,11 +619,66 @@ function init() {
     const textInput = document.getElementById('text-morph-input');
     const morphBtn = document.getElementById('text-morph-btn');
 
+    // Mobile modal elements
+    const mobileTextModal = document.getElementById('mobile-text-modal');
+    const mobileTextInput = document.getElementById('mobile-text-modal-input');
+    const mobileTextSubmit = document.getElementById('mobile-text-modal-submit');
+    const mobileTextClose = document.getElementById('mobile-text-modal-close');
+    const mobileTextBackdrop = mobileTextModal ? mobileTextModal.querySelector('.mobile-text-modal-backdrop') : null;
+
+    const isMobileDevice = () => window.innerWidth <= 768;
+
+    function openMobileTextModal() {
+        if (!mobileTextModal) return;
+        mobileTextModal.classList.add('is-open');
+        if (mobileTextInput) {
+            mobileTextInput.value = textInput ? textInput.value : '';
+            // Delay focus to allow modal animation
+            setTimeout(() => mobileTextInput.focus(), 100);
+        }
+    }
+
+    function closeMobileTextModal() {
+        if (!mobileTextModal) return;
+        mobileTextModal.classList.remove('is-open');
+        if (mobileTextInput) mobileTextInput.blur();
+    }
+
+    function submitMobileText() {
+        if (!mobileTextInput) return;
+        const text = mobileTextInput.value.trim();
+        if (text) {
+            closeMobileTextModal();
+            // Sync to original input for consistency
+            if (textInput) textInput.value = text;
+            triggerMorphToText(text);
+        }
+    }
+
     if (textInput && morphBtn) {
+        // On mobile: intercept focus on input and button click to show modal instead
+        if (isMobileDevice()) {
+            textInput.setAttribute('readonly', 'true');
+            textInput.addEventListener('click', (e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                openMobileTextModal();
+            });
+            textInput.addEventListener('focus', (e) => {
+                e.preventDefault();
+                textInput.blur();
+                openMobileTextModal();
+            });
+        }
+
         morphBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            const text = textInput.value.trim();
-            if (text) triggerMorphToText(text);
+            if (isMobileDevice()) {
+                openMobileTextModal();
+            } else {
+                const text = textInput.value.trim();
+                if (text) triggerMorphToText(text);
+            }
         });
         textInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
@@ -631,6 +686,34 @@ function init() {
                 const text = textInput.value.trim();
                 if (text) triggerMorphToText(text);
             }
+        });
+    }
+
+    // Mobile modal event listeners
+    if (mobileTextSubmit) {
+        mobileTextSubmit.addEventListener('click', (e) => {
+            e.stopPropagation();
+            submitMobileText();
+        });
+    }
+    if (mobileTextInput) {
+        mobileTextInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.stopPropagation();
+                submitMobileText();
+            }
+        });
+    }
+    if (mobileTextClose) {
+        mobileTextClose.addEventListener('click', (e) => {
+            e.stopPropagation();
+            closeMobileTextModal();
+        });
+    }
+    if (mobileTextBackdrop) {
+        mobileTextBackdrop.addEventListener('click', (e) => {
+            e.stopPropagation();
+            closeMobileTextModal();
         });
     }
 
@@ -708,20 +791,11 @@ function triggerMorphToText(text) {
 
     const textInput = document.getElementById('text-morph-input');
     if (textInput) textInput.blur();
+    const mobileInput = document.getElementById('mobile-text-modal-input');
+    if (mobileInput) mobileInput.blur();
 
     // Lock camera to centered view during text morph
     cameraLocked = true;
-
-    if (window.innerWidth <= 768) {
-        window.scrollTo(0, 0);
-        setTimeout(() => {
-            window.scrollTo(0, 0);
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            composer.setSize(window.innerWidth, window.innerHeight);
-        }, 500);
-    }
 
     const infoEl = document.getElementById('info');
     if (infoEl) {

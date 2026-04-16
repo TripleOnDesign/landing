@@ -747,7 +747,42 @@
             }
         }
 
+        .modal-inquiry-mobile-btn {
+            display: none;
+        }
+
         @media (max-width: 600px) {
+            .modal-inquiry-mobile-btn {
+                display: flex;
+                position: absolute;
+                top: 14px;
+                right: 62px;
+                z-index: 10;
+                background: rgba(80, 80, 80, 0.3);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                color: rgba(255, 255, 255, 0.85);
+                font-family: 'Inter', sans-serif;
+                font-size: 0.75rem;
+                font-weight: 600;
+                height: 36px;
+                padding: 0 14px;
+                border-radius: 10px;
+                cursor: pointer;
+                align-items: center;
+                justify-content: center;
+                backdrop-filter: blur(14px);
+                -webkit-backdrop-filter: blur(14px);
+                transition: background 0.2s;
+            }
+
+            .modal-inquiry-mobile-btn:hover {
+                background: rgba(80, 80, 80, 0.5);
+            }
+
+            .inquiry-btn {
+                display: none !important;
+            }
+
             .style-header {
                 padding: 28px 20px 20px;
             }
@@ -936,6 +971,7 @@
     <!-- Modal -->
     <div id="work-modal" class="modal">
         <div class="modal-content">
+            <button class="modal-inquiry-mobile-btn" id="modal-inquiry-mobile-btn">문의</button>
             <button class="modal-close-btn" id="modal-close-btn">&times;</button>
             <div id="modal-container"></div>
         </div>
@@ -991,8 +1027,8 @@
                 },
                 '3D Interactive Lab': {
                     title: '오로라 코스믹 스타일',
-                    tags: ['#디자인스튜디오', '#크리에이티브랩'],
-                    desc: '오로라 그라디언트 애니메이션과 라이트빔 인트로 시퀀스를 구현하고, I3D 모델 오빗 갤러리를 조합하여 인터랙티브 3D 포트폴리오 및 크리에이티브 스튜디오 쇼케이스 페이지에 적합합니다.'
+                    tags: ['#디자인스튜디오', '#크리에이티브랩', '#브랜드쇼케이스', '#사용자 경험', '#interactive 3D'],
+                    desc: '3D interactive graphic models들을 오빗 갤러리로 조합하여 사용자가 다양한 경험을 할 수 있습니다. 크리에이티브 스튜디오 쇼케이스 페이지 및 사용자 경험을 중시하는 브랜드 쇼케이스 페이지에 적합합니다. (용량 및 로딩 이슈로 PC 버전과 Mobile 버전이 상이합니다.)'
                 },
                 'Exodus \u00b7 Parting of the Sea': {
                     title: '시네마틱 에픽 스타일',
@@ -1006,7 +1042,7 @@
                 },
                 'Cleaning': {
                     title: '프렌들리 블루 스타일',
-                    tags: ['#청소서비스', '#생활플랫폼'],
+                    tags: ['#청소서비스', '#생활플랫폼', '#이사', '#어린이'],
                     desc: '화이트 베이스에 코발트 블루 액센트와 3D 캐릭터 일러스트를 활용하고, 서비스 유형별 지그재그 레이아웃과 후기 캐러셀\u00b7프로모션 배너를 친근한 톤으로 구성하여 가정\u00b7기업 대상 청소 대행 및 생활 서비스 플랫폼 사이트에 적합합니다.'
                 },
                 'Furniture': {
@@ -1303,6 +1339,20 @@
                     }
                     modal.classList.add('is-open');
                 });
+            });
+
+            var mobileInquiryBtn = document.getElementById('modal-inquiry-mobile-btn');
+            mobileInquiryBtn.addEventListener('click', function () {
+                var section = modalContainer.querySelector('.inquiry-section');
+                if (!section) return;
+                var btn = section.querySelector('.inquiry-btn');
+                var form = section.querySelector('.inquiry-form');
+                if (btn && form) {
+                    btn.classList.add('hidden');
+                    form.classList.add('is-open');
+                    form.querySelector('input').focus();
+                    section.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                }
             });
 
             closeBtn.addEventListener('click', closeModal);
