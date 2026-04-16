@@ -747,6 +747,134 @@
             }
         }
 
+        /* ── Inquiry Modal Overlay (mobile) ── */
+        .inquiry-modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 3000;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .inquiry-modal-overlay.is-open {
+            display: flex;
+        }
+
+        .inquiry-modal-box {
+            position: relative;
+            width: 92vw;
+            max-width: 400px;
+            max-height: 90vh;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            background: #111;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 32px 24px 28px;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+            animation: inquiryModalIn 0.3s ease;
+        }
+
+        @keyframes inquiryModalIn {
+            from { opacity: 0; transform: translateY(40px) scale(0.96); }
+            to   { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .inquiry-modal-close {
+            position: absolute;
+            top: 12px;
+            right: 14px;
+            background: rgba(80, 80, 80, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1.3rem;
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .inquiry-modal-close:hover {
+            background: rgba(80, 80, 80, 0.5);
+        }
+
+        .inquiry-modal-title {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #fff;
+            margin: 0 0 6px;
+        }
+
+        .inquiry-modal-ref {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.4);
+            margin: 0 0 20px;
+        }
+
+        .inquiry-modal-form {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .inquiry-modal-form label {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.55);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .inquiry-modal-form input,
+        .inquiry-modal-form textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.06);
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.82rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .inquiry-modal-form input:focus,
+        .inquiry-modal-form textarea:focus {
+            border-color: rgba(255, 255, 255, 0.35);
+        }
+
+        .inquiry-modal-form input::placeholder,
+        .inquiry-modal-form textarea::placeholder {
+            color: rgba(255, 255, 255, 0.25);
+        }
+
+        .inquiry-modal-form textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .inquiry-modal-thanks {
+            text-align: center;
+            padding: 24px 0;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-family: 'Inter', sans-serif;
+        }
+
         .modal-inquiry-mobile-btn {
             display: none;
         }
@@ -974,6 +1102,26 @@
             <button class="modal-inquiry-mobile-btn" id="modal-inquiry-mobile-btn">문의</button>
             <button class="modal-close-btn" id="modal-close-btn">&times;</button>
             <div id="modal-container"></div>
+        </div>
+    </div>
+
+    <!-- Inquiry Modal (mobile) -->
+    <div id="inquiry-modal" class="inquiry-modal-overlay">
+        <div class="inquiry-modal-box">
+            <button class="inquiry-modal-close" id="inquiry-modal-close">&times;</button>
+            <h3 class="inquiry-modal-title">작업 문의하기</h3>
+            <p class="inquiry-modal-ref" id="inquiry-modal-ref"></p>
+            <form class="inquiry-modal-form" id="inquiry-modal-form">
+                <input type="checkbox" name="botcheck" style="display:none!important" tabindex="-1" autocomplete="off">
+                <label>이름<input type="text" name="sender_name" placeholder="홍길동" required></label>
+                <label>이메일<input type="email" name="sender_email" placeholder="example@email.com" required></label>
+                <label>제목<input type="text" name="subject" placeholder="문의 제목" required></label>
+                <label>내용<textarea name="body" rows="4" placeholder="문의 내용을 작성해 주세요." required></textarea></label>
+                <button type="submit" class="inquiry-submit">보내기</button>
+            </form>
+            <div class="inquiry-modal-thanks" id="inquiry-modal-thanks" style="display:none;">
+                문의가 전송되었습니다. 빠른 시일 내에 회신드리겠습니다.
+            </div>
         </div>
     </div>
 
@@ -1342,25 +1490,95 @@
             });
 
             var mobileInquiryBtn = document.getElementById('modal-inquiry-mobile-btn');
-            mobileInquiryBtn.addEventListener('click', function () {
+            var inquiryModal = document.getElementById('inquiry-modal');
+            var inquiryModalClose = document.getElementById('inquiry-modal-close');
+            var inquiryModalForm = document.getElementById('inquiry-modal-form');
+            var inquiryModalRef = document.getElementById('inquiry-modal-ref');
+            var inquiryModalThanks = document.getElementById('inquiry-modal-thanks');
+            var currentInquiryWorkTitle = '';
+
+            function openInquiryModal() {
                 var section = modalContainer.querySelector('.inquiry-section');
-                if (!section) return;
-                var btn = section.querySelector('.inquiry-btn');
-                var form = section.querySelector('.inquiry-form');
-                if (btn && form) {
-                    btn.classList.add('hidden');
-                    form.classList.add('is-open');
-                    form.querySelector('input').focus();
-                    section.scrollIntoView({ behavior: 'smooth', block: 'end' });
-                }
+                currentInquiryWorkTitle = section ? (section.dataset.workTitle || '') : '';
+                inquiryModalRef.textContent = currentInquiryWorkTitle ? '참고 작품: ' + currentInquiryWorkTitle : '';
+                inquiryModalForm.reset();
+                inquiryModalForm.style.display = '';
+                inquiryModalThanks.style.display = 'none';
+                var submitBtn = inquiryModalForm.querySelector('.inquiry-submit');
+                submitBtn.disabled = false;
+                submitBtn.textContent = '보내기';
+                inquiryModal.classList.add('is-open');
+                setTimeout(function () {
+                    inquiryModalForm.querySelector('input[name="sender_name"]').focus();
+                }, 100);
+            }
+
+            function closeInquiryModal() {
+                inquiryModal.classList.remove('is-open');
+            }
+
+            mobileInquiryBtn.addEventListener('click', function () {
+                openInquiryModal();
             });
 
-            closeBtn.addEventListener('click', closeModal);
+            inquiryModalClose.addEventListener('click', closeInquiryModal);
+            inquiryModal.addEventListener('click', function (e) {
+                if (e.target === inquiryModal) closeInquiryModal();
+            });
+
+            inquiryModalForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+                var submitBtn = inquiryModalForm.querySelector('.inquiry-submit');
+                submitBtn.disabled = true;
+                submitBtn.textContent = '전송 중...';
+                var fd = new FormData(inquiryModalForm);
+                var payload = {
+                    access_key: WEB3FORMS_KEY,
+                    subject: '[Works 문의 – ' + currentInquiryWorkTitle + '] ' + (fd.get('subject') || ''),
+                    from_name: fd.get('sender_name') || '',
+                    email: fd.get('sender_email') || '',
+                    message: '📌 참고 작품: ' + currentInquiryWorkTitle + '\n\n' + (fd.get('body') || ''),
+                    botcheck: fd.get('botcheck') || ''
+                };
+                fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                }).then(function (res) { return res.json(); })
+                .then(function (data) {
+                    if (data.success) {
+                        inquiryModalForm.style.display = 'none';
+                        inquiryModalThanks.style.display = '';
+                    } else {
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = '보내기';
+                        alert('전송에 실패했습니다. 다시 시도해 주세요.');
+                    }
+                }).catch(function () {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = '보내기';
+                    alert('네트워크 오류가 발생했습니다. 다시 시도해 주세요.');
+                });
+            });
+
+            closeBtn.addEventListener('click', function () {
+                closeModal();
+                closeInquiryModal();
+            });
             modal.addEventListener('click', function (e) {
-                if (e.target === modal) closeModal();
+                if (e.target === modal) {
+                    closeModal();
+                    closeInquiryModal();
+                }
             });
             document.addEventListener('keydown', function (e) {
-                if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
+                if (e.key === 'Escape') {
+                    if (inquiryModal.classList.contains('is-open')) {
+                        closeInquiryModal();
+                    } else if (modal.classList.contains('is-open')) {
+                        closeModal();
+                    }
+                }
             });
         })();
     </script>
