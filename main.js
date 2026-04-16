@@ -821,36 +821,14 @@ function triggerMorphToText(text) {
         swarmPositions[i3] = swarmVec.x; swarmPositions[i3 + 1] = swarmVec.y; swarmPositions[i3 + 2] = swarmVec.z;
     }
 
-    // Update target positions for the animation loop
-    targetPositions[0] = nextTargetPositions; // Overwrite a slot or handle differently. 
-    // Simplified approach: Update 'currentShapeIndex' logic or just use a dedicated 'targetPositions' variable that the loop uses.
-    // The existing loop uses targetPositions[currentShapeIndex]. Let's cheat a bit and update the current shape's target data or use a special mode.
-    // Actually, let's just create a temporary entry in SHAPES or just override logic.
-    // Better: Allow updateMorphAnimation to use a specific target array.
-
-    // Hack: We will overwrite the targetPositions of the current index (or a temp index) for this operation.
-    // But SHAPES is const. targetPositions is a let, but initialized as array of arrays.
-    // specific implementation:
-    // We'll replace the target data for the *next* morph in our logic.
-
-    // Let's force currentShapeIndex to -1 or similar to indicate custom shape, or just update the targets.
-    // Since SHAPES is used to cycle, text morphing breaks the cycle.
-
-    // Let's store the text shape in a separate variable and update specific logic.
-    // Easier way with existing code structure:
-    // define a custom Target var.
-    // But updateMorphAnimation uses targetPositions[currentShapeIndex].
-
-    // So:
-    // 1. Create a dummy shape in SHAPES for 'Text' if not exists, or handle custom target.
-    // Let's just push it to targetPositions array dynamically.
-
-    // Actually, `targetPositions` is initialized as:
-    // targetPositions = SHAPES.map(...)
-
-    // We can just add the new positions to `targetPositions` list and point `currentShapeIndex` to it.
-    targetPositions.push(newPositions);
-    currentShapeIndex = targetPositions.length - 1;
+    // Reuse a single text slot to avoid growing targetPositions indefinitely
+    if (typeof triggerMorphToText._textSlot === 'undefined') {
+        targetPositions.push(newPositions);
+        triggerMorphToText._textSlot = targetPositions.length - 1;
+    } else {
+        targetPositions[triggerMorphToText._textSlot] = newPositions;
+    }
+    currentShapeIndex = triggerMorphToText._textSlot;
     SHAPES[currentShapeIndex] = { name: 'Text: ' + text }; // Mock object for labels
 
     morphState.progress = 0;
