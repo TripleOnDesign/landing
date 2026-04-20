@@ -13,6 +13,71 @@
         .work-modal-trigger {
             cursor: pointer;
         }
+
+        /* Contact 섹션: 이메일 보내기 & 카카오톡 문의하기 버튼 크기 동일화 */
+        #contact .contact-actions {
+            display: flex;
+            gap: 12px;
+            align-items: stretch;
+            flex-wrap: wrap;
+        }
+
+        #contact .contact-actions > .email-direct-btn,
+        #contact .contact-actions > .kakao-chat-button-wrap {
+            flex: 1 1 0;
+            min-width: 0;
+            display: flex;
+        }
+
+        #contact .email-direct-btn,
+        #contact .kakao-contact-btn {
+            width: 100%;
+            min-height: 52px;
+            box-sizing: border-box;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 20px;
+            font-size: 15px;
+            line-height: 1.2;
+            margin: 0;
+            white-space: nowrap;
+        }
+
+        #contact .email-direct-btn__icon,
+        #contact .kakao-contact-btn__icon {
+            width: 22px;
+            height: 22px;
+            flex-shrink: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* 좁은 화면에서는 세로로 쌓되 너비는 동일하게 유지 */
+        @media (max-width: 480px) {
+            #contact .contact-actions > .email-direct-btn,
+            #contact .contact-actions > .kakao-chat-button-wrap {
+                flex: 1 1 100%;
+            }
+        }
+
+        /* About 섹션: 카드 그리드 시작 전과 Show Works 버튼 전에 각 5px 여백 확보.
+           이전 턴에서 4곳을 모두 줄여 너무 조여 보이던 것을
+           (title 아래)·(works-cta 위)만 살짝 조이고, (그리드 위)·(버튼 위)에는 여백을 넣음. */
+        #about .about-title-row {
+            margin-bottom: -2px;
+        }
+        #about .about-intro {
+            margin-bottom: 5px;
+        }
+        #about .about-grid {
+            margin-bottom: 5px;
+        }
+        #about .works-cta {
+            margin-top: 3px;
+        }
     </style>
 </head>
 
@@ -581,32 +646,76 @@
         })();
     </script>
 
-    <!-- Kakao JavaScript SDK: 카카오톡 채널 1:1 채팅 공식 버튼 -->
+    <!--
+        Kakao JavaScript SDK: 카카오톡 채널 채팅 연결
+        공식 문서: https://developers.kakao.com/docs/ko/kakaotalk-channel/js
+
+        구현 방식:
+        - 커스텀 디자인 버튼 유지 (이메일 버튼과 크기/스타일 맞춤)
+        - 클릭 시 SDK가 초기화되어 있으면 Kakao.Channel.chat() 호출 (브릿지 페이지로 이동)
+        - SDK 미초기화/미로드 시에는 기본 링크로 채널 홈 URL 이동 (모든 방문자에게 안전하게 동작)
+
+        폴백 URL을 /chat 대신 채널 홈(http://pf.kakao.com/_dexoCX)으로 설정한 이유:
+        - /chat 경로는 방문자의 카카오 계정에 모바일 카카오톡이 연동돼 있어야 하며,
+          연동이 없을 경우 "이 계정과 연결된 카카오톡이 없습니다" 에러가 표시됨
+        - 채널 홈 URL은 모든 방문자에게 열리며, 거기서 "1:1 채팅" 또는 "채널 추가"를 선택 가능
+    -->
     <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
     <script>
         (function () {
-            /** 카카오디벨로퍼스 > 내 애플리케이션 > 앱 키 > JavaScript 키 (노출되는 클라이언트 키입니다) */
+            /**
+             * 카카오디벨로퍼스 > 내 애플리케이션 > 앱 키 > JavaScript 키
+             * (중요) 앱 설정 > 플랫폼 > Web에 사이트 도메인(예: https://tripleondesign.com) 등록 필수.
+             * 도메인이 등록되지 않은 채로 SDK를 호출하면 초기화 자체는 되지만 chat() 호출 시 에러 발생.
+             */
             var KAKAO_JS_KEY = '';
 
-            function kakaoFallbackLink() {
+            /** 카카오톡 채널 공개 ID (관리자센터의 '채널 URL'에 표시된 id) */
+            var CHANNEL_PUBLIC_ID = '_dexoCX';
+
+            /** 채널 홈 URL — SDK 미사용 환경의 폴백 링크 */
+            var CHANNEL_HOME_URL = 'http://pf.kakao.com/' + CHANNEL_PUBLIC_ID;
+
+            function renderContactButton() {
                 var el = document.getElementById('kakao-chat-button');
                 if (!el) return;
                 el.innerHTML =
-                    '<a class="kakao-contact-btn" href="http://pf.kakao.com/_dexoCX/chat" target="_blank" rel="noopener noreferrer">' +
-                    '<img src="kakao-channel.png" alt="" class="kakao-contact-btn__icon" width="24" height="24" decoding="async" />' +
+                    '<a class="kakao-contact-btn" id="kakao-chat-link" ' +
+                    'href="' + CHANNEL_HOME_URL + '" target="_blank" rel="noopener noreferrer">' +
+                    '<img src="kakao-channel.png" alt="" class="kakao-contact-btn__icon" ' +
+                    'width="24" height="24" decoding="async" />' +
                     '카카오톡으로 문의하기</a>';
+
+                var link = document.getElementById('kakao-chat-link');
+                if (!link) return;
+
+                link.addEventListener('click', function (e) {
+                    // SDK가 정상 초기화되어 있을 때만 chat() 호출
+                    // https://developers.kakao.com/docs/ko/kakaotalk-channel/js#add-chat
+                    if (typeof Kakao !== 'undefined' &&
+                        Kakao.isInitialized && Kakao.isInitialized() &&
+                        Kakao.Channel && typeof Kakao.Channel.chat === 'function') {
+                        e.preventDefault();
+                        try {
+                            Kakao.Channel.chat({
+                                channelPublicId: CHANNEL_PUBLIC_ID
+                            });
+                        } catch (err) {
+                            console.warn('[Kakao] chat() 호출 실패, 채널 홈으로 이동:', err);
+                            window.open(CHANNEL_HOME_URL, '_blank', 'noopener');
+                        }
+                    }
+                    // SDK 미초기화 시: 기본 링크 동작(채널 홈 URL) 그대로 실행
+                });
             }
 
-            function mountKakaoChatButton() {
-                var container = document.getElementById('kakao-chat-button');
-                if (!container) return;
-
+            function initKakaoSDK() {
                 if (!KAKAO_JS_KEY) {
-                    kakaoFallbackLink();
+                    // 키가 비어 있으면 기본 링크(채널 홈 URL)로만 동작
                     return;
                 }
                 if (typeof Kakao === 'undefined') {
-                    kakaoFallbackLink();
+                    console.warn('[Kakao] SDK 로드 실패 — 기본 링크로 동작합니다.');
                     return;
                 }
                 try {
@@ -614,34 +723,19 @@
                         Kakao.init(KAKAO_JS_KEY);
                     }
                 } catch (err) {
-                    console.warn('[Kakao] init 오류:', err);
-                    kakaoFallbackLink();
-                    return;
-                }
-                if (!Kakao.isInitialized()) {
-                    kakaoFallbackLink();
-                    return;
-                }
-                try {
-                    Kakao.Channel.createChatButton({
-                        container: '#kakao-chat-button',
-                        channelPublicId: '_dexoCX',
-                        title: 'consult',
-                        size: 'large',
-                        color: 'yellow',
-                        shape: 'pc',
-                        supportMultipleDensities: true
-                    });
-                } catch (err) {
-                    console.warn('[Kakao] createChatButton 오류:', err);
-                    kakaoFallbackLink();
+                    console.warn('[Kakao] init 오류 — 기본 링크로 동작합니다:', err);
                 }
             }
 
+            function boot() {
+                renderContactButton();
+                initKakaoSDK();
+            }
+
             if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', mountKakaoChatButton);
+                document.addEventListener('DOMContentLoaded', boot);
             } else {
-                mountKakaoChatButton();
+                boot();
             }
         })();
     </script>
