@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=4">
+    <link rel="stylesheet" href="style.css?v=16">
     <style>
         .work-modal-trigger {
             cursor: pointer;
@@ -100,11 +100,20 @@
 
                 <div class="contact-body reveal-up" style="transition-delay: 0.15s;">
                     <div class="contact-info-area">
-                        <p class="contact-desc">프로젝트 의뢰는 이메일 및 AI 채팅봇을 통해 받고 있습니다. 아래의 메일 주소로 구체적인 프로젝트에 대한 전반적인 정보를 보내주세요. 검토 후 회신 드리겠습니다.<br><br>입금 후 세금계산서 발급 즉시 가능합니다. 필요에 따라 카드결제 가능합니다.(수수료 별도 부과)</p>
+                        <p class="contact-desc">프로젝트 의뢰는 이메일 및 AI 채팅봇, 카카오톡채널 문의를 통해 하실 수 있습니다. 아래의 메일 주소로 구체적인 프로젝트에 대한 전반적인 정보를 보내주세요. 검토 후 회신 드리겠습니다.<br><br>입금 후 세금계산서 발급 즉시 가능합니다. 필요에 따라 카드결제 가능합니다.(수수료 별도 부과)</p>
 
-                        <button id="email-modal-btn" class="email-direct-btn">
-                            <span>&#9993;</span> 이메일 보내기
-                        </button>
+                        <div class="contact-actions">
+                            <button type="button" id="email-modal-btn" class="email-direct-btn">
+                                <span class="email-direct-btn__icon" aria-hidden="true">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect x="3" y="5" width="18" height="14" rx="2" />
+                                        <path d="M3 7l9 6 9-6" />
+                                    </svg>
+                                </span> 이메일 보내기
+                            </button>
+                            <!-- Kakao JS SDK: createChatButton이 이 div 안에 공식 1:1 채팅 버튼을 렌더링합니다. Kakao.init(JavaScript 키) 필요 — 하단 KAKAO_JS_KEY -->
+                            <div id="kakao-chat-button" class="kakao-chat-button-wrap"></div>
+                        </div>
 
                         <div class="contact-details">
                             <p><a href="mailto:info@tripleondesign.com">info@tripleondesign.com</a></p>
@@ -569,6 +578,71 @@
                     form.style.display = '';
                 }, 3000);
             });
+        })();
+    </script>
+
+    <!-- Kakao JavaScript SDK: 카카오톡 채널 1:1 채팅 공식 버튼 -->
+    <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
+    <script>
+        (function () {
+            /** 카카오디벨로퍼스 > 내 애플리케이션 > 앱 키 > JavaScript 키 (노출되는 클라이언트 키입니다) */
+            var KAKAO_JS_KEY = '';
+
+            function kakaoFallbackLink() {
+                var el = document.getElementById('kakao-chat-button');
+                if (!el) return;
+                el.innerHTML =
+                    '<a class="kakao-contact-btn" href="http://pf.kakao.com/_dexoCX/chat" target="_blank" rel="noopener noreferrer">' +
+                    '<img src="kakao-channel.png" alt="" class="kakao-contact-btn__icon" width="24" height="24" decoding="async" />' +
+                    '카카오톡으로 문의하기</a>';
+            }
+
+            function mountKakaoChatButton() {
+                var container = document.getElementById('kakao-chat-button');
+                if (!container) return;
+
+                if (!KAKAO_JS_KEY) {
+                    kakaoFallbackLink();
+                    return;
+                }
+                if (typeof Kakao === 'undefined') {
+                    kakaoFallbackLink();
+                    return;
+                }
+                try {
+                    if (!Kakao.isInitialized()) {
+                        Kakao.init(KAKAO_JS_KEY);
+                    }
+                } catch (err) {
+                    console.warn('[Kakao] init 오류:', err);
+                    kakaoFallbackLink();
+                    return;
+                }
+                if (!Kakao.isInitialized()) {
+                    kakaoFallbackLink();
+                    return;
+                }
+                try {
+                    Kakao.Channel.createChatButton({
+                        container: '#kakao-chat-button',
+                        channelPublicId: '_dexoCX',
+                        title: 'consult',
+                        size: 'large',
+                        color: 'yellow',
+                        shape: 'pc',
+                        supportMultipleDensities: true
+                    });
+                } catch (err) {
+                    console.warn('[Kakao] createChatButton 오류:', err);
+                    kakaoFallbackLink();
+                }
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', mountKakaoChatButton);
+            } else {
+                mountKakaoChatButton();
+            }
         })();
     </script>
 
