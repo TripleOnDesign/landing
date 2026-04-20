@@ -1,0 +1,52 @@
+# robots.txt for https://tripleondesign.com
+# Last updated: 2026-04-20
+
+# 모든 검색엔진 크롤러 허용 (Google, Bing, 등)
+User-agent: *
+Allow: /
+Disallow: /works/*/screen*.png$
+Crawl-delay: 1
+
+# Google
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Googlebot-Mobile
+Allow: /
+
+# Naver (네이버) - Yeti 봇
+User-agent: Yeti
+Allow: /
+Crawl-delay: 1
+
+User-agent: Yetibot
+Allow: /
+
+User-agent: NaverBot
+Allow: /
+
+# Daum (다음) / Kakao - Daumoa 봇
+User-agent: Daumoa
+Allow: /
+Crawl-delay: 1
+
+User-agent: Daum
+Allow: /
+
+# Bing
+User-agent: Bingbot
+Allow: /
+
+# 악성 크롤러 및 AI 학습 봇 차단 (선택사항 - 필요시 주석 해제)
+# User-agent: GPTBot
+# Disallow: /
+# User-agent: CCBot
+# Disallow: /
+# User-agent: ClaudeBot
+# Disallow: /
+
+# Sitemap 위치
+Sitemap: https://tripleondesign.com/sitemap.xml

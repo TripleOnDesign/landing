@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"
+        xmlns:image="http://www.google.com/schemas/sitemaps-image/1.1">
+
+  <!-- 홈페이지 -->
+  <url>
+    <loc>https://tripleondesign.com/</loc>
+    <lastmod>2026-04-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://tripleondesign.com/graphic.gif</image:loc>
+      <image:title>Triple On Design - Create Beyond</image:title>
+    </image:image>
+  </url>
+
+  <!-- About 페이지 -->
+  <url>
+    <loc>https://tripleondesign.com/about.html</loc>
+    <lastmod>2026-04-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://tripleondesign.com/graphic.gif</image:loc>
+      <image:title>Graphic ON - TOD 3D Interactive Design</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://tripleondesign.com/switch.gif</image:loc>
+      <image:title>Switch ON - TOD Design Philosophy</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://tripleondesign.com/world.gif</image:loc>
+      <image:title>World ON - TOD Global Connection</image:title>
+    </image:image>
+  </url>
+
+  <!-- Works 페이지 -->
+  <url>
+    <loc>https://tripleondesign.com/works.html</loc>
+    <lastmod>2026-04-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+</urlset>
