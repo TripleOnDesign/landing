@@ -75,86 +75,6 @@ const bezPos = new THREE.Vector3();
 const swirlAxis = new THREE.Vector3();
 const currentVec = new THREE.Vector3();
 
-function generateSphere(count, size) {
-    const points = new Float32Array(count * 3);
-    const phi = Math.PI * (Math.sqrt(5) - 1);
-    for (let i = 0; i < count; i++) {
-        const y = 1 - (i / (count - 1)) * 2;
-        const radius = Math.sqrt(1 - y * y);
-        const theta = phi * i;
-        const x = Math.cos(theta) * radius;
-        const z = Math.sin(theta) * radius;
-        points[i * 3] = x * size;
-        points[i * 3 + 1] = y * size;
-        points[i * 3 + 2] = z * size;
-    }
-    return points;
-}
-function generateCube(count, size) {
-    const points = new Float32Array(count * 3);
-    const halfSize = size / 2;
-    for (let i = 0; i < count; i++) {
-        const face = Math.floor(Math.random() * 6);
-        const u = Math.random() * size - halfSize;
-        const v = Math.random() * size - halfSize;
-        switch (face) {
-            case 0: points.set([halfSize, u, v], i * 3); break;
-            case 1: points.set([-halfSize, u, v], i * 3); break;
-            case 2: points.set([u, halfSize, v], i * 3); break;
-            case 3: points.set([u, -halfSize, v], i * 3); break;
-            case 4: points.set([u, v, halfSize], i * 3); break;
-            case 5: points.set([u, v, -halfSize], i * 3); break;
-        }
-    }
-    return points;
-}
-function generatePyramid(count, size) {
-    const points = new Float32Array(count * 3);
-    const halfBase = size / 2;
-    const height = size * 1.2;
-    const apex = new THREE.Vector3(0, height / 2, 0);
-    const baseVertices = [
-        new THREE.Vector3(-halfBase, -height / 2, -halfBase), new THREE.Vector3(halfBase, -height / 2, -halfBase),
-        new THREE.Vector3(halfBase, -height / 2, halfBase), new THREE.Vector3(-halfBase, -height / 2, halfBase)
-    ];
-    const baseArea = size * size;
-    const sideFaceHeight = Math.sqrt(Math.pow(height, 2) + Math.pow(halfBase, 2));
-    const sideFaceArea = 0.5 * size * sideFaceHeight;
-    const totalArea = baseArea + 4 * sideFaceArea;
-    const baseWeight = baseArea / totalArea;
-    const sideWeight = sideFaceArea / totalArea;
-    for (let i = 0; i < count; i++) {
-        const r = Math.random();
-        let p = new THREE.Vector3(); let u, v;
-        if (r < baseWeight) {
-            u = Math.random(); v = Math.random();
-            p.lerpVectors(baseVertices[0], baseVertices[1], u);
-            const p2 = new THREE.Vector3().lerpVectors(baseVertices[3], baseVertices[2], u);
-            p.lerp(p2, v);
-        } else {
-            const faceIndex = Math.floor((r - baseWeight) / sideWeight);
-            const v1 = baseVertices[faceIndex]; const v2 = baseVertices[(faceIndex + 1) % 4];
-            u = Math.random(); v = Math.random();
-            if (u + v > 1) { u = 1 - u; v = 1 - v; }
-            p.addVectors(v1, tempVec.subVectors(v2, v1).multiplyScalar(u));
-            p.add(tempVec.subVectors(apex, v1).multiplyScalar(v));
-        }
-        points.set([p.x, p.y, p.z], i * 3);
-    }
-    return points;
-}
-function generateTorus(count, size) {
-    const points = new Float32Array(count * 3);
-    const R = size * 0.7; const r = size * 0.3;
-    for (let i = 0; i < count; i++) {
-        const theta = Math.random() * Math.PI * 2; const phi = Math.random() * Math.PI * 2;
-        const x = (R + r * Math.cos(phi)) * Math.cos(theta);
-        const y = r * Math.sin(phi);
-        const z = (R + r * Math.cos(phi)) * Math.sin(theta);
-        points[i * 3] = x; points[i * 3 + 1] = y; points[i * 3 + 2] = z;
-    }
-    return points;
-}
 function generateGalaxy(count, size) {
     const points = new Float32Array(count * 3);
     const arms = 4; const armWidth = 0.6; const bulgeFactor = 0.3;
@@ -168,55 +88,6 @@ function generateGalaxy(count, size) {
         const x = radius * Math.cos(theta); const z = radius * Math.sin(theta);
         const y = (Math.random() - 0.5) * size * 0.1 * (1 - radius / size * bulgeFactor);
         points[i * 3] = x; points[i * 3 + 1] = y; points[i * 3 + 2] = z;
-    }
-    return points;
-}
-function generateHeart(count, size) {
-    const points = new Float32Array(count * 3);
-
-    // Heart Prism/Pillow (Extruded 2D shape)
-    // Formula:
-    // x = 16 sin^3(t)
-    // y = 13 cos(t) - 5 cos(2t) - 2 cos(3t) - cos(4t)
-
-    // Scale factors - Increased size as requested
-    const scale = size * 0.055;
-    const depth = size * 0.6; // Thickness of the heart pillow
-
-    let i = 0;
-    while (i < count) {
-        // Explicit parametric distribution method:
-        // Pick t, pick r (0 to 1), pick z.
-
-        const t = Math.random() * Math.PI * 2;
-
-        // Distribution fix:
-        // To avoid "split" look (dense center), we modify r distribution or add jitter.
-        // The dense center comes from the parametric concentration near the axis.
-        // We'll use a more uniform spread and add some jitter.
-        const r = Math.sqrt(Math.random()); // Sqrt for uniform area
-
-        // Parametric Heart
-        const hx = 16 * Math.pow(Math.sin(t), 3);
-        const hy = 13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t);
-
-        // Inner point
-        let x = hx * r * scale;
-        let y = hy * r * scale;
-
-        // Jitter to diffuse center line
-        const jitterAmount = size * 0.05;
-        x += (Math.random() - 0.5) * jitterAmount;
-        y += (Math.random() - 0.5) * jitterAmount;
-
-        // Z thickness - rounded pillow profile
-        const zThickness = depth * Math.sqrt(1 - r * r); // Elliptical profile
-        const z = (Math.random() - 0.5) * 2 * zThickness;
-
-        points[i * 3] = x;
-        points[i * 3 + 1] = y;
-        points[i * 3 + 2] = z;
-        i++;
     }
     return points;
 }
@@ -453,7 +324,7 @@ function generateText(count, size, text) {
         }
     }
 
-    if (validPixels.length === 0) return generateSphere(count, size);
+    if (validPixels.length === 0) return generateGalaxy(count, size);
 
     const isMobile = window.innerWidth <= 768;
     const scaleX = isMobile ? size * 1.1 : size * 1.5;
