@@ -1270,12 +1270,12 @@
                 var btn = section.querySelector('.inquiry-btn');
                 var form = section.querySelector('.inquiry-form');
                 var workTitle = section.dataset.workTitle || '';
+                // PC·모바일 모두 z-index 3000의 오버레이 모달(#inquiry-modal)로 폼을 띄움.
+                // 이전엔 PC에서 인라인 폼을 `.style-header`의 position:absolute 컨테이너 안에 열어
+                // 스크롤되는 이미지에 가려 입력이 어려운 이슈가 있었음 — 오버레이 모달로 통일해 해결.
                 btn.addEventListener('click', function (e) {
                     e.stopPropagation();
-                    btn.classList.add('hidden');
-                    form.classList.add('is-open');
-                    form.querySelector('input').focus();
-                    section.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                    openInquiryModal();
                 });
                 form.addEventListener('submit', function (e) {
                     e.preventDefault();
