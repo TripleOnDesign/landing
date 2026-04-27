@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Triple On Design 서비스별 시작 가격과 작업 구성 안내. PPT, 3D, 웹디자인, 브랜딩, 인쇄물 디자인의 투명한 시작 가격을 확인하실 수 있습니다.">
+<meta property="og:title" content="Price Policy — Triple On Design">
+<meta property="og:description" content="TOD의 서비스별 시작 가격과 작업 구성 안내.">
+<meta property="og:image" content="https://tripleondesign.com/TODog.jpg">
+<meta property="og:url" content="https://tripleondesign.com/price-policy.html">
+<link rel="canonical" href="https://tripleondesign.com/price-policy.html">
+<title>Price Policy — TripleOnDesign</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+28pt:wght@100..900&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0A0A0A;
+    --surface: #141414;
+    --surface-hover: #1C1C1A;
+    --ink: #F5F5F0;
+    --ink-2: #B5B5B0;
+    --ink-3: #6E6E6A;
+    --line: #232321;
+    --line-2: #2D2D2A;
+    --accent: #E07A47;
+    --accent-hover: #F08D5C;
+    --accent-soft: #2A1812;
+    --radius: 2px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Pretendard', 'Inter 28pt', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 400;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .en {
+    font-family: 'Inter 28pt', 'Inter', sans-serif;
+    letter-spacing: -0.01em;
+  }
+
+  /* ============ SECTION WRAPPER ============ */
+  section.pricing {
+    padding: 140px 48px 160px;
+    max-width: 1320px;
+    margin: 0 auto;
+  }
+
+  /* ============ HEADER ============ */
+  .pricing-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 40px;
+    padding-bottom: 80px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 80px;
+  }
+
+  .eyebrow {
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+  .eyebrow::before {
+    content: "";
+    width: 24px;
+    height: 1px;
+    background: var(--ink-3);
+  }
+
+  h2.pricing-title {
+    font-size: clamp(38px, 5vw, 64px);
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+  h2.pricing-title em {
+    font-style: normal;
+    color: var(--accent);
+  }
+
+  .pricing-intro {
+    font-size: 16px;
+    color: var(--ink-2);
+    line-height: 1.7;
+    max-width: 920px;
+  }
+  .pricing-intro strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  /* ============ SERVICE GRID ============ */
+  .services {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+
+  .service-card {
+    background: var(--surface);
+    padding: 48px 44px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    transition: background 0.3s ease;
+    position: relative;
+    min-height: 420px;
+  }
+
+  /* Wide card — spans both columns with horizontal layout */
+  .service-card.wide {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "head    includes"
+      "desc    includes"
+      "footer  footer";
+    column-gap: 64px;
+    row-gap: 24px;
+    min-height: auto;
+    align-items: start;
+  }
+  .service-card.wide .service-head { grid-area: head; }
+  .service-card.wide .service-desc { grid-area: desc; align-self: start; }
+  .service-card.wide .service-includes {
+    grid-area: includes;
+    border-top: none;
+    padding-top: 0;
+    margin-top: 0;
+  }
+  .service-card.wide .service-footer {
+    grid-area: footer;
+    margin-top: 16px;
+  }
+  .service-card:hover {
+    background: var(--surface-hover);
+  }
+  .service-card:hover .service-arrow {
+    transform: translateX(6px);
+    color: var(--accent);
+  }
+
+  .service-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+  }
+
+  .service-number {
+    font-family: 'Inter 28pt', 'Inter', sans-serif;
+    font-size: 13px;
+    color: var(--ink-3);
+    letter-spacing: 0.1em;
+    font-weight: 400;
+  }
+
+  .service-name {
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+    margin-top: 6px;
+  }
+  .service-name-sub {
+    font-size: 13.5px;
+    color: var(--ink-3);
+    font-weight: 400;
+    margin-top: 8px;
+    letter-spacing: 0.01em;
+  }
+
+  .service-price {
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .price-label {
+    font-size: 11px;
+    color: var(--ink-3);
+    letter-spacing: 0.14em;
+    margin-bottom: 4px;
+  }
+  .price-value {
+    font-family: 'Inter 28pt', 'Inter', 'Pretendard', sans-serif;
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+  .price-value .from {
+    font-size: 13px;
+    color: var(--ink-3);
+    font-weight: 400;
+    margin-left: 2px;
+  }
+
+  .service-desc {
+    font-size: 14.5px;
+    color: var(--ink-2);
+    line-height: 1.7;
+  }
+
+  .service-includes {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 20px;
+    border-top: 1px dashed var(--line-2);
+    margin-top: auto;
+  }
+  .service-includes li {
+    font-size: 13.5px;
+    color: var(--ink-2);
+    padding-left: 18px;
+    position: relative;
+  }
+  .service-includes li::before {
+    content: "";
+    width: 6px;
+    height: 1px;
+    background: var(--ink);
+    position: absolute;
+    left: 0;
+    top: 11px;
+  }
+  .service-includes li strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .service-includes li em {
+    font-style: normal;
+    color: var(--ink-3);
+    font-size: 12.5px;
+    margin-left: 2px;
+  }
+
+  .service-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+  }
+  .service-tier-hint {
+    font-size: 12px;
+    color: var(--ink-3);
+    letter-spacing: 0.02em;
+  }
+  .service-tier-hint span {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  .service-arrow {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+  }
+  .service-arrow::after {
+    content: "→";
+    font-size: 16px;
+  }
+
+  /* ============ PACKAGE TIERS NOTE ============ */
+  .tiers-note {
+    margin-top: 64px;
+    padding: 40px 48px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 48px;
+    align-items: start;
+  }
+  .tiers-note-label {
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    color: var(--ink-3);
+    font-weight: 500;
+    padding-top: 4px;
+  }
+  .tiers-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+  .tier {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .tier-name {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .tier-name::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    background: var(--ink);
+    border-radius: 50%;
+  }
+  .tier-name.standard::before { background: var(--accent); }
+  .tier-name.premium::before { background: var(--ink); box-shadow: 0 0 0 3px var(--accent-soft); }
+
+  .tier-desc {
+    font-size: 13.5px;
+    color: var(--ink-2);
+    line-height: 1.6;
+  }
+
+  /* ============ CTA BLOCK ============ */
+  .cta-block {
+    margin-top: 80px;
+    padding: 72px 64px;
+    background: #14100C;
+    border: 1px solid var(--accent);
+    color: var(--ink);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 48px;
+    align-items: center;
+  }
+  .cta-text h3 {
+    font-size: 34px;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    line-height: 1.2;
+    margin-bottom: 14px;
+  }
+  .cta-text h3 em {
+    font-style: normal;
+    color: var(--accent);
+  }
+  .cta-text p {
+    font-size: 15px;
+    color: var(--ink-2);
+    max-width: 520px;
+    line-height: 1.7;
+  }
+
+  .cta-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 220px;
+  }
+  .btn {
+    padding: 18px 28px;
+    font-family: 'Pretendard', 'Inter 28pt', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    text-align: center;
+    border: 1px solid transparent;
+    letter-spacing: 0.01em;
+    transition: all 0.25s ease;
+    cursor: pointer;
+    display: inline-flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #0A0A0A;
+  }
+  .btn-primary:hover {
+    background: var(--accent-hover);
+  }
+  .btn-secondary {
+    background: transparent;
+    color: var(--ink);
+    border-color: var(--line-2);
+  }
+  .btn-secondary:hover {
+    border-color: var(--ink);
+  }
+
+  /* ============ PAYMENT INFO ============ */
+  .payment-info {
+    margin-top: 48px;
+    padding: 32px 40px;
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+  .payment-info-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+    padding-top: 2px;
+  }
+  .payment-info-body p {
+    font-size: 14px;
+    color: var(--ink-2);
+    line-height: 1.7;
+    margin-bottom: 8px;
+  }
+  .payment-info-body p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* ============ FINE PRINT ============ */
+  .fine-print {
+    margin-top: 32px;
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+    font-size: 12px;
+    color: var(--ink-3);
+    letter-spacing: 0.02em;
+  }
+  .fine-print span::before {
+    content: "✳ ";
+    color: var(--accent);
+    margin-right: 4px;
+  }
+
+  /* ============ MODAL ============ */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.78);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    animation: fadeIn 0.2s ease;
+  }
+  .modal-overlay.is-open {
+    display: flex;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  .modal {
+    background: var(--surface);
+    border: 1px solid var(--line-2);
+    width: 100%;
+    max-width: 560px;
+    max-height: 92vh;
+    overflow-y: auto;
+    padding: 48px;
+    position: relative;
+    animation: modalIn 0.25s cubic-bezier(0.2, 0.7, 0.3, 1);
+  }
+  @keyframes modalIn {
+    from { transform: translateY(12px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  .modal-close {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    background: none;
+    border: none;
+    color: var(--ink-3);
+    font-size: 24px;
+    cursor: pointer;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s;
+    line-height: 1;
+  }
+  .modal-close:hover {
+    color: var(--ink);
+  }
+  .modal-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 14px;
+    font-weight: 500;
+  }
+  .modal-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 14px;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+  }
+  .modal-subtitle {
+    font-size: 13.5px;
+    color: var(--ink-3);
+    line-height: 1.7;
+    margin-bottom: 32px;
+  }
+  .modal-subtitle strong {
+    color: var(--ink-2);
+    font-weight: 500;
+  }
+  .form-row {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 18px;
+  }
+  .form-row label {
+    font-size: 11px;
+    color: var(--ink-3);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .form-row input,
+  .form-row textarea,
+  .form-row select {
+    background: var(--bg);
+    border: 1px solid var(--line-2);
+    color: var(--ink);
+    font-family: inherit;
+    font-size: 14px;
+    padding: 13px 14px;
+    outline: none;
+    transition: border-color 0.2s;
+    resize: vertical;
+    width: 100%;
+    border-radius: 0;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .form-row select {
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg width='10' height='6' viewBox='0 0 10 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23B5B5B0' stroke-width='1.4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 36px;
+  }
+  .form-row input:focus,
+  .form-row textarea:focus,
+  .form-row select:focus {
+    border-color: var(--accent);
+  }
+  .form-row textarea {
+    min-height: 110px;
+    line-height: 1.6;
+  }
+  .form-row-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .modal-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+  }
+  .modal-actions .btn {
+    flex: 1;
+    padding: 16px 20px;
+    font-size: 13.5px;
+    justify-content: center;
+  }
+  .modal-note {
+    font-size: 11.5px;
+    color: var(--ink-3);
+    margin-top: 16px;
+    line-height: 1.6;
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 960px) {
+    section.pricing { padding: 80px 24px 100px; }
+    .pricing-header { grid-template-columns: 1fr; gap: 32px; padding-bottom: 56px; margin-bottom: 56px; }
+    .services { grid-template-columns: 1fr; }
+    .service-card { padding: 36px 28px 32px; min-height: auto; }
+    .service-card.wide {
+      display: flex;
+      flex-direction: column;
+      grid-column: auto;
+    }
+    .service-card.wide .service-includes {
+      border-top: 1px dashed var(--line-2);
+      padding-top: 20px;
+      margin-top: auto;
+    }
+    .service-name { font-size: 24px; }
+    .tiers-note { grid-template-columns: 1fr; padding: 32px 28px; gap: 28px; }
+    .tiers-grid { grid-template-columns: 1fr; gap: 20px; }
+    .cta-block { grid-template-columns: 1fr; padding: 48px 32px; gap: 32px; }
+    .cta-text h3 { font-size: 26px; }
+    .payment-info { grid-template-columns: 1fr; padding: 24px 24px; gap: 12px; }
+    .fine-print { gap: 16px; flex-direction: column; }
+    .modal { padding: 36px 24px; }
+    .form-row-grid { grid-template-columns: 1fr; gap: 0; }
+    .modal-actions { flex-direction: column-reverse; }
+  }
+</style>
+</head>
+<body>
+
+<section class="pricing" id="pricing">
+
+  <!-- HEADER -->
+  <div class="pricing-header">
+    <div>
+      <div class="eyebrow">서비스 · 가격 안내</div>
+      <h2 class="pricing-title">
+        시작 가격은 공개하고,<br/>
+        <em>최종 가격은</em> 함께 정합니다.
+      </h2>
+    </div>
+    <p class="pricing-intro">
+      프로젝트마다 <strong>분량, 난이도, 일정</strong>이 다르기 때문에 딱 떨어지는 가격표는 만들지 않습니다.<br/>
+      아래는 가장 작은 단위의 시작 가격이며, 정확한 금액은 세부사항 확인 후에 제안드려요.
+    </p>
+  </div>
+
+  <!-- SERVICE CARDS -->
+  <div class="services">
+
+    <!-- 01 Presentation -->
+    <article class="service-card">
+      <div class="service-head">
+        <div>
+          <div class="service-number">01 · 발표 자료</div>
+          <div class="service-name">PPT · 발표 자료 디자인</div>
+          <div class="service-name-sub">사업 제안서 · 회사 소개서 · 강연 자료</div>
+        </div>
+        <div class="service-price">
+          <div class="price-label">시작 가격</div>
+          <div class="price-value">2만 원<span class="from"> /페이지 부터</span></div>
+        </div>
+      </div>
+
+      <p class="service-desc">
+        두 가지 방식으로 작업합니다. 이미 만들어둔 자료를 보기 좋게 다듬는 <strong>리터치형</strong>과, 내용 구조부터 새로 설계하는 <strong>기획형</strong>입니다.
+      </p>
+
+      <ul class="service-includes">
+        <li><strong>리터치형</strong> — 톤앤매너 정리 및 기본 도식화 <em>(페이지당 2만 원부터)</em></li>
+        <li><strong>기획형</strong> — 스토리텔링, 고급 인포그래픽 및 그래픽 포함 <em>(페이지당 5~10만 원)</em></li>
+        <li>표지 · 목차 · 마무리 구성 · 수정 2회 포함</li>
+        <li>직접 수정 가능한 원본(PPT) 파일 전달</li>
+      </ul>
+
+      <div class="service-footer">
+        <div class="service-tier-hint">리터치형 <span>2만/p</span> · 기획형 <span>5~10만/p</span></div>
+        <a href="#contact" class="service-arrow">문의하기</a>
+      </div>
+    </article>
+
+    <!-- 02 3D Artwork -->
+    <article class="service-card">
+      <div class="service-head">
+        <div>
+          <div class="service-number">02 · 3D 이미지</div>
+          <div class="service-name">3D 아트워크 · 비주얼</div>
+          <div class="service-name-sub">제품 이미지 · 홍보용 이미지 · 움직이는 영상</div>
+        </div>
+        <div class="service-price">
+          <div class="price-label">시작 가격</div>
+          <div class="price-value">80만 원<span class="from"> 부터</span></div>
+        </div>
+      </div>
+
+      <p class="service-desc">
+        제품이나 브랜드를 돋보이게 할 3D 이미지를 만듭니다. 빛, 각도, 배경까지 세심하게 설계해 실제 사진처럼 자연스럽게 완성합니다.
+      </p>
+
+      <ul class="service-includes">
+        <li>정지 이미지부터 짧은 영상까지 제작</li>
+        <li>두 가지 시안 제시 후 하나를 골라 완성</li>
+        <li>인쇄와 웹 어디에서도 쓸 수 있는 고화질 파일</li>
+        <li>수정 3회 · SNS, 인쇄용 크기까지 함께 제공</li>
+      </ul>
+
+      <div class="service-footer">
+        <div class="service-tier-hint">Basic <span>80만</span> · Standard <span>200만</span> · Premium <span>500만+</span></div>
+        <a href="#contact" class="service-arrow">문의하기</a>
+      </div>
+    </article>
+
+    <!-- 03 Web Design -->
+    <article class="service-card">
+      <div class="service-head">
+        <div>
+          <div class="service-number">03 · 웹사이트</div>
+          <div class="service-name">웹디자인 · 홈페이지 제작</div>
+          <div class="service-name-sub">회사 홈페이지 · 제품 소개 페이지 · 포트폴리오 사이트</div>
+        </div>
+        <div class="service-price">
+          <div class="price-label">시작 가격</div>
+          <div class="price-value">80만 원<span class="from"> 부터</span></div>
+        </div>
+      </div>
+
+      <p class="service-desc">
+        한 페이지짜리 간단한 소개 사이트부터 여러 페이지로 이루어진 회사 홈페이지까지. 휴대폰·태블릿·PC 어디서든 자연스럽게 보이도록 만듭니다.
+      </p>
+
+      <ul class="service-includes">
+        <li><strong>심플한 랜딩페이지</strong> — 한 페이지 디자인 및 개설 <em>(80만 원부터)</em></li>
+        <li>메인 페이지 + 세부 페이지 5장 기준 회사 홈페이지</li>
+        <li>페이지 구조와 방문자 동선 설계 · 반응형 대응</li>
+        <li><strong>월 단위 유지보수 계약 가능</strong> — 내용 수정 · 업데이트 · 관리 지원 <em>(별도 문의)</em></li>
+      </ul>
+
+      <div class="service-footer">
+        <div class="service-tier-hint">Basic <span>80만</span> · Standard <span>350만</span> · Premium <span>700만+</span></div>
+        <a href="#contact" class="service-arrow">문의하기</a>
+      </div>
+    </article>
+
+    <!-- 04 Branding -->
+    <article class="service-card">
+      <div class="service-head">
+        <div>
+          <div class="service-number">04 · 브랜딩</div>
+          <div class="service-name">브랜드 디자인 · 로고</div>
+          <div class="service-name-sub">로고 · 브랜드 색상 · 사용 가이드</div>
+        </div>
+        <div class="service-price">
+          <div class="price-label">시작 가격</div>
+          <div class="price-value">80만 원<span class="from"> 부터</span></div>
+        </div>
+      </div>
+
+      <p class="service-desc">
+        로고 하나만 만들고 끝내지 않습니다. 브랜드가 어떤 말투를 쓰고, 어떤 색과 글씨체로 보일지까지 함께 정리합니다.
+      </p>
+
+      <ul class="service-includes">
+        <li>브랜드 조사와 이름(네이밍) 검토</li>
+        <li>로고 세 가지 시안 제시 후 하나를 완성</li>
+        <li>색상 · 글씨체 · 명함 등 사용 방법 정리</li>
+        <li>브랜드 사용 안내서 제공 (20쪽 내외)</li>
+      </ul>
+
+      <div class="service-footer">
+        <div class="service-tier-hint">Basic <span>80만</span> · Standard <span>250만</span> · Premium <span>600만+</span></div>
+        <a href="#contact" class="service-arrow">문의하기</a>
+      </div>
+    </article>
+
+    <!-- 05 Print -->
+    <article class="service-card wide">
+      <div class="service-head">
+        <div>
+          <div class="service-number">05 · 인쇄물</div>
+          <div class="service-name">인쇄물 디자인 · 제작</div>
+          <div class="service-name-sub">명함 · 리플릿 · 브로셔 · 카탈로그</div>
+        </div>
+        <div class="service-price">
+          <div class="price-label">시작 가격</div>
+          <div class="price-value">5만 원<span class="from"> 부터</span></div>
+        </div>
+      </div>
+
+      <p class="service-desc">
+        화면 속에서만 머무르지 않는 디자인. 종이 선택부터 인쇄 업체 연결, 인쇄 과정 확인까지 함께 진행합니다. 소량 인쇄부터 대량 제작까지 상황에 맞게 안내해드려요.
+      </p>
+
+      <ul class="service-includes">
+        <li><strong>명함</strong> — 양면 디자인 + 수정 2회 <em>(5만 원부터)</em></li>
+        <li><strong>리플릿</strong> — 접지 방식과 구성 설계 <em>(20만 원부터)</em></li>
+        <li><strong>브로셔</strong> — 8~16쪽 구성 · 편집 디자인 <em>(50만 원부터)</em></li>
+        <li><strong>카탈로그</strong> — 제품 정리 · 페이지 편집 <em>(100만 원부터)</em></li>
+      </ul>
+
+      <div class="service-footer">
+        <div class="service-tier-hint">명함 <span>5만</span> · 리플릿 <span>20만</span> · 브로셔 <span>50만</span> · 카탈로그 <span>100만+</span></div>
+        <a href="#contact" class="service-arrow">문의하기</a>
+      </div>
+    </article>
+
+  </div>
+
+  <!-- TIER EXPLANATION -->
+  <div class="tiers-note">
+    <div class="tiers-note-label">구성 단계 안내</div>
+    <div class="tiers-grid">
+      <div class="tier">
+        <div class="tier-name">Basic</div>
+        <div class="tier-desc">꼭 필요한 것만 담백하게. 예산이나 일정이 빠듯할 때 고르기 좋은 구성입니다.</div>
+      </div>
+      <div class="tier">
+        <div class="tier-name standard">Standard</div>
+        <div class="tier-desc">기획부터 디자인까지 골고루 챙기는 구성. 대부분의 고객이 선택하는 기본입니다.</div>
+      </div>
+      <div class="tier">
+        <div class="tier-name premium">Premium</div>
+        <div class="tier-desc">조사부터 마무리까지 전체를 함께. 새로 시작하거나 크게 바꾸고 싶을 때 맞는 구성입니다.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA BLOCK -->
+  <div class="cta-block" id="contact">
+    <div class="cta-text">
+      <h3>프로젝트가 위 항목에<br/><em>딱 맞지 않아도</em> 괜찮아요.</h3>
+      <p>
+        어떤 일인지, 언제까지 필요한지, 예산이 어느 정도인지 편하게 알려주세요.
+        하루 안에 맞춤 견적을 보내드립니다. 첫 상담은 무료이며, 필요하시면 비밀유지 계약도 함께 진행합니다.
+      </p>
+    </div>
+    <div class="cta-actions">
+      <button type="button" class="btn btn-primary" data-inquiry data-service="맞춤 프로젝트 문의">간단 요청서 쓰기 →</button>
+      <a href="mailto:info@tripleondesign.com" class="btn btn-secondary">바로 메일 보내기 ↗</a>
+    </div>
+  </div>
+
+  <!-- PAYMENT INFO -->
+  <div class="payment-info">
+    <div class="payment-info-label">결제 안내</div>
+    <div class="payment-info-body">
+      <p>세금계산서 발급이 필요하시면 언제든 편하게 말씀해주세요. 바로 발급해드립니다.</p>
+      <p>카드로 결제하실 경우 결제 대행 수수료가 일부 추가되는 점 양해 부탁드립니다. 계좌 이체도 가능합니다.</p>
+    </div>
+  </div>
+
+  <!-- FINE PRINT -->
+  <div class="fine-print">
+    <span>표시된 가격은 부가세(VAT)가 포함되지 않은 금액입니다.</span>
+    <span>꾸준히 일을 맡겨주시는 고객에게는 별도 할인 단가를 적용합니다.</span>
+    <span>비영리 단체 · 초기 스타트업을 위한 할인 프로그램 운영 중입니다.</span>
+  </div>
+
+</section>
+
+<!-- INQUIRY MODAL -->
+<div class="modal-overlay" id="inquiryModal" aria-hidden="true" role="dialog" aria-labelledby="modalTitle">
+  <div class="modal">
+    <button class="modal-close" type="button" aria-label="닫기" id="modalClose">×</button>
+    <div class="modal-eyebrow">서비스 문의</div>
+    <h3 class="modal-title" id="modalTitle">간단한 정보를 남겨주세요</h3>
+    <p class="modal-subtitle">
+      아래 내용을 채우고 <strong>이메일로 전송하기</strong>를 누르시면<br/>
+      <strong>info@tripleondesign.com</strong>으로 메일이 전송됩니다.
+    </p>
+
+    <form class="modal-form" id="inquiryForm">
+      <div class="form-row">
+        <label for="modalService">관심 있는 서비스</label>
+        <select id="modalService" required>
+          <option value="PPT · 발표 자료 디자인">PPT · 발표 자료 디자인</option>
+          <option value="3D 아트워크 · 비주얼">3D 아트워크 · 비주얼</option>
+          <option value="웹디자인 · 홈페이지 제작">웹디자인 · 홈페이지 제작</option>
+          <option value="브랜드 디자인 · 로고">브랜드 디자인 · 로고</option>
+          <option value="인쇄물 디자인 · 제작">인쇄물 디자인 · 제작</option>
+          <option value="맞춤 프로젝트 문의">맞춤 프로젝트 (기타)</option>
+        </select>
+      </div>
+
+      <div class="form-row-grid">
+        <div class="form-row">
+          <label for="modalName">성함</label>
+          <input type="text" id="modalName" placeholder="홍길동" required />
+        </div>
+        <div class="form-row">
+          <label for="modalContact">연락처 (이메일 또는 전화)</label>
+          <input type="text" id="modalContact" placeholder="hello@example.com" required />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label for="modalMessage">프로젝트 내용</label>
+        <textarea id="modalMessage" placeholder="간단히 설명해주세요. 예) 회사 소개서 30장, 4월 말까지 필요합니다." required></textarea>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" id="modalCancel">취소</button>
+        <button type="submit" class="btn btn-primary">이메일로 전송하기 →</button>
+      </div>
+
+      <p class="modal-note">
+        ✳ 전송 버튼을 누르면 기본 메일 앱이 열리며, 입력하신 내용이 자동으로 채워집니다. 검토 후 전송해주세요.
+      </p>
+    </form>
+  </div>
+</div>
+
+<script>
+(function() {
+  const modal = document.getElementById('inquiryModal');
+  const form = document.getElementById('inquiryForm');
+  const serviceSelect = document.getElementById('modalService');
+  const nameInput = document.getElementById('modalName');
+  const contactInput = document.getElementById('modalContact');
+  const messageInput = document.getElementById('modalMessage');
+  const closeBtn = document.getElementById('modalClose');
+  const cancelBtn = document.getElementById('modalCancel');
+
+  // Map service-card → service name in select
+  const serviceMap = {
+    'PPT · 발표 자료 디자인': 'PPT · 발표 자료 디자인',
+    '3D 아트워크 · 비주얼': '3D 아트워크 · 비주얼',
+    '웹디자인 · 홈페이지 제작': '웹디자인 · 홈페이지 제작',
+    '브랜드 디자인 · 로고': '브랜드 디자인 · 로고',
+    '인쇄물 디자인 · 제작': '인쇄물 디자인 · 제작'
+  };
+
+  function getServiceName(triggerEl) {
+    if (triggerEl.dataset.service) return triggerEl.dataset.service;
+    const card = triggerEl.closest('.service-card');
+    if (card) {
+      const nameEl = card.querySelector('.service-name');
+      if (nameEl) {
+        const text = nameEl.textContent.trim();
+        return serviceMap[text] || text;
+      }
+    }
+    return '맞춤 프로젝트 문의';
+  }
+
+  function openModal(serviceName) {
+    serviceSelect.value = serviceName;
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => nameInput.focus(), 100);
+  }
+
+  function closeModal() {
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  // Bind to all 문의하기 buttons (.service-arrow) and CTA inquiry buttons
+  document.querySelectorAll('.service-arrow, [data-inquiry]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      openModal(getServiceName(btn));
+    });
+  });
+
+  closeBtn.addEventListener('click', closeModal);
+  cancelBtn.addEventListener('click', closeModal);
+
+  // Click outside modal to close
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+
+  // Escape key to close
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('is-open')) {
+      closeModal();
+    }
+  });
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const service = serviceSelect.value;
+    const name = nameInput.value.trim();
+    const contact = contactInput.value.trim();
+    const message = messageInput.value.trim();
+
+    const subject = `[TOD 문의] ${service} - ${name}`;
+    const body =
+      `■ 관심 있는 서비스\n${service}\n\n` +
+      `■ 성함\n${name}\n\n` +
+      `■ 연락처\n${contact}\n\n` +
+      `■ 프로젝트 내용\n${message}\n\n` +
+      `---\n* 이 메일은 tripleondesign.com 문의 양식을 통해 작성되었습니다.`;
+
+    const mailto = `mailto:info@tripleondesign.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = mailto;
+
+    // Optional: close modal after a brief delay
+    setTimeout(closeModal, 400);
+  });
+})();
+</script>
+
+</body>
+</html>
