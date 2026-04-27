@@ -87,7 +87,7 @@
             position: absolute;
             top: 14px;
             left: 14px;
-            width: 286px;
+            width: 324px;
             border-radius: var(--r);
             padding: 14px;
             z-index: 20;
@@ -319,9 +319,14 @@
 
         .stage-dots {
             display: flex;
-            gap: 3px;
+            gap: 4px;
             justify-content: center;
-            margin-bottom: 5px
+            margin-bottom: 0;
+            padding: 10px 12px 9px;
+            background: rgba(0, 16, 36, 0.45);
+            border: 1px solid rgba(0, 200, 180, 0.22);
+            border-bottom: 1px solid rgba(0, 200, 180, 0.12);
+            border-radius: 12px 12px 0 0;
         }
 
         .stage-dot {
@@ -678,33 +683,27 @@
             opacity: 1
         }
 
-        /* ── Stage Subtitle (자막) ───────────────────── */
-        #stage-subtitle {
-            position: fixed;
-            bottom: 90px;
-            left: calc(50% + 140px);
-            transform: translateX(-50%);
-            z-index: 30;
-            min-width: 560px;
-            max-width: 860px;
-            width: max-content;
-            padding: 16px 22px 18px;
-            border-radius: 18px;
-            background: linear-gradient(150deg, rgba(0, 16, 36, 0.65) 0%, rgba(4, 10, 20, 0.72) 100%);
-            backdrop-filter: blur(28px) saturate(170%);
-            -webkit-backdrop-filter: blur(28px) saturate(170%);
-            border: 1px solid rgba(0, 160, 200, 0.2);
-            box-shadow: 0 10px 48px rgba(0, 60, 120, 0.2), 0 2px 6px rgba(0, 0, 0, .3), inset 0 1px 0 rgba(0, 200, 230, 0.12);
-            pointer-events: auto;
-            transition: opacity 0.5s ease;
-            display: flex;
-            align-items: center;
-            gap: 16px;
+        /* ── Stage subtitle: 위 단계 버튼과 시각적으로 연결된 카드의 하단 ── */
+        #info-panel #stage-subtitle {
+            position: static;
+            margin-top: 0;
+            padding: 12px 14px 12px;
+            border-radius: 0 0 12px 12px;
+            background: rgba(0, 16, 36, 0.45);
+            border: 1px solid rgba(0, 200, 180, 0.22);
+            border-top: 0;
+            box-shadow: inset 0 1px 0 rgba(0, 220, 200, 0.06);
+            display: block;
+            width: auto;
+            max-width: none;
+            min-width: 0;
+            transform: none;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
         }
 
-        #sub-content {
-            flex: 1;
-            text-align: center;
+        #info-panel #sub-content {
+            text-align: left;
             min-width: 0;
         }
 
@@ -755,29 +754,31 @@
         }
 
         #sub-ko {
-            font-size: 1.5rem;
+            font-size: 1.05rem;
             font-weight: 700;
             color: #f8f4ff;
             line-height: 1.35;
             letter-spacing: -0.02em;
+            text-align: left;
         }
 
         #sub-en {
-            font-size: 0.82rem;
+            font-size: 0.72rem;
             color: #c0d8e8;
             font-style: italic;
             margin-top: 3px;
+            text-align: left;
         }
 
         #sub-body {
-            font-size: 0.92rem;
+            font-size: 0.78rem;
             color: #d8d0ee;
-            line-height: 1.7;
-            margin-top: 10px;
-            padding-top: 10px;
+            line-height: 1.6;
+            margin-top: 8px;
+            padding-top: 8px;
             border-top: 1px solid rgba(255, 255, 255, 0.07);
-            max-width: 680px;
-            text-align: center;
+            max-width: 100%;
+            text-align: left;
             display: flex;
             flex-direction: column;
             gap: 3px;
@@ -850,14 +851,7 @@
         @media (max-width: 900px) {
 
             #info-panel {
-                width: 248px;
-            }
-
-            #stage-subtitle {
-                min-width: unset;
-                width: calc(100% - 280px);
-                left: calc(248px + 78px);
-                transform: none;
+                width: 284px;
             }
 
             #brain-popup,
@@ -1155,97 +1149,106 @@
             color: #ff8888;
         }
 
-        /* ── Mounjaro navigation button ── */
-        #btn-mounjaro-link {
-            position: absolute;
-            bottom: 18px;
-            left: 14px;
-            z-index: 20;
+        /* ── 마운자로 기전 CTA — 보라 글라스모피즘 버튼 (info-panel 전체 너비) ── */
+        .mounjaro-cta-btn {
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 8px 16px;
-            width: 286px;
-            border-radius: 12px;
-            background: linear-gradient(145deg, rgba(100, 40, 200, 0.2) 0%, rgba(60, 20, 140, 0.25) 100%);
-            backdrop-filter: blur(28px) saturate(160%);
-            -webkit-backdrop-filter: blur(28px) saturate(160%);
-            border: 1.5px solid rgba(140, 80, 240, 0.35);
-            box-shadow: 0 6px 28px rgba(80, 20, 180, 0.15), inset 0 1px 0 rgba(180, 140, 255, 0.12);
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            box-sizing: border-box;
+            margin-top: 8px;
+            padding: 7px 12px;
+            border-radius: 10px;
+            border: 1.5px solid rgba(167, 139, 250, 0.45);
+            background:
+                linear-gradient(145deg,
+                    rgba(167, 139, 250, 0.18) 0%,
+                    rgba(140, 100, 230, 0.22) 50%,
+                    rgba(100, 60, 180, 0.18) 100%);
+            color: #DCC7FF;
+            font-family: 'DM Sans', sans-serif;
+            font-size: .7rem;
+            font-weight: 600;
+            letter-spacing: 0.03em;
             text-decoration: none;
             cursor: pointer;
-            transition: all 0.25s ease;
+            backdrop-filter: blur(16px) saturate(160%);
+            -webkit-backdrop-filter: blur(16px) saturate(160%);
+            box-shadow:
+                0 4px 16px rgba(120, 80, 220, 0.18),
+                0 1px 4px rgba(0, 0, 0, 0.28),
+                inset 0 1px 0 rgba(220, 200, 255, 0.20),
+                inset 0 -1px 0 rgba(40, 20, 60, 0.12);
+            transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+            position: relative;
+            overflow: hidden;
+            line-height: 1;
         }
-
-        #btn-mounjaro-link:hover {
-            background: linear-gradient(145deg, rgba(120, 50, 230, 0.3) 0%, rgba(80, 30, 180, 0.35) 100%);
-            border-color: rgba(160, 100, 255, 0.55);
-            box-shadow: 0 8px 36px rgba(100, 30, 220, 0.25), inset 0 1px 0 rgba(200, 160, 255, 0.18);
-            transform: translateY(-2px);
+        .mounjaro-cta-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.12) 0%,
+                rgba(255, 255, 255, 0.03) 40%,
+                transparent 70%);
+            pointer-events: none;
+            z-index: 0;
         }
-
-        #btn-mounjaro-link:active {
-            transform: translateY(0);
+        .mounjaro-cta-btn > * {
+            position: relative;
+            z-index: 1;
         }
-
-        .mounjaro-link-icon {
-            font-size: 1.3rem;
-            flex-shrink: 0;
+        .mounjaro-cta-btn:hover {
+            background:
+                linear-gradient(145deg,
+                    rgba(190, 160, 255, 0.28) 0%,
+                    rgba(160, 120, 245, 0.32) 50%,
+                    rgba(120, 80, 200, 0.26) 100%);
+            border-color: rgba(200, 170, 255, 0.65);
+            color: #F0E2FF;
         }
-
-        .mounjaro-link-text {
-            display: flex;
-            flex-direction: column;
-            gap: 1px;
+        .mounjaro-cta-btn:active {
+            background:
+                linear-gradient(145deg,
+                    rgba(200, 170, 255, 0.36) 0%,
+                    rgba(170, 130, 250, 0.40) 100%);
         }
-
-        .mounjaro-link-text strong {
-            font-family: 'DM Sans', sans-serif;
+        .mounjaro-cta-btn .mounjaro-cta-icon {
+            font-size: 0.85rem;
+        }
+        .mounjaro-cta-btn .mounjaro-cta-arrow {
             font-size: 0.8rem;
-            font-weight: 700;
-            color: #c8a0ff;
-            letter-spacing: 0.02em;
+            margin-left: 1px;
+            transition: transform 0.2s ease;
         }
-
-        .mounjaro-link-text em {
-            font-family: 'DM Sans', sans-serif;
-            font-size: 0.65rem;
-            font-style: normal;
-            color: rgba(180, 150, 220, 0.7);
-            letter-spacing: 0.03em;
-        }
-
-        /* Tablet */
-        @media (max-width: 900px) {
-            #btn-mounjaro-link {
-                width: 228px;
-                padding: 10px 14px;
-                gap: 8px;
-                bottom: 14px;
-                left: 14px;
-            }
-
-            .mounjaro-link-icon {
-                font-size: 1.3rem;
-            }
-
-            .mounjaro-link-text strong {
-                font-size: 0.78rem;
-            }
-
-            .mounjaro-link-text em {
-                font-size: 0.58rem;
-            }
-        }
-
-        /* Mobile */
-        @media (max-width: 600px) {
-            #btn-mounjaro-link {
-                display: none;
-            }
+        .mounjaro-cta-btn:hover .mounjaro-cta-arrow {
+            transform: translateX(2px);
         }
 
         #bg-overlay { display: none; }
+
+        .site-footer-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 45;
+            padding: 0.55rem 1rem calc(0.55rem + env(safe-area-inset-bottom, 0px));
+            background: rgba(0, 0, 0, 0.88);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            font-family: 'DM Sans', system-ui, sans-serif;
+            font-size: 0.72rem;
+            color: rgba(255, 255, 255, 0.38);
+            text-align: center;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 0.35rem 1rem;
+        }
     </style>
 </head>
 
@@ -1259,14 +1262,11 @@
             <div style="font-size:0.65rem;color:#60c8b0;font-family:'DM Mono',monospace;margin-top:2px;">NOVO NORDISK
             </div>
         </div>
-        <div class="panel-title">위고비 GLP-1 수용체 작용 기전<span class="panel-title-sub">GLP-1 Receptor Agonist Mechanism of
-                Action</span></div>
-        <p class="panel-desc">31개 아미노산 합성 펩타이드가 GLP-1 수용체를 선택적으로 활성화하여 식욕 억제와 체중 감량을 유도합니다.<br><em>31-AA peptide
-                selectively activating GLP-1 receptors for appetite suppression &amp; weight loss.</em></p>
+        <div class="panel-title">위고비 GLP-1 수용체 작용 기전</div>
+        <p class="panel-desc">31개 아미노산 합성 펩타이드가 GLP-1 수용체를 선택적으로 활성화하여 식욕 억제와 체중 감량을 유도합니다.</p>
 
 
         <div id="player-section">
-            <div class="stage-label" id="stage-short-label"><b>단계 1 / 6</b></div>
             <div class="stage-dots">
                 <div class="stage-dot active">1</div>
                 <div class="stage-dot">2</div>
@@ -1275,22 +1275,17 @@
                 <div class="stage-dot">5</div>
                 <div class="stage-dot">6</div>
             </div>
-            <a id="mob-nav-float" href="mounjaro.html">← Mounjaro</a>
             <div id="mob-stage-desc" class="mob-stage-desc"></div>
-            <div class="player-row">
-                <button class="ctrl-btn" id="btn-restart">↺</button>
-                <button class="ctrl-btn primary" id="btn-play">⏸</button>
-                <div class="speed-row">
-                    <span class="speed-lbl">속도</span>
-                    <button class="speed-btn" data-v="0.5">0.5×</button>
-                    <button class="speed-btn on" data-v="1">1×</button>
-                    <button class="speed-btn" data-v="2">2×</button>
+            <!-- 단계 설명 (위 단계 버튼과 시각적으로 연결된 카드) -->
+            <div id="stage-subtitle">
+                <div id="sub-content">
+                    <div id="sub-ko">혈관 내 혈당 상승</div>
+                    <div id="sub-en">Blood Glucose Rising</div>
+                    <div id="sub-body">식사 후 혈중 포도당 상승, 적혈구와 함께 순환.</div>
                 </div>
             </div>
-            <div class="player-row" style="margin-top:0">
-                <div id="progress-track">
-                    <div id="progress-fill"></div>
-                </div>
+            <div id="progress-track" style="margin-top:10px;">
+                <div id="progress-fill"></div>
             </div>
             <div class="toggle-row"><span class="toggle-label">장기 라벨 보기</span>
                 <div class="toggle-switch on" id="tog-organ"></div>
@@ -1301,19 +1296,11 @@
             <div class="toggle-row"><span class="toggle-label">장기 대사에 대한 설명 보기</span>
                 <div class="toggle-switch" id="tog-subtitle"></div>
             </div>
-            <div class="lang-row">
-                <span class="lang-lbl">자막 언어</span>
-                <button class="lang-btn on" id="lang-ko">국문</button>
-                <button class="lang-btn" id="lang-en">Eng</button>
-            </div>
             <div
                 style="display:flex;gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.06);">
                 <button id="btn-glp1-info"
                     style="flex:1;padding:7px 0;border-radius:10px;border:1.5px solid rgba(0,212,170,.45);background:rgba(0,212,170,.08);color:#00d4aa;font-size:.7rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;">GLP-1
                     기전 ℹ</button>
-                <a href="mounjaro.html"
-                    style="flex:1;padding:7px 0;border-radius:10px;border:1.5px solid rgba(167,139,250,.45);background:rgba(167,139,250,.08);color:#c8a0ff;font-size:.7rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;text-decoration:none;text-align:center;display:block;">💉
-                    Mounjaro 기전 →</a>
             </div>
             <div
                 style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,.05);display:flex;flex-wrap:wrap;gap:4px 10px;">
@@ -1342,6 +1329,13 @@
                         style="font-size:.58rem;color:#8898b0;">글루카곤</span>
                 </div>
             </div>
+
+            <!-- 마운자로 기전 보러가기 — 좌측 패널 너비 전체에 맞춰진 하단 CTA -->
+            <a href="mounjaro.html" class="mounjaro-cta-btn">
+                <span class="mounjaro-cta-icon" aria-hidden="true">💉</span>
+                <span class="mounjaro-cta-text">마운자로 기전 보러가기</span>
+                <span class="mounjaro-cta-arrow" aria-hidden="true">→</span>
+            </a>
         </div>
     </div>
 
@@ -1362,11 +1356,6 @@
         </div>
         <div class="toggle-row" id="mob-tog-sub-row"><span class="toggle-label">장기 대사 설명</span>
             <div class="toggle-switch" id="mob-tog-subtitle"></div>
-        </div>
-        <div class="lang-row" id="mob-lang-row">
-            <span class="lang-lbl">자막 언어</span>
-            <button class="lang-btn on" id="mob-lang-ko">국문</button>
-            <button class="lang-btn" id="mob-lang-en">Eng</button>
         </div>
         <div class="legend"
             style="display:block !important; margin-top:10px; padding-top:8px; border-top:1px solid rgba(255,255,255,.08)">
@@ -1497,16 +1486,6 @@
     </div>
 
     <div id="labels-container"></div>
-    <div id="stage-subtitle">
-        <button class="nav-arrow" id="btn-prev">&#8249;</button>
-        <div id="sub-content">
-            <div id="sub-num">단계 1 / 6</div>
-            <div id="sub-ko">혈관 내 혈당 상승</div>
-            <div id="sub-en">Blood Glucose Rising</div>
-            <div id="sub-body">식사 후 혈중 포도당 상승, 적혈구와 함께 순환.</div>
-        </div>
-        <button class="nav-arrow" id="btn-next">&#8250;</button>
-    </div>
     <script type="importmap">
     {
       "imports": {
@@ -1595,7 +1574,9 @@
             document.getElementById('labels-container').appendChild(labelRenderer.domElement);
             controls = new OrbitControls(camera, renderer.domElement);
             controls.enableDamping = true; controls.dampingFactor = .07; controls.minDistance = 60; controls.maxDistance = 500;
-            controls.target.set(0, 5, 0); camera.lookAt(0, 5, 0);
+            // 그래픽을 화면 위쪽에서 보이도록 카메라를 살짝 올리고 시선을 아래로 기울임
+            camera.position.set(0, 18, 165);
+            controls.target.set(0, -10, 0); camera.lookAt(0, -10, 0);
             // Mobile/tablet camera adjustment
             if (window.innerWidth <= 600) {
                 camera.fov = 62;
@@ -1606,9 +1587,9 @@
             } else if (window.innerWidth <= 900) {
                 camera.fov = 54;
                 camera.updateProjectionMatrix();
-                camera.position.set(0, 5, 185);
-                camera.lookAt(0, 5, 0);
-                controls.target.set(0, 5, 0);
+                camera.position.set(0, 18, 185);
+                camera.lookAt(0, -10, 0);
+                controls.target.set(0, -10, 0);
             }
             scene.add(new THREE.AmbientLight(0x1a1830, .6));
             scene.add(new THREE.HemisphereLight(0x6688cc, 0x443344, .55));
@@ -1643,11 +1624,14 @@
                 pts.userData.isAmbient = true;
                 scene.add(pts);
             })();
-            // Events
-            document.getElementById('btn-play').onclick = () => { playing = !playing; document.getElementById('btn-play').textContent = playing ? '⏸' : '▶' };
-            document.getElementById('btn-restart').onclick = restart;
+            // Events — 플레이/속도 버튼 제거됨, 존재할 때만 바인딩
+            const _btnPlay = document.getElementById('btn-play');
+            if (_btnPlay) _btnPlay.onclick = () => { playing = !playing; _btnPlay.textContent = playing ? '⏸' : '▶' };
+            const _btnRestart = document.getElementById('btn-restart');
+            if (_btnRestart) _btnRestart.onclick = restart;
             document.querySelectorAll('.speed-btn').forEach(b => b.onclick = () => { speed = +b.dataset.v; document.querySelectorAll('.speed-btn').forEach(x => x.classList.toggle('on', +x.dataset.v === speed)) });
-            document.getElementById('progress-track').onclick = e => { const r = e.currentTarget.getBoundingClientRect(); globalTime = ((e.clientX - r.left) / r.width) * TT };
+            const _progressTrack = document.getElementById('progress-track');
+            if (_progressTrack) _progressTrack.onclick = e => { const r = e.currentTarget.getBoundingClientRect(); globalTime = ((e.clientX - r.left) / r.width) * TT };
             // Label toggles
             document.getElementById('tog-organ').onclick = function () {
                 this.classList.toggle('on'); showOrganLabels = this.classList.contains('on');
@@ -1671,27 +1655,33 @@
                     hideBrainPopup(); hideAdiposePopup(); hideLiverPopup(); hidePancreasPopup(); hideGlp1Popup();
                 }
             };
-            // Language toggle — also refreshes any open popups
+            // Language toggle — 자막언어 버튼 제거됨, 한국어 고정. 함수만 안전하게 유지.
             function setLang(lang) {
                 subLang = lang;
-                document.getElementById('lang-ko').classList.toggle('on', lang === 'ko');
-                document.getElementById('lang-en').classList.toggle('on', lang === 'en');
+                const koBtn = document.getElementById('lang-ko');
+                const enBtn = document.getElementById('lang-en');
+                if (koBtn) koBtn.classList.toggle('on', lang === 'ko');
+                if (enBtn) enBtn.classList.toggle('on', lang === 'en');
                 if (document.getElementById('brain-popup').classList.contains('show')) updateBrainPopup();
                 if (document.getElementById('adipose-popup').classList.contains('show')) updateAdiposePopup();
                 if (document.getElementById('liver-popup').classList.contains('show')) updateLiverPopup();
                 if (document.getElementById('pancreas-popup').classList.contains('show')) updatePancreasPopup();
             }
-            document.getElementById('lang-ko').onclick = () => setLang('ko');
-            document.getElementById('lang-en').onclick = () => setLang('en');
+            const _langKoBtn = document.getElementById('lang-ko');
+            const _langEnBtn = document.getElementById('lang-en');
+            if (_langKoBtn) _langKoBtn.onclick = () => setLang('ko');
+            if (_langEnBtn) _langEnBtn.onclick = () => setLang('en');
 
-            // Stage nav arrows
+            // Stage nav arrows — 버튼 제거됨, 존재할 때만 바인딩
             const stageStarts = SD.reduce((acc, d, i) => { acc.push(i === 0 ? 0 : acc[acc.length - 1] + SD[i - 1]); return acc; }, []);
-            document.getElementById('btn-prev').onclick = () => {
+            const _btnPrev = document.getElementById('btn-prev');
+            if (_btnPrev) _btnPrev.onclick = () => {
                 const s = getStage().stage;
                 if (s > 0) globalTime = stageStarts[s - 1] + 0.01;
                 else globalTime = 0;
             };
-            document.getElementById('btn-next').onclick = () => {
+            const _btnNext = document.getElementById('btn-next');
+            if (_btnNext) _btnNext.onclick = () => {
                 const s = getStage().stage;
                 if (s < SD.length - 1) globalTime = stageStarts[s + 1] + 0.01;
             };
@@ -2414,7 +2404,9 @@
         }
         function animateBars(on) {}
         function restart() {
-            globalTime = 0; playing = true; document.getElementById('btn-play').textContent = '⏸';
+            globalTime = 0; playing = true;
+            const _bp = document.getElementById('btn-play');
+            if (_bp) _bp.textContent = '⏸';
             semaglutideMol.position.set(80, 30, 25); semaglutideMol.visible = false;
             recGLP1.userData.bound = false; recGLP1.userData.m1.emissiveIntensity = .4; recGLP1.scale.set(1, 1, 1); recGLP1.userData.gm.opacity = 0; recGLP1.userData.bs = 1; recGLP1.userData.wobbleT = 0; recGLP1.position.copy(G1); recGLP1.rotation.set(0, 0, 0);
             if (stomachGlow) { stomachGlow.children[0].material.opacity = 0; stomachGlow.children[0].material.emissiveIntensity = 0; stomachGlow.children[1].material.opacity = 0; stomachGlow.children[0].visible = false; stomachGlow.children[1].visible = false; }
@@ -2611,25 +2603,31 @@
             const st = STAGES[s];
             const isKo = subLang === 'ko';
             // Title: "단계N: 제목" or "Step N: Title"
-            document.getElementById('sub-num').style.display = 'none';
-            document.getElementById('sub-en').style.display = 'none';
-            document.getElementById('sub-ko').textContent = (isKo ? '단계' : 'Step') + (s + 1) + ': ' + (isKo ? st.ko : st.en);
-            // Body: split by '. ' → one sentence per centered line
+            const _subNum = document.getElementById('sub-num');
+            const _subEn = document.getElementById('sub-en');
+            const _subKo = document.getElementById('sub-ko');
+            if (_subNum) _subNum.style.display = 'none';
+            if (_subEn) _subEn.style.display = 'none';
+            if (_subKo) _subKo.textContent = (isKo ? '단계' : 'Step') + (s + 1) + ': ' + (isKo ? st.ko : st.en);
+            // Body: 줄바꿈 없이 한 문단으로 표시
             const bodyText = isKo ? st.b : (st.be || st.b);
-            const sentences = bodyText.split(/(?<=\.)(\s+)/).filter(s => s && s.trim());
             const bodyEl = document.getElementById('sub-body');
-            bodyEl.innerHTML = '';
-            sentences.forEach(sen => {
+            if (bodyEl) {
+                bodyEl.innerHTML = '';
                 const p = document.createElement('p');
-                p.style.cssText = 'margin:0;text-align:center;';
-                p.textContent = sen.trim();
-                if (p.textContent) bodyEl.appendChild(p);
-            });
+                p.style.cssText = 'margin:0;text-align:left;';
+                p.textContent = bodyText.replace(/\s+/g, ' ').trim();
+                bodyEl.appendChild(p);
+            }
             // Nav button states
-            document.getElementById('btn-prev').disabled = s === 0;
-            document.getElementById('btn-next').disabled = s === SD.length - 1;
-            document.getElementById('progress-fill').style.width = Math.min(globalTime / TT * 100, 100) + '%';
-            document.getElementById('stage-short-label').innerHTML = '<b>단계 ' + (s + 1) + ' / 6</b>';
+            const _bpv = document.getElementById('btn-prev');
+            const _bnx = document.getElementById('btn-next');
+            const _pf = document.getElementById('progress-fill');
+            if (_bpv) _bpv.disabled = s === 0;
+            if (_bnx) _bnx.disabled = s === SD.length - 1;
+            if (_pf) _pf.style.width = Math.min(globalTime / TT * 100, 100) + '%';
+            const _ssl = document.getElementById('stage-short-label');
+            if (_ssl) _ssl.innerHTML = '<b>단계 ' + (s + 1) + ' / 6</b>';
             document.querySelectorAll('.stage-dot').forEach((d, i) => { d.classList.remove('active', 'done'); if (i < s) d.classList.add('done'); else if (i === s) d.classList.add('active') });
             // Mobile stage description
             const mobDesc = document.getElementById('mob-stage-desc');
@@ -2653,9 +2651,46 @@
             renderer.setSize(innerWidth, innerHeight);
             labelRenderer.setSize(innerWidth, innerHeight);
         });
+        // 단계 설명 박스 높이를 가장 긴 글 기준으로 고정
+        function lockStageSubtitleHeight() {
+            const stageSubtitle = document.getElementById('stage-subtitle');
+            const subKo = document.getElementById('sub-ko');
+            const subBody = document.getElementById('sub-body');
+            if (!stageSubtitle || !subKo || !subBody || !Array.isArray(STAGES) || !STAGES.length) return;
+
+            const origKo = subKo.textContent;
+            const origBody = subBody.innerHTML;
+            stageSubtitle.style.minHeight = '';
+
+            let maxHeight = 0;
+            const isKo = subLang === 'ko';
+            STAGES.forEach((st, i) => {
+                subKo.textContent = (isKo ? '단계' : 'Step') + (i + 1) + ': ' + (isKo ? st.ko : st.en);
+                subBody.innerHTML = '';
+                const p = document.createElement('p');
+                p.style.cssText = 'margin:0;text-align:left;';
+                const bodyText = isKo ? st.b : (st.be || st.b);
+                p.textContent = bodyText.replace(/\s+/g, ' ').trim();
+                subBody.appendChild(p);
+                stageSubtitle.offsetHeight;
+                const h = stageSubtitle.getBoundingClientRect().height;
+                if (h > maxHeight) maxHeight = h;
+            });
+
+            stageSubtitle.style.minHeight = Math.ceil(maxHeight) + 'px';
+
+            subKo.textContent = origKo;
+            subBody.innerHTML = origBody;
+        }
+
         try {
             init();
             animate();
+            requestAnimationFrame(() => requestAnimationFrame(lockStageSubtitleHeight));
+            window.addEventListener('resize', () => {
+                clearTimeout(window._stageHeightTimer);
+                window._stageHeightTimer = setTimeout(lockStageSubtitleHeight, 200);
+            });
         } catch (e) {
             console.error('Wegovy init error:', e);
             const err = document.createElement('div');
@@ -2664,6 +2699,7 @@
             document.body.appendChild(err);
         }
     </script>
+    <footer class="site-footer-bar" role="contentinfo">&copy; 2026 Triple On Design.</footer>
 </body>
 
 </html>
