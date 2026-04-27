@@ -116,101 +116,91 @@
         }
 
         /* ===========================================================
-           About 섹션 CTA 버튼 그룹 — Show Works + Price Policy
-           - 슬라이딩/호버 텍스트 등장 효과 제거
-           - 텍스트는 항상 또렷하게 (호버 없이도 가독)
-           - 데스크톱: 가로 나란히 / 모바일: 세로 스택 (동일 너비)
+           About 섹션 CTA 버튼 그룹 — SHOW WORKS + PRICE POLICY
+           - 기존 .works-cta-btn 클래스를 사용하지 않고
+             완전히 새로운 .about-action-btn 클래스로 처음부터 정의
+           - 슬라이딩/호버 텍스트 등장 효과 일절 없음
+           - 텍스트는 항상 또렷하게 보임 (호버 없이도 가독)
+           - 데스크톱: 가로 나란히 (간격 32px)
+           - 모바일: 세로 스택, 동일 너비 (간격 18px)
            =========================================================== */
         #about .works-cta {
             display: flex;
             flex-direction: row;
-            gap: 12px;
+            gap: 32px;
             justify-content: center;
             align-items: stretch;
             flex-wrap: wrap;
         }
 
-        /* 두 버튼 공통 스타일: 글라스모피즘 — Contact 버튼들과 동일 톤 */
-        #about .works-cta .works-cta-btn,
-        #about .works-cta .price-policy-btn {
+        /* 외부 CSS의 ::before/::after 슬라이딩 효과 차단 */
+        #about .works-cta .about-action-btn::before,
+        #about .works-cta .about-action-btn::after {
+            content: none !important;
+            display: none !important;
+        }
+
+        #about .works-cta .about-action-btn {
             flex: 0 1 220px;
             min-height: 56px;
             box-sizing: border-box;
-            display: inline-flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            gap: 10px;
-            padding: 16px 28px !important;
-            font-family: 'Inter', sans-serif;
-            font-size: 15px;
-            font-weight: 500;
-            letter-spacing: 0.02em;
-            line-height: 1.2;
-            text-decoration: none !important;
-            cursor: pointer;
-            white-space: nowrap;
-            background: rgba(255, 255, 255, 0.08) !important;
-            border: 1px solid rgba(255, 255, 255, 0.22) !important;
-            border-radius: 14px !important;
-            color: #ffffff !important;
-            backdrop-filter: blur(14px) saturate(140%) !important;
-            -webkit-backdrop-filter: blur(14px) saturate(140%) !important;
-            box-shadow:
-                inset 0 1px 0 rgba(255, 255, 255, 0.14),
-                0 6px 22px rgba(0, 0, 0, 0.22) !important;
-            /* 슬라이딩/이동 애니메이션 모두 제거 */
-            transform: none !important;
-            animation: none !important;
-            transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease !important;
-            opacity: 1 !important;
-            overflow: visible !important;
-            position: relative;
-        }
-
-        /* 버튼 내부 span/text/icon — 항상 또렷하게 */
-        #about .works-cta .works-cta-btn .text,
-        #about .works-cta .works-cta-btn .icon,
-        #about .works-cta .works-cta-btn span,
-        #about .works-cta .price-policy-btn .text,
-        #about .works-cta .price-policy-btn .icon,
-        #about .works-cta .price-policy-btn span {
-            color: #ffffff !important;
-            opacity: 1 !important;
-            visibility: visible !important;
-            transform: none !important;
-            animation: none !important;
-            position: static !important;
             display: inline-flex;
             align-items: center;
-            line-height: 1.2;
-        }
-        #about .works-cta .works-cta-btn .icon svg,
-        #about .works-cta .price-policy-btn .icon svg {
-            display: block;
-            stroke: #ffffff;
-            opacity: 1 !important;
+            justify-content: center;
+            gap: 12px;
+            padding: 16px 28px;
+
+            font-family: 'Inter', sans-serif;
+            font-size: 14.5px;
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            line-height: 1;
+            text-transform: uppercase;
+            color: #ffffff;
+            text-decoration: none;
+            white-space: nowrap;
+
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.24);
+            border-radius: 14px;
+            backdrop-filter: blur(14px) saturate(140%);
+            -webkit-backdrop-filter: blur(14px) saturate(140%);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.14),
+                0 6px 22px rgba(0, 0, 0, 0.22);
+
+            cursor: pointer;
+            transition: background 0.2s ease, border-color 0.2s ease;
         }
 
-        /* Hover — 부드러운 톤 변화만 (이동 효과 없음) */
-        #about .works-cta .works-cta-btn:hover,
-        #about .works-cta .price-policy-btn:hover {
-            background: rgba(255, 255, 255, 0.16) !important;
-            border-color: rgba(255, 255, 255, 0.34) !important;
+        #about .works-cta .about-action-btn .label {
+            color: #ffffff;
+            opacity: 1;
         }
-        #about .works-cta .works-cta-btn:active,
-        #about .works-cta .price-policy-btn:active {
-            background: rgba(255, 255, 255, 0.20) !important;
+        #about .works-cta .about-action-btn .arrow {
+            color: #ffffff;
+            opacity: 1;
+            font-size: 17px;
+            font-weight: 400;
+            line-height: 1;
+            margin-left: 2px;
         }
 
-        /* 모바일 — Show Works 아래에 Price Policy가 같은 너비로 쌓임 */
+        #about .works-cta .about-action-btn:hover {
+            background: rgba(255, 255, 255, 0.16);
+            border-color: rgba(255, 255, 255, 0.36);
+        }
+        #about .works-cta .about-action-btn:active {
+            background: rgba(255, 255, 255, 0.22);
+        }
+
         @media (max-width: 700px) {
             #about .works-cta {
                 flex-direction: column;
                 align-items: stretch;
-                gap: 10px;
+                gap: 18px;
             }
-            #about .works-cta .works-cta-btn,
-            #about .works-cta .price-policy-btn {
+            #about .works-cta .about-action-btn {
                 flex: 1 1 auto;
                 width: 100%;
                 min-width: 0;
@@ -218,7 +208,7 @@
         }
 
         /* ===========================================================
-           Price Policy 모달
+           Price Policy 모달 — about.html 내 임베드, iframe으로 로드
            =========================================================== */
         .price-modal-overlay {
             display: none;
@@ -233,9 +223,7 @@
             padding: 24px;
             animation: priceFade 0.2s ease;
         }
-        .price-modal-overlay.is-open {
-            display: flex;
-        }
+        .price-modal-overlay.is-open { display: flex; }
         @keyframes priceFade {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -282,9 +270,7 @@
             border-color: rgba(255, 255, 255, 0.4);
         }
         @media (max-width: 700px) {
-            .price-modal-overlay {
-                padding: 0;
-            }
+            .price-modal-overlay { padding: 0; }
             .price-modal {
                 height: 100vh;
                 max-width: 100%;
@@ -362,21 +348,13 @@
                 </div>
 
                 <div class="works-cta">
-                    <a href="works.html" class="works-cta-btn">
-                        <span class="text">Show Works</span>
-                        <span class="icon">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <polyline points="9 6 15 12 9 18"></polyline>
-                            </svg>
-                        </span>
+                    <a href="works.html" class="about-action-btn">
+                        <span class="label">SHOW WORKS</span>
+                        <span class="arrow" aria-hidden="true">→</span>
                     </a>
-                    <a href="price-policy.html" class="price-policy-btn" id="pricePolicyBtn">
-                        <span class="text">Price Policy</span>
-                        <span class="icon">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <polyline points="9 6 15 12 9 18"></polyline>
-                            </svg>
-                        </span>
+                    <a href="price-policy.html" class="about-action-btn" id="pricePolicyBtn">
+                        <span class="label">PRICE POLICY</span>
+                        <span class="arrow" aria-hidden="true">→</span>
                     </a>
                 </div>
             </div>
@@ -1000,10 +978,10 @@
         if (!btn || !modal || !iframe) return;
 
         function openModal(e) {
-            // 데스크톱·태블릿에서는 모달로, 매우 좁은 화면이거나 우클릭/Cmd-click은 새 페이지로 이동
-            if (e && (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1)) return; // 새 탭 동작 허용
+            // Cmd/Ctrl/Shift+클릭, 가운데 클릭은 새 탭으로 열도록 통과
+            if (e && (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1)) return;
             e.preventDefault();
-            // iframe src를 클릭 시점에 주입 (lazy load)
+            // iframe src를 클릭 시점에 주입(lazy load)
             if (iframe.getAttribute('src') !== 'price-policy.html') {
                 iframe.setAttribute('src', 'price-policy.html');
             }
@@ -1011,7 +989,6 @@
             modal.setAttribute('aria-hidden', 'false');
             document.body.style.overflow = 'hidden';
         }
-
         function closeModal() {
             modal.classList.remove('is-open');
             modal.setAttribute('aria-hidden', 'true');
