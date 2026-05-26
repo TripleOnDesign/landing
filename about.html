@@ -279,6 +279,213 @@
                 border-right: 0;
             }
         }
+
+        /* ===========================================================
+           반응형 레이아웃 오버라이드 — 외부 style.css의 고정 max-width/padding을
+           덮어 PC 폭(1024~2560px)에 따라 컨테이너·그리드·여백이
+           자연스럽게 호흡하도록 조정.
+           =========================================================== */
+        main #about,
+        main #contact {
+            padding-left: clamp(20px, 4vw, 64px);
+            padding-right: clamp(20px, 4vw, 64px);
+        }
+
+        main #about .about-container,
+        main #contact .contact-container {
+            width: 100%;
+            max-width: clamp(960px, 88vw, 1440px);
+            margin-left: auto;
+            margin-right: auto;
+            box-sizing: border-box;
+        }
+
+        /* About intro: 본문 폭 전폭 확장 + 좌측 정렬 */
+        main #about .about-intro,
+        main #about .about-intro-kr-box {
+            max-width: none !important;
+            width: 100% !important;
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+            text-align: left;
+        }
+        main #about .about-intro-kr-box p {
+            max-width: none !important;
+            width: 100%;
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+            text-align: left;
+        }
+
+        /* About 카드: 세로 스택 + 각 카드 내부 좌(제목+gif) / 우(설명) 2분할 */
+        main #about .about-grid {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: clamp(48px, 6vw, 96px) !important;
+            grid-template-columns: none !important;
+        }
+
+        main #about .about-card {
+            display: grid !important;
+            /* 두 컬럼을 콘텐츠 너비로만 잡고 그리드 자체를 페이지 가운데로 정렬
+               → GIF + 설명문 쌍이 페이지 중앙에 모여 보임.
+               h3는 좌측 컬럼 안에서 기존 정렬(justify-self: center) 그대로 유지 */
+            grid-template-columns: 450px minmax(280px, 60ch) !important;
+            grid-template-rows: auto auto !important;
+            column-gap: clamp(40px, 5vw, 96px) !important;
+            row-gap: 18px !important;
+            align-items: start !important;
+            justify-content: center !important;     /* 그리드 전체를 카드 가로 중앙 */
+            width: 100% !important;
+            max-width: none !important;
+            margin: 0 !important;
+            box-sizing: border-box;
+            padding: clamp(20px, 2.5vw, 36px) 0 !important;
+        }
+
+        main #about .about-card h3 {
+            grid-column: 1;
+            grid-row: 1;
+            margin: 0 !important;
+            justify-self: center;       /* 좌측 컬럼 가로 중앙 */
+            text-align: center;
+        }
+
+        /* ============ GIF 프레임 — 잘림 방지 ============
+           기존 외부 style.css가 .gif-trigger를 300x300 + overflow:hidden로 잡고
+           있어 1.5배 키운 img가 잘려 보였음.
+           - .gif-trigger 컨테이너 자체를 450×450으로 강제 확장
+           - aspect-ratio 1/1로 정사각형 보장
+           - overflow는 hidden 유지(라운드 코너·오버레이 효과 보존)
+           - img는 컨테이너 전체를 채우되 object-fit:cover로 균일하게 표시 */
+        main #about .about-card .gif-trigger {
+            grid-column: 1;
+            grid-row: 2;
+            justify-self: center;       /* 좌측 컬럼 가로 중앙 */
+            margin: 0 !important;
+            width: 450px !important;
+            height: 450px !important;
+            aspect-ratio: 1 / 1 !important;
+            max-width: 100% !important;
+            min-width: 0 !important;
+            min-height: 0 !important;
+            flex: 0 0 auto !important;
+            overflow: hidden;
+            position: relative;
+        }
+        main #about .about-card .gif-trigger img,
+        main #about .about-card .gif-trigger img[width="300"][height="300"] {
+            width: 100% !important;
+            height: 100% !important;
+            max-width: none !important;
+            max-height: none !important;
+            object-fit: cover !important;
+            display: block !important;
+        }
+
+        main #about .about-card .desc-kr {
+            grid-column: 2;
+            grid-row: 1 / span 2;
+            align-self: center;          /* 세로 중앙 (GIF 높이에 맞춤) */
+            justify-self: center;        /* 우측 컬럼 가로 중앙 */
+            text-align: left;            /* 단락 가독성 위해 본문은 좌측 정렬 유지 */
+            margin: 0 !important;
+            max-width: 60ch;
+            width: 100%;
+        }
+
+        /* Contact 섹션 — About과 충분히 떨어뜨려 여유 있게 배치 */
+        main #contact {
+            margin-top: clamp(96px, 12vw, 220px) !important;
+            padding-top: clamp(48px, 6vw, 96px) !important;
+            padding-bottom: clamp(64px, 8vw, 128px) !important;
+        }
+        main #contact .contact-body {
+            display: grid;
+            grid-template-columns: minmax(280px, 1fr) minmax(320px, 1.1fr);
+            gap: clamp(24px, 3vw, 56px);
+            align-items: start;
+            margin-top: clamp(28px, 3vw, 48px);
+        }
+        main #contact .contact-info-area,
+        main #contact .chat-container {
+            width: 100%;
+            max-width: none;
+            min-width: 0;
+            box-sizing: border-box;
+        }
+        main #contact .chat-container {
+            min-height: clamp(420px, 60vh, 640px);
+        }
+
+        /* Works CTA — 더 크게, 가운데 정렬, 두 버튼 사이 넉넉한 간격 */
+        #about .works-cta {
+            margin-top: clamp(56px, 7vw, 120px) !important;
+            justify-content: center !important;                 /* 가운데 정렬 */
+            gap: clamp(36px, 4.5vw, 80px) !important;           /* 두 버튼 사이 여유 있는 간격 */
+        }
+        #about .works-cta .about-action-btn {
+            flex: 0 0 auto !important;
+            min-height: 88px !important;                        /* 72 → 88 */
+            padding: 28px 56px !important;                      /* 22/40 → 28/56 */
+            font-size: 19px !important;                         /* 17 → 19 */
+            letter-spacing: 0.18em !important;
+            border-radius: 22px !important;                     /* 18 → 22 */
+        }
+        #about .works-cta .about-action-btn .arrow {
+            font-size: 24px !important;                         /* 21 → 24 */
+        }
+
+        /* 1080px 이하: contact 2단 → 1단 스택 */
+        @media (max-width: 1080px) {
+            main #contact .contact-body {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* 모바일 (700px 이하) */
+        @media (max-width: 700px) {
+            main #about,
+            main #contact {
+                padding-left: 16px;
+                padding-right: 16px;
+            }
+            main #about .about-container,
+            main #contact .contact-container {
+                max-width: 100%;
+            }
+            main #about .about-card {
+                grid-template-columns: 1fr !important;
+                grid-template-rows: auto auto auto !important;
+                row-gap: 14px !important;
+                padding: 0 !important;
+            }
+            main #about .about-card h3 {
+                margin: 0 !important;
+            }
+            main #about .about-card .gif-trigger {
+                margin: 0 !important;
+                width: 100% !important;
+                max-width: 360px !important;
+                height: auto !important;
+                aspect-ratio: 1 / 1 !important;
+            }
+            main #about .about-card .desc-kr {
+                grid-column: 1;
+                grid-row: 3;
+                align-self: start;
+                max-width: none;
+            }
+            #about .works-cta {
+                margin-top: clamp(40px, 8vw, 64px) !important;
+                flex-direction: column !important;
+                align-items: stretch !important;
+            }
+            #about .works-cta .about-action-btn {
+                width: 100% !important;
+                min-width: 0 !important;
+            }
+        }
     </style>
 </head>
 
