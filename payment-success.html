@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>결제 완료 — TripleOnDesign</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=16">
+    <style>
+        .pay-result-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 20px 80px;
+            box-sizing: border-box;
+        }
+        .pay-result-card {
+            width: 100%;
+            max-width: 520px;
+            border-radius: 20px;
+            background: rgba(18, 18, 28, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+            padding: 36px 32px 30px;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Pretendard', sans-serif;
+            color: #fff;
+            box-sizing: border-box;
+        }
+        .pay-result-icon {
+            width: 56px; height: 56px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 18px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+        .pay-result-icon.ok { background: rgba(49, 130, 246, 0.18); border-color: rgba(49, 130, 246, 0.5); color: #6aa6ff; }
+        .pay-result-icon.err { background: rgba(255, 82, 82, 0.12); border-color: rgba(255, 82, 82, 0.4); color: #ff8a80; }
+        .pay-result-icon svg { width: 26px; height: 26px; }
+        .pay-spinner {
+            width: 22px; height: 22px; border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            border-top-color: #fff;
+            animation: paySpin 0.8s linear infinite;
+        }
+        @keyframes paySpin { to { transform: rotate(360deg); } }
+
+        .pay-result-card h1 { font-size: 1.35rem; font-weight: 700; margin: 0 0 8px; letter-spacing: -0.01em; }
+        .pay-result-card .lead { font-size: 0.86rem; line-height: 1.65; color: rgba(255, 255, 255, 0.6); margin: 0 0 22px; }
+
+        .pay-detail { border-top: 1px solid rgba(255, 255, 255, 0.08); margin: 0; padding: 6px 0 0; }
+        .pay-detail div {
+            display: flex; justify-content: space-between; gap: 16px;
+            padding: 10px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            font-size: 0.8rem;
+        }
+        .pay-detail dt { color: rgba(255, 255, 255, 0.45); flex-shrink: 0; }
+        .pay-detail dd { margin: 0; color: rgba(255, 255, 255, 0.9); text-align: right; word-break: break-all; }
+        .pay-detail dd.amount { font-size: 1rem; font-weight: 700; color: #fff; font-variant-numeric: tabular-nums; }
+
+        .pay-actions { display: flex; flex-direction: column; gap: 10px; margin-top: 22px; }
+        .pay-actions a, .pay-actions button {
+            display: inline-flex; align-items: center; justify-content: center;
+            min-height: 46px; padding: 10px 18px; border-radius: 12px;
+            font-family: inherit; font-size: 0.84rem; font-weight: 600; text-decoration: none;
+            cursor: pointer; transition: background 0.2s, border-color 0.2s;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.08); color: #fff;
+        }
+        .pay-actions a:hover, .pay-actions button:hover { background: rgba(255, 255, 255, 0.16); }
+        .pay-actions .primary { background: rgba(49, 130, 246, 0.85); border-color: rgba(49, 130, 246, 0.9); }
+        .pay-actions .primary:hover { background: rgba(49, 130, 246, 1); }
+
+        .pay-foot { margin-top: 16px; font-size: 0.68rem; color: rgba(255, 255, 255, 0.35); line-height: 1.6; text-align: center; }
+        .pay-foot a { color: rgba(255, 255, 255, 0.55); }
+        [hidden] { display: none !important; }
+    </style>
+</head>
+
+<body>
+    <header>
+        <a href="index.html" class="logo">
+            <video autoplay muted loop playsinline>
+                <source src="logo.mp4" type="video/mp4">
+            </video>
+        </a>
+        <nav>
+            <ul>
+                <li><a href="about.html">About</a></li>
+                <li><a href="works.html">Works</a></li>
+                <li><a href="about.html#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="pay-result-page">
+        <!-- 1) 승인 진행 중 -->
+        <section class="pay-result-card" id="state-loading">
+            <div class="pay-result-icon"><div class="pay-spinner" aria-hidden="true"></div></div>
+            <h1>결제를 승인하고 있습니다</h1>
+            <p class="lead">잠시만 기다려 주세요. 창을 닫거나 새로고침하지 마세요.</p>
+        </section>
+
+        <!-- 2) 승인 완료 -->
+        <section class="pay-result-card" id="state-success" hidden>
+            <div class="pay-result-icon ok" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5" /></svg>
+            </div>
+            <h1>결제가 완료되었습니다</h1>
+            <p class="lead">감사합니다. 결제 내역이 이메일로 발송되며, 담당자가 확인 후 프로젝트 일정을 안내드리겠습니다.<br>세금계산서·현금영수증이 필요하시면 이메일로 요청해 주세요.</p>
+            <dl class="pay-detail">
+                <div><dt>결제 내용</dt><dd id="s-orderName">-</dd></div>
+                <div><dt>결제 금액</dt><dd class="amount" id="s-amount">-</dd></div>
+                <div><dt>결제 수단</dt><dd id="s-method">-</dd></div>
+                <div><dt>결제자</dt><dd id="s-customer">-</dd></div>
+                <div><dt>승인 일시</dt><dd id="s-approvedAt">-</dd></div>
+                <div><dt>주문번호</dt><dd id="s-orderId">-</dd></div>
+            </dl>
+            <div class="pay-actions">
+                <a class="primary" id="s-receipt" href="#" target="_blank" rel="noopener" hidden>영수증 보기</a>
+                <a href="about.html">About 으로 돌아가기</a>
+            </div>
+            <p class="pay-foot">문의: <a href="mailto:info@tripleondesign.com">info@tripleondesign.com</a></p>
+        </section>
+
+        <!-- 3) 승인 실패 -->
+        <section class="pay-result-card" id="state-error" hidden>
+            <div class="pay-result-icon err" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12" /></svg>
+            </div>
+            <h1>결제 승인에 실패했습니다</h1>
+            <p class="lead" id="e-message">결제가 완료되지 않았습니다. 카드 승인은 자동으로 취소되며, 실제 청구되지 않습니다.</p>
+            <dl class="pay-detail">
+                <div><dt>오류 코드</dt><dd id="e-code">-</dd></div>
+                <div><dt>주문번호</dt><dd id="e-orderId">-</dd></div>
+            </dl>
+            <div class="pay-actions">
+                <a class="primary" href="about.html#contact">다시 시도하기</a>
+                <a href="mailto:info@tripleondesign.com?subject=%5B%EA%B2%B0%EC%A0%9C%20%EB%AC%B8%EC%9D%98%5D">이메일로 문의하기</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-info">
+            <p>&copy; 2026 Triple On Design. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // about.html 의 window.TOD_PAY.confirmUrl 과 동일하게 유지하세요.
+        window.TOD_PAY = {
+            confirmUrl: 'https://tod-payment.tripleondesign.workers.dev/confirm'
+        };
+    </script>
+    <script>
+        (function () {
+            var q = new URLSearchParams(location.search);
+            var paymentKey = q.get('paymentKey');
+            var orderId = q.get('orderId');
+            var amount = parseInt(q.get('amount'), 10);
+            var meta = {
+                orderName: q.get('orderName') || '',
+                customerName: q.get('customerName') || '',
+                customerEmail: q.get('customerEmail') || ''
+            };
+
+            var $ = function (id) { return document.getElementById(id); };
+            var show = function (id) {
+                ['state-loading', 'state-success', 'state-error'].forEach(function (s) { $(s).hidden = (s !== id); });
+            };
+            var fmt = function (n) { return Number(n || 0).toLocaleString('ko-KR') + '원'; };
+            var fmtDate = function (iso) {
+                if (!iso) return '-';
+                var d = new Date(iso);
+                if (isNaN(d)) return iso;
+                var p = function (x) { return String(x).padStart(2, '0'); };
+                return d.getFullYear() + '.' + p(d.getMonth() + 1) + '.' + p(d.getDate()) + ' ' + p(d.getHours()) + ':' + p(d.getMinutes());
+            };
+
+            function fail(code, message) {
+                $('e-code').textContent = code || 'UNKNOWN';
+                $('e-orderId').textContent = orderId || '-';
+                if (message) $('e-message').textContent = message;
+                show('state-error');
+            }
+
+            if (!paymentKey || !orderId || !amount) {
+                return fail('INVALID_REQUEST', '결제 정보가 올바르지 않습니다. 결제창에서 정상적으로 돌아오지 않았거나, 주소가 잘못되었습니다.');
+            }
+
+            // 결제 요청 시 저장해 둔 주문과 금액이 일치하는지 확인 (위·변조 방지 1차)
+            var saved = null;
+            try { saved = JSON.parse(sessionStorage.getItem('tod_pay_order') || 'null'); } catch (e) { saved = null; }
+            if (saved && saved.orderId === orderId && Number(saved.amount) !== amount) {
+                return fail('AMOUNT_MISMATCH', '요청한 금액과 결제 금액이 일치하지 않아 승인을 중단했습니다. 카드 승인은 자동 취소됩니다.');
+            }
+            if (saved && saved.orderId === orderId) {
+                meta.orderName = meta.orderName || saved.orderName;
+                meta.customerName = meta.customerName || saved.customerName;
+                meta.customerEmail = meta.customerEmail || saved.customerEmail;
+            }
+
+            // 서버(Cloudflare Worker)에 승인 요청 — 시크릿 키는 서버에만 있습니다.
+            var ctrl = ('AbortController' in window) ? new AbortController() : null;
+            var timer = ctrl ? setTimeout(function () { ctrl.abort(); }, 30000) : null;
+
+            fetch(window.TOD_PAY.confirmUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    paymentKey: paymentKey,
+                    orderId: orderId,
+                    amount: amount,
+                    orderName: meta.orderName,
+                    customerName: meta.customerName,
+                    customerEmail: meta.customerEmail
+                }),
+                signal: ctrl ? ctrl.signal : undefined
+            })
+            .then(function (res) {
+                return res.json().then(function (data) { return { ok: res.ok, data: data }; });
+            })
+            .then(function (r) {
+                if (timer) clearTimeout(timer);
+                if (!r.ok || !r.data || r.data.status !== 'DONE') {
+                    var d = r.data || {};
+                    return fail(d.code || ('HTTP_' + (r.status || '')), d.message || '토스페이먼츠 승인 요청이 거절되었습니다.');
+                }
+                var p = r.data;
+                $('s-orderName').textContent = p.orderName || meta.orderName || '-';
+                $('s-amount').textContent = fmt(p.totalAmount || amount);
+                var card = p.card || {};
+                var methodText = p.method || '카드';
+                if (card.number) methodText += ' · ' + card.number;
+                if (card.installmentPlanMonths) methodText += ' · ' + card.installmentPlanMonths + '개월';
+                $('s-method').textContent = methodText;
+                $('s-customer').textContent = [meta.customerName, meta.customerEmail].filter(Boolean).join(' · ') || '-';
+                $('s-approvedAt').textContent = fmtDate(p.approvedAt);
+                $('s-orderId').textContent = p.orderId || orderId;
+                if (p.receipt && p.receipt.url) {
+                    $('s-receipt').href = p.receipt.url;
+                    $('s-receipt').hidden = false;
+                }
+                try { sessionStorage.removeItem('tod_pay_order'); } catch (e) { /* noop */ }
+                show('state-success');
+            })
+            .catch(function (err) {
+                if (timer) clearTimeout(timer);
+                var aborted = err && err.name === 'AbortError';
+                fail(aborted ? 'TIMEOUT' : 'NETWORK_ERROR',
+                    aborted ? '승인 서버 응답이 지연되고 있습니다. 잠시 후 이메일로 결제 여부를 확인해 드리겠습니다.'
+                            : '승인 서버에 연결할 수 없습니다. 결제가 완료되지 않았으며, 카드 승인은 자동 취소됩니다.');
+            });
+        })();
+    </script>
+</body>
+
+</html>

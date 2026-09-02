@@ -486,6 +486,71 @@
                 min-width: 0 !important;
             }
         }
+
+        /* ============================================================
+           토스페이먼츠 카드 결제 — Contact 버튼 + 결제 정보 입력 모달
+           ============================================================ */
+        #contact .contact-actions > .card-pay-btn {
+            width: 100%;
+            display: flex;
+        }
+        #contact .card-pay-btn {
+            background: rgba(49, 130, 246, 0.10);          /* 토스 블루 톤 */
+            border-color: rgba(49, 130, 246, 0.40);
+        }
+        #contact .contact-actions .card-pay-btn:hover {
+            background: rgba(49, 130, 246, 0.20);
+            border-color: rgba(49, 130, 246, 0.65);
+        }
+
+        .pay-modal .email-modal-content { max-width: 480px; }
+
+        .pay-modal-notice {
+            font-size: 0.74rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.55);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            padding: 10px 12px;
+            margin: -4px 0 4px;
+        }
+        .pay-modal-notice strong { color: rgba(255, 255, 255, 0.85); font-weight: 600; }
+
+        .pay-amount-wrap { position: relative; }
+        .pay-amount-wrap input { padding-right: 44px; text-align: right; font-variant-numeric: tabular-nums; }
+        .pay-amount-wrap .pay-amount-unit {
+            position: absolute; right: 12px; bottom: 11px;
+            font-size: 0.8rem; color: rgba(255, 255, 255, 0.45); pointer-events: none;
+        }
+
+        .pay-summary {
+            display: flex; justify-content: space-between; align-items: baseline;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem; color: rgba(255, 255, 255, 0.6);
+            padding: 10px 2px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .pay-summary b { font-size: 1.05rem; color: #fff; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+        .pay-modal-submit { background: rgba(49, 130, 246, 0.85); border-color: rgba(49, 130, 246, 0.9); }
+        .pay-modal-submit:hover { background: rgba(49, 130, 246, 1); border-color: rgba(49, 130, 246, 1); }
+        .pay-modal-submit[disabled] { opacity: 0.55; cursor: not-allowed; }
+
+        .pay-modal-error {
+            display: none;
+            font-size: 0.76rem; color: #ff8a80;
+            background: rgba(255, 82, 82, 0.08);
+            border: 1px solid rgba(255, 82, 82, 0.25);
+            border-radius: 10px; padding: 9px 12px;
+        }
+        .pay-modal-error.is-visible { display: block; }
+
+        .pay-modal-foot {
+            margin-top: 14px;
+            font-size: 0.68rem; color: rgba(255, 255, 255, 0.35);
+            text-align: center; line-height: 1.6;
+        }
     </style>
 </head>
 
@@ -586,6 +651,16 @@
                             </button>
                             <!-- Kakao JS SDK: createChatButton이 이 div 안에 공식 1:1 채팅 버튼을 렌더링합니다. Kakao.init(JavaScript 키) 필요 — 하단 KAKAO_JS_KEY -->
                             <div id="kakao-chat-button" class="kakao-chat-button-wrap"></div>
+                            <!-- 토스페이먼츠 카드 결제: 클릭 → 결제 정보 입력 모달(#pay-modal) → 토스 결제창 -->
+                            <button type="button" id="card-pay-btn" class="email-direct-btn card-pay-btn">
+                                <span class="email-direct-btn__icon" aria-hidden="true">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                        <rect x="2" y="5" width="20" height="14" rx="2" />
+                                        <path d="M2 10h20" />
+                                        <path d="M6 15h4" />
+                                    </svg>
+                                </span> 카드 결제하기
+                            </button>
                         </div>
 
                         <div class="contact-details">
@@ -670,6 +745,46 @@
                 </label>
                 <button type="submit" class="email-modal-submit">보내기</button>
             </form>
+        </div>
+    </div>
+
+    <!-- Payment Modal (토스페이먼츠) -->
+    <div id="pay-modal" class="email-modal pay-modal" role="dialog" aria-modal="true" aria-labelledby="pay-modal-title">
+        <div class="email-modal-content">
+            <button class="email-modal-close" id="pay-modal-close" type="button" aria-label="닫기">&times;</button>
+            <div class="email-modal-header">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="5" width="20" height="14" rx="2"></rect>
+                    <path d="M2 10h20"></path>
+                    <path d="M6 15h4"></path>
+                </svg>
+                <span id="pay-modal-title">Card Payment</span>
+            </div>
+            <form id="pay-form" class="email-modal-form" novalidate>
+                <p class="pay-modal-notice">
+                    안내받으신 <strong>견적 금액</strong>을 입력해 주세요. 카드 결제 시 결제 대행 수수료가 일부 포함될 수 있으며,
+                    결제 완료 후 세금계산서·현금영수증이 필요하시면 이메일로 요청해 주세요.
+                </p>
+                <label>프로젝트명 / 결제 내용
+                    <input type="text" name="orderName" id="pay-order-name" maxlength="100" placeholder="예: 브랜딩 디자인 1차 결제" required>
+                </label>
+                <label>결제 금액
+                    <span class="pay-amount-wrap">
+                        <input type="text" name="amount" id="pay-amount" inputmode="numeric" autocomplete="off" placeholder="0" required>
+                        <span class="pay-amount-unit">원</span>
+                    </span>
+                </label>
+                <label>결제자 이름 (회사명)
+                    <input type="text" name="customerName" id="pay-customer-name" maxlength="100" placeholder="홍길동 / (주)회사명" required>
+                </label>
+                <label>이메일 (영수증 발송)
+                    <input type="email" name="customerEmail" id="pay-customer-email" placeholder="example@email.com" required>
+                </label>
+                <div class="pay-summary"><span>최종 결제 금액</span><b id="pay-amount-display">0원</b></div>
+                <div class="pay-modal-error" id="pay-error" role="alert"></div>
+                <button type="submit" class="email-modal-submit pay-modal-submit" id="pay-submit">카드로 결제하기</button>
+            </form>
+            <p class="pay-modal-foot">결제는 토스페이먼츠의 안전한 결제창에서 진행되며, 카드 정보는 TOD 서버에 저장되지 않습니다.</p>
         </div>
     </div>
 
@@ -1145,6 +1260,174 @@
             } else {
                 boot();
             }
+        })();
+    </script>
+
+    <!-- ============================================================
+         토스페이먼츠 카드 결제 (SDK v2 · 결제창)
+         흐름: [카드 결제하기] → #pay-modal 입력 → payment.requestPayment(CARD)
+               → 토스 결제창(카드 인증) → successUrl(payment-success.html)
+               → payment-success.html 이 Cloudflare Worker(PAYMENT_CONFIRM_URL)에
+                 승인 요청 → Worker 가 시크릿 키로 토스 승인 API 호출 → 결제 완료
+         실키 전환: TOD_PAY.clientKey 를 라이브 클라이언트 키(live_ck_...)로,
+                   Worker 의 TOSS_SECRET_KEY 를 라이브 시크릿 키로 교체.
+         ============================================================ -->
+    <script>
+        // 결제 설정 — payment-success.html 도 같은 값을 사용합니다 (두 파일을 함께 수정하세요).
+        window.TOD_PAY = {
+            // 토스페이먼츠 개발자센터 > API 키 > "클라이언트 키" (결제창 연동용, test_ck_ / live_ck_)
+            clientKey: 'test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq',
+            // 결제 승인용 Cloudflare Worker 주소 (배포 후 실제 주소로 교체)
+            confirmUrl: 'https://tod-payment.tripleondesign.workers.dev/confirm',
+            minAmount: 1000,           // 최소 결제 금액 (원)
+            maxAmount: 100000000,      // 최대 결제 금액 (원)
+            successPage: 'payment-success.html',
+            failPage: 'payment-fail.html'
+        };
+    </script>
+    <script src="https://js.tosspayments.com/v2/standard"></script>
+    <script>
+        (function () {
+            var cfg = window.TOD_PAY;
+            var modal = document.getElementById('pay-modal');
+            var openBtn = document.getElementById('card-pay-btn');
+            var closeBtn = document.getElementById('pay-modal-close');
+            var form = document.getElementById('pay-form');
+            var amountInput = document.getElementById('pay-amount');
+            var amountDisplay = document.getElementById('pay-amount-display');
+            var errorBox = document.getElementById('pay-error');
+            var submitBtn = document.getElementById('pay-submit');
+            if (!modal || !openBtn || !form) return;
+
+            var fmt = function (n) { return Number(n || 0).toLocaleString('ko-KR') + '원'; };
+            var parseAmount = function (v) { return parseInt(String(v || '').replace(/[^0-9]/g, ''), 10) || 0; };
+
+            function showError(msg) {
+                errorBox.textContent = msg;
+                errorBox.classList.add('is-visible');
+            }
+            function clearError() {
+                errorBox.textContent = '';
+                errorBox.classList.remove('is-visible');
+            }
+            function openModal() {
+                clearError();
+                modal.classList.add('is-open');
+                document.body.style.overflow = 'hidden';
+                setTimeout(function () { document.getElementById('pay-order-name').focus(); }, 50);
+            }
+            function closeModal() {
+                modal.classList.remove('is-open');
+                document.body.style.overflow = '';
+            }
+
+            openBtn.addEventListener('click', openModal);
+            closeBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(); });
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
+            });
+
+            // 금액 입력: 숫자만 허용, 천 단위 콤마 표시
+            amountInput.addEventListener('input', function () {
+                var n = parseAmount(amountInput.value);
+                amountInput.value = n ? n.toLocaleString('ko-KR') : '';
+                amountDisplay.textContent = fmt(n);
+            });
+
+            // 주문번호: 영문·숫자·-·_ 6~64자 (토스 규격)
+            function makeOrderId() {
+                var d = new Date();
+                var pad = function (x) { return String(x).padStart(2, '0'); };
+                var stamp = d.getFullYear() + pad(d.getMonth() + 1) + pad(d.getDate()) + pad(d.getHours()) + pad(d.getMinutes());
+                var rand = Math.random().toString(36).slice(2, 8).toUpperCase();
+                return 'TOD-' + stamp + '-' + rand;
+            }
+            function makeCustomerKey() {
+                // 비회원 결제: 결제마다 무작위 고객 키 (영문·숫자·특수문자 2~50자)
+                var s = '';
+                var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+                for (var i = 0; i < 24; i++) s += chars.charAt(Math.floor(Math.random() * chars.length));
+                return 'tod_' + s;
+            }
+            function pageUrl(file) {
+                var base = location.href.replace(/[#?].*$/, '');
+                return base.substring(0, base.lastIndexOf('/') + 1) + file;
+            }
+
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                clearError();
+
+                var orderName = form.orderName.value.trim();
+                var amount = parseAmount(amountInput.value);
+                var customerName = form.customerName.value.trim();
+                var customerEmail = form.customerEmail.value.trim();
+
+                if (!orderName) return showError('프로젝트명(결제 내용)을 입력해 주세요.');
+                if (amount < cfg.minAmount) return showError('결제 금액은 최소 ' + fmt(cfg.minAmount) + ' 이상이어야 합니다.');
+                if (amount > cfg.maxAmount) return showError('결제 금액이 너무 큽니다. 이메일로 문의해 주세요.');
+                if (!customerName) return showError('결제자 이름을 입력해 주세요.');
+                if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customerEmail)) return showError('올바른 이메일 주소를 입력해 주세요.');
+                if (typeof window.TossPayments !== 'function') return showError('결제 모듈을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.');
+                if (location.protocol === 'file:') {
+                    // 토스 결제창은 successUrl/failUrl 이 http(s) 주소여야 합니다. 파일을 직접 열면 동작하지 않습니다.
+                    return showError('파일을 직접 열면(file://) 결제창을 사용할 수 없습니다. 로컬 서버(예: http://localhost:8000/about.html)나 실제 사이트 주소에서 테스트해 주세요.');
+                }
+
+                var orderId = makeOrderId();
+
+                // 승인 단계에서 금액 검증에 쓰도록 주문 정보를 임시 저장 (같은 브라우저 탭)
+                try {
+                    sessionStorage.setItem('tod_pay_order', JSON.stringify({
+                        orderId: orderId, amount: amount, orderName: orderName,
+                        customerName: customerName, customerEmail: customerEmail, ts: Date.now()
+                    }));
+                } catch (err) { /* private mode 등 — 무시 */ }
+
+                var meta = '?orderName=' + encodeURIComponent(orderName) +
+                           '&customerName=' + encodeURIComponent(customerName) +
+                           '&customerEmail=' + encodeURIComponent(customerEmail);
+
+                submitBtn.disabled = true;
+                submitBtn.textContent = '결제창을 여는 중…';
+
+                try {
+                    var tossPayments = window.TossPayments(cfg.clientKey);
+                    var payment = tossPayments.payment({ customerKey: makeCustomerKey() });
+
+                    payment.requestPayment({
+                        method: 'CARD',
+                        amount: { currency: 'KRW', value: amount },
+                        orderId: orderId,
+                        orderName: orderName,
+                        customerName: customerName,
+                        customerEmail: customerEmail,
+                        successUrl: pageUrl(cfg.successPage) + meta,   // 토스가 paymentKey·orderId·amount 를 뒤에 추가
+                        failUrl: pageUrl(cfg.failPage) + meta,
+                        card: {
+                            useEscrow: false,
+                            flowMode: 'DEFAULT',
+                            useCardPoint: false,
+                            useAppCardOnly: false
+                        }
+                    }).catch(function (err) {
+                        // 사용자가 결제창을 닫은 경우(USER_CANCEL) 등
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = '카드로 결제하기';
+                        if (err && err.code === 'USER_CANCEL') return;
+                        if (err && err.code === 'UNKNOWN') {
+                            // 토스 SDK는 클라이언트 키 인증 실패(401)를 UNKNOWN 으로 돌려줍니다.
+                            return showError('결제창을 열 수 없습니다. 결제 설정(클라이언트 키)이 유효하지 않을 수 있습니다. 이메일로 문의해 주세요.');
+                        }
+                        showError((err && err.message) ? err.message : '결제창을 열 수 없습니다. 잠시 후 다시 시도해 주세요.');
+                    });
+                } catch (err) {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = '카드로 결제하기';
+                    showError((err && err.message) ? err.message : '결제를 시작할 수 없습니다.');
+                }
+            });
         })();
     </script>
 
