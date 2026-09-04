@@ -9,6 +9,8 @@
     --text-color: #ffffff;
     --font-main: 'Inter', sans-serif;
     --padding-page: 2rem;
+    /* Fixed footer bar — keep in sync with footer padding + business info + copyright lines */
+    --site-footer-h: 7rem;
 }
 
 * {
@@ -30,6 +32,12 @@ body {
     /* For variable fonts */
     overflow-x: hidden;
     line-height: 1.5;
+    padding-bottom: var(--site-footer-h);
+}
+
+/* Home: hero is full-viewport; fixed footer overlays bottom — no extra scroll gap */
+body.page-home {
+    padding-bottom: 0;
 }
 
 a {
@@ -96,6 +104,7 @@ nav {
     justify-content: space-between;
     flex-wrap: nowrap;
     gap: 1rem;
+    margin-top: 15px;
     margin-bottom: 2rem;
 }
 
@@ -178,7 +187,7 @@ button.lang-btn:hover {
 
 #scroll-btn {
     position: absolute;
-    bottom: 40px;
+    bottom: calc(var(--site-footer-h) + 12px);
     left: 50%;
     transform: translateX(-50%);
     transition: opacity 0.3s ease;
@@ -903,6 +912,14 @@ h2 {
     word-break: keep-all;
 }
 
+.contact-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    width: 100%;
+}
+
 .contact-details {
     display: flex;
     flex-direction: column;
@@ -1277,31 +1294,91 @@ h2 {
     }
 }
 
-/* Email Direct Button */
-.email-direct-btn {
+/* Contact action buttons — shared size & typography */
+.email-direct-btn,
+.kakao-contact-btn {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    justify-content: flex-start;
+    gap: 10px;
+    width: 100%;
+    min-height: 48px;
     padding: 10px 22px;
+    box-sizing: border-box;
     border-radius: 10px;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    color: rgba(255, 255, 255, 0.7);
     font-family: 'Inter', sans-serif;
     font-size: 0.82rem;
     font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
+    line-height: 1.3;
 }
 
-.email-direct-btn span {
-    font-size: 1.1rem;
+.email-direct-btn {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: rgba(255, 255, 255, 0.9);
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+/* SVG 메일 아이콘 — 카카오 버튼과 동일 24px 박스 */
+.email-direct-btn__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    color: inherit;
+}
+
+.email-direct-btn__icon svg {
+    width: 100%;
+    height: 100%;
+    display: block;
 }
 
 .email-direct-btn:hover {
     background: rgba(255, 255, 255, 0.12);
     border-color: rgba(255, 255, 255, 0.25);
-    color: white;
+    color: #ffffff;
+}
+
+.kakao-contact-btn {
+    background: rgba(254, 229, 0, 0.08);
+    border: 1px solid rgba(254, 229, 0, 0.35);
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.kakao-contact-btn__icon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    flex-shrink: 0;
+    display: block;
+}
+
+.kakao-contact-btn:hover {
+    background: rgba(254, 229, 0, 0.16);
+    border-color: rgba(254, 229, 0, 0.55);
+    color: #ffffff;
+}
+
+/* Kakao JS SDK: createChatButton 마운트 지점 */
+.kakao-chat-button-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 48px;
+    line-height: 0;
+    box-sizing: border-box;
+}
+
+.kakao-chat-button-wrap img {
+    vertical-align: middle;
 }
 
 /* Email Modal */
@@ -1455,6 +1532,7 @@ h2 {
 
 .works-cta-btn {
     display: inline-flex;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
     text-decoration: none;
@@ -1465,10 +1543,10 @@ h2 {
     border: 1px solid rgba(255, 255, 255, 0.2);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     border-radius: 30px;
-    padding: 12px;
+    padding: 14px 24px;
     transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
     overflow: hidden;
-    height: 48px;
+    gap: 10px;
 }
 
 .works-cta-btn:hover {
@@ -1484,28 +1562,56 @@ h2 {
 }
 
 .works-cta-btn .text {
-    max-width: 0;
-    opacity: 0;
+    display: inline-block;
     white-space: nowrap;
-    margin-left: 0;
     font-family: 'Inter', sans-serif;
-    font-size: 0.9rem;
-    font-weight: 600;
-    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    font-size: 0.85rem;
+    font-weight: 900;
+    color: #ffffff;
+    opacity: 0.85;
     text-transform: uppercase;
     letter-spacing: 1px;
+    transition: opacity 0.3s ease;
 }
 
 .works-cta-btn:hover .text {
-    max-width: 120px;
     opacity: 1;
-    margin-left: 10px;
 }
 
-/* Footer */
+@media (max-width: 768px) {
+    .works-cta-btn {
+        padding: 14px 22px;
+        gap: 8px;
+    }
+
+    .works-cta-btn .text {
+        font-size: 0.95rem;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        opacity: 1;
+        color: #ffffff;
+        visibility: visible;
+        max-width: none;
+    }
+
+    .works-cta-btn .icon svg {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+/* Footer — fixed so it stays visible while scrolling */
 footer {
-    padding: 2.5rem var(--padding-page);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 90;
+    padding: 1.25rem var(--padding-page) calc(1.25rem + env(safe-area-inset-bottom, 0px));
     border-top: 1px solid rgba(255, 255, 255, 0.06);
+    background: rgba(0, 0, 0, 0.92);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 
 .footer-info {
@@ -1523,14 +1629,28 @@ footer {
     line-height: 1.5;
 }
 
-.footer-info a {
-    color: rgba(255, 255, 255, 0.45);
-    text-decoration: none;
-    transition: color 0.2s;
+/* 사업자 정보 (전자상거래법 표시 의무) */
+.footer-info .footer-biz {
+    font-size: 0.72rem;
+    color: rgba(255, 255, 255, 0.5);
+    word-break: keep-all;
 }
 
-.footer-info a:hover {
-    color: rgba(255, 255, 255, 0.75);
+@media (max-width: 768px) {
+    :root {
+        --site-footer-h: 10.5rem;
+    }
+    footer {
+        padding-top: 0.9rem;
+        padding-bottom: calc(0.9rem + env(safe-area-inset-bottom, 0px));
+    }
+    .footer-info .footer-biz {
+        font-size: 0.66rem;
+        line-height: 1.55;
+    }
+    .footer-info p {
+        font-size: 0.7rem;
+    }
 }
 
 /* Mobile Responsiveness */
@@ -1579,7 +1699,7 @@ footer {
 
     #sidebar {
         top: auto;
-        bottom: 80px;
+        bottom: calc(var(--site-footer-h) + 8px);
         right: 0;
         left: 0;
         transform: none;
@@ -1643,7 +1763,7 @@ footer {
     }
 
     #scroll-btn {
-        bottom: 15px;
+        bottom: calc(var(--site-footer-h) + 10px);
         z-index: 30;
     }
 

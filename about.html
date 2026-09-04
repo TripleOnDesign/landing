@@ -551,6 +551,128 @@
             font-size: 0.68rem; color: rgba(255, 255, 255, 0.35);
             text-align: center; line-height: 1.6;
         }
+        /* ============================================================
+           Services & Pricing — 판매 상품(디자인 서비스) 목록
+           (토스페이먼츠 가맹 심사: 상품 이미지·금액·제공 기간·환불 정책 표기)
+           ============================================================ */
+        #services {
+            padding: 40px var(--padding-page) 60px;
+            background: #000;
+            position: relative;
+            z-index: 5;
+        }
+        #services .services-container { width: 100%; max-width: 1400px; margin: 0 auto; }
+        #services h2 {
+            font-size: 1.5rem; font-weight: 600; color: rgba(255,255,255,0.5);
+            margin-bottom: 0.6rem; text-transform: uppercase; letter-spacing: 1px;
+        }
+        #services .services-intro {
+            font-size: 0.9rem; line-height: 1.7; color: rgba(255,255,255,0.7);
+            max-width: 760px; margin-bottom: 2rem; word-break: keep-all;
+        }
+        #services .services-intro a { color: rgba(255,255,255,0.85); text-decoration: underline; text-underline-offset: 3px; }
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 18px;
+        }
+        .product-card {
+            display: flex; flex-direction: column;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 18px; overflow: hidden;
+            transition: border-color .3s ease, background .3s ease, transform .3s ease;
+        }
+        .product-card:hover { border-color: rgba(255,255,255,0.28); background: rgba(255,255,255,0.06); transform: translateY(-3px); }
+        .product-thumb {
+            aspect-ratio: 16 / 10; overflow: hidden; background: #111;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .product-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0.92; }
+        .product-body { padding: 18px 18px 20px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+        .product-cat { font-family: 'Inter', sans-serif; font-size: 0.68rem; letter-spacing: 1px; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+        .product-name { font-size: 1.05rem; font-weight: 700; color: #fff; line-height: 1.35; word-break: keep-all; }
+        .product-price { font-family: 'Inter', sans-serif; font-size: 1.35rem; font-weight: 800; color: #fff; letter-spacing: -0.5px; font-variant-numeric: tabular-nums; }
+        .product-price small { font-family: inherit; font-size: 0.7rem; font-weight: 500; color: rgba(255,255,255,0.45); margin-left: 6px; letter-spacing: 0; }
+        .product-desc { font-size: 0.8rem; line-height: 1.6; color: rgba(255,255,255,0.65); word-break: keep-all; }
+        .product-meta {
+            list-style: none; margin: 2px 0 0; padding: 10px 0 0;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            display: flex; flex-direction: column; gap: 5px;
+            font-size: 0.74rem; line-height: 1.55; color: rgba(255,255,255,0.55); word-break: keep-all;
+        }
+        .product-meta li { display: flex; gap: 8px; }
+        .product-meta li b { flex: 0 0 62px; color: rgba(255,255,255,0.8); font-weight: 600; }
+        .product-meta a { color: rgba(255,255,255,0.75); text-decoration: underline; text-underline-offset: 2px; }
+        .product-addon {
+            display: flex; flex-direction: column; gap: 8px;
+            margin-top: 2px; padding-top: 10px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+        .product-addon label {
+            display: block;
+            font-size: 0.72rem; color: rgba(255,255,255,0.5);
+        }
+        .product-addon label > input,
+        .product-addon label > .product-addon-amount-wrap { margin-top: 5px; }
+        .product-addon label em { font-style: normal; color: rgba(255,255,255,0.3); }
+        .product-addon input {
+            width: 100%; padding: 8px 12px; border-radius: 10px;
+            background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15);
+            color: #fff; font-family: 'Pretendard', 'Inter', sans-serif; font-size: 0.82rem;
+        }
+        .product-addon input::placeholder { color: rgba(255,255,255,0.28); }
+        .product-addon input:focus { outline: none; border-color: rgba(49,130,246,0.7); }
+        .product-addon-amount-wrap { position: relative; display: block; }
+        .product-addon-amount-wrap input { padding-right: 34px; text-align: right; font-variant-numeric: tabular-nums; }
+        .product-addon-unit {
+            position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+            font-size: 0.76rem; color: rgba(255,255,255,0.45); pointer-events: none;
+        }
+        .product-total {
+            display: flex; justify-content: space-between; align-items: baseline;
+            padding-top: 6px; font-size: 0.76rem; color: rgba(255,255,255,0.55);
+        }
+        .product-total b { font-family: 'Inter', sans-serif; font-size: 1.05rem; font-weight: 700; color: #fff; font-variant-numeric: tabular-nums; }
+        .product-buy {
+            margin-top: auto;
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            width: 100%; padding: 12px 16px; border-radius: 12px; cursor: pointer;
+            font-family: 'Inter', 'Pretendard', sans-serif; font-size: 0.86rem; font-weight: 600; color: #fff;
+            background: rgba(49,130,246,0.18); border: 1px solid rgba(49,130,246,0.5);
+            transition: background .25s ease, border-color .25s ease;
+        }
+        .product-buy:hover { background: rgba(49,130,246,0.35); border-color: rgba(49,130,246,0.8); }
+        .product-option-label {
+            display: block;
+            font-size: 0.72rem; color: rgba(255,255,255,0.5);
+        }
+        .product-option-label > .product-option { margin-top: 5px; }
+        .product-option {
+            width: 100%; padding: 9px 34px 9px 12px; border-radius: 10px;
+            background: rgba(255,255,255,0.06) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-opacity='0.6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 12px center;
+            border: 1px solid rgba(255,255,255,0.15); color: #fff;
+            font-family: 'Pretendard', 'Inter', sans-serif; font-size: 0.82rem;
+            appearance: none; -webkit-appearance: none; cursor: pointer;
+        }
+        .product-option:focus { outline: none; border-color: rgba(49,130,246,0.7); }
+        .product-option option { background: #111; color: #fff; }
+        .services-note {
+            margin-top: 22px; padding: 16px 18px;
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px;
+            font-size: 0.76rem; line-height: 1.7; color: rgba(255,255,255,0.5); word-break: keep-all;
+        }
+        .services-note strong { color: rgba(255,255,255,0.8); font-weight: 600; }
+        .services-note a { color: rgba(255,255,255,0.75); text-decoration: underline; text-underline-offset: 2px; }
+        @media (max-width: 640px) {
+            .product-grid { grid-template-columns: 1fr; }
+        }
+
+        /* 결제 모달 — 상품 결제 모드 */
+        .pay-modal-product { display: none; }
+        .pay-modal.is-product .pay-modal-product { display: block; }
+        .pay-modal.is-product .pay-modal-quote { display: none; }
+        .pay-modal.is-product #pay-amount { color: rgba(255,255,255,0.7); cursor: default; }
     </style>
 </head>
 
@@ -628,6 +750,156 @@
                         <span class="label">PRICE POLICY</span>
                         <span class="arrow" aria-hidden="true">→</span>
                     </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="services">
+            <div class="services-container">
+                <h2 class="reveal-up">Services &amp; Pricing</h2>
+                <p class="services-intro reveal-up" style="transition-delay: 0.1s;">
+                    아래는 바로 결제하고 진행하실 수 있는 <strong>정가 디자인 서비스</strong>입니다. 분량·난이도가 다른 프로젝트는
+                    <a href="price-policy.html">가격 정책</a>을 참고해 문의해 주시면 견적서를 보내드리며, 견적 금액은 Contact의 [카드 결제하기]로 결제하실 수 있습니다.
+                    모든 서비스는 회원 가입 없이 비회원 카드 결제가 가능합니다.
+                </p>
+                <div class="product-grid reveal-up" style="transition-delay: 0.2s;">
+                    <article class="product-card">
+                        <div class="product-thumb"><img src="works/branding/GSI_thumb.jpg" alt="GSI AUTO 로고 · 브랜드 디자인" loading="lazy"></div>
+                        <div class="product-body">
+                            <div class="product-cat">01 · Branding</div>
+                            <div class="product-name">로고 · 브랜드 디자인 Standard</div>
+                            <div class="product-price">1,200,000원<small>VAT 포함</small></div>
+                            <p class="product-desc">브랜드 조사와 네이밍 검토 후 로고 시안 3종을 제시하고 1종을 완성합니다. 색상·서체·명함 등 사용 방법을 정리한 브랜드 가이드를 제공합니다.</p>
+                            <ul class="product-meta">
+                                <li><b>상품 유형</b><span>무형 서비스 (디자인 용역) · 파일 전달</span></li>
+                                <li><b>제공 기간</b><span>결제 및 자료 수령일로부터 15영업일 이내 1차 시안 전달</span></li>
+                                <li><b>포함 사항</b><span>수정 3회 · 로고 원본(AI·SVG·PNG) + 브랜드 가이드(PDF, 20쪽 내외) + 명함 디자인</span></li>
+                                <li><b>환불 정책</b><span>착수 전 100% 환불, 착수 후 진행 단계별 차등 환불 · <a href="refund-policy.html" target="_blank" rel="noopener">상세 보기</a></span></li>
+                            </ul>
+                            <div class="product-addon">
+                                <label>추가 사항 <em>(선택)</em>
+                                    <input type="text" class="product-addon-desc" maxlength="60" placeholder="예: 페이지 5장 추가, 영문 버전">
+                                </label>
+                                <label>추가 금액 <em>(선택)</em>
+                                    <span class="product-addon-amount-wrap">
+                                        <input type="text" class="product-addon-amount" inputmode="numeric" autocomplete="off" placeholder="0">
+                                        <span class="product-addon-unit">원</span>
+                                    </span>
+                                </label>
+                                <div class="product-total"><span>결제 금액</span><b class="product-total-value">0원</b></div>
+                            </div>
+                            <button type="button" class="product-buy" data-product-name="로고 · 브랜드 디자인 Standard" data-product-amount="1200000">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/><path d="M6 15h4"/></svg>
+                                카드로 구매하기
+                            </button>
+                        </div>
+                    </article>
+                    <article class="product-card">
+                        <div class="product-thumb"><img src="works/ppt/interleukins/in1.jpeg" alt="PPT 제작 디자인 예시 (Interleukins)" loading="lazy"></div>
+                        <div class="product-body">
+                            <div class="product-cat">02 · Presentation</div>
+                            <div class="product-name">PPT 제작 (10페이지)</div>
+                            <div class="product-price">1,200,000원<small>VAT 포함</small></div>
+                            <p class="product-desc">내용 구조와 스토리텔링부터 새로 설계하는 기획형 발표 자료 10페이지. 고급 인포그래픽·도식·그래픽 제작을 포함합니다.</p>
+                            <ul class="product-meta">
+                                <li><b>상품 유형</b><span>무형 서비스 (디자인 용역) · 파일 전달</span></li>
+                                <li><b>제공 기간</b><span>결제 및 자료 수령일로부터 5영업일 이내 1차 시안 전달</span></li>
+                                <li><b>포함 사항</b><span>수정 2회 · 표지·목차·마무리 구성 · 편집 가능한 원본(PPTX) + PDF 전달</span></li>
+                                <li><b>환불 정책</b><span>착수 전 100% 환불, 착수 후 진행 단계별 차등 환불 · <a href="refund-policy.html" target="_blank" rel="noopener">상세 보기</a></span></li>
+                            </ul>
+                            <div class="product-addon">
+                                <label>추가 사항 <em>(선택)</em>
+                                    <input type="text" class="product-addon-desc" maxlength="60" placeholder="예: 페이지 5장 추가, 영문 버전">
+                                </label>
+                                <label>추가 금액 <em>(선택)</em>
+                                    <span class="product-addon-amount-wrap">
+                                        <input type="text" class="product-addon-amount" inputmode="numeric" autocomplete="off" placeholder="0">
+                                        <span class="product-addon-unit">원</span>
+                                    </span>
+                                </label>
+                                <div class="product-total"><span>결제 금액</span><b class="product-total-value">0원</b></div>
+                            </div>
+                            <button type="button" class="product-buy" data-product-name="PPT 제작 (10페이지)" data-product-amount="1200000">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/><path d="M6 15h4"/></svg>
+                                카드로 구매하기
+                            </button>
+                        </div>
+                    </article>
+                    <article class="product-card">
+                        <div class="product-thumb"><img src="works/ppt/AI%20Nanobody%20Platform/screen1.png" alt="PPT 리터치 디자인 예시" loading="lazy"></div>
+                        <div class="product-body">
+                            <div class="product-cat">03 · Presentation</div>
+                            <div class="product-name">PPT 리터치 디자인 (10페이지)</div>
+                            <div class="product-price">220,000원<small>VAT 포함</small></div>
+                            <p class="product-desc">이미 작성된 발표 자료 10페이지를 톤앤매너 정리, 기본 도식화, 표지·목차·마무리 구성으로 보기 좋게 다듬어 드립니다.</p>
+                            <ul class="product-meta">
+                                <li><b>상품 유형</b><span>무형 서비스 (디자인 용역) · 파일 전달</span></li>
+                                <li><b>제공 기간</b><span>결제 및 자료 수령일로부터 2영업일 이내 1차 시안 전달</span></li>
+                                <li><b>포함 사항</b><span>수정 2회 · 편집 가능한 원본(PPTX) + PDF 전달</span></li>
+                                <li><b>환불 정책</b><span>착수 전 100% 환불, 착수 후 진행 단계별 차등 환불 · <a href="refund-policy.html" target="_blank" rel="noopener">상세 보기</a></span></li>
+                            </ul>
+                            <div class="product-addon">
+                                <label>추가 사항 <em>(선택)</em>
+                                    <input type="text" class="product-addon-desc" maxlength="60" placeholder="예: 페이지 5장 추가, 영문 버전">
+                                </label>
+                                <label>추가 금액 <em>(선택)</em>
+                                    <span class="product-addon-amount-wrap">
+                                        <input type="text" class="product-addon-amount" inputmode="numeric" autocomplete="off" placeholder="0">
+                                        <span class="product-addon-unit">원</span>
+                                    </span>
+                                </label>
+                                <div class="product-total"><span>결제 금액</span><b class="product-total-value">0원</b></div>
+                            </div>
+                            <button type="button" class="product-buy" data-product-name="PPT 리터치 디자인 (10페이지)" data-product-amount="220000">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/><path d="M6 15h4"/></svg>
+                                카드로 구매하기
+                            </button>
+                        </div>
+                    </article>
+                    <article class="product-card" data-product-select>
+                        <div class="product-thumb"><img src="works/branding/EPURE_thumb.jpg" alt="인쇄물 디자인 예시" loading="lazy"></div>
+                        <div class="product-body">
+                            <div class="product-cat">04 · Print</div>
+                            <div class="product-name">인쇄물 디자인 (리플릿 · 브로셔 · 카탈로그)</div>
+                            <div class="product-price"><span class="product-price-value">220,000원</span><small>VAT 포함</small></div>
+                            <p class="product-desc">A4 3단 접지 리플릿, 8페이지 브로셔, 제품 카탈로그의 구성 설계부터 편집 디자인까지. 제품·서비스·회사 소개용 홍보물에 적합합니다. (인쇄비 별도)</p>
+                            <ul class="product-meta">
+                                <li><b>상품 유형</b><span>무형 서비스 (디자인 용역) · 파일 전달</span></li>
+                                <li><b>제공 기간</b><span class="product-period">결제 및 자료 수령일로부터 5영업일 이내 1차 시안 전달</span></li>
+                                <li><b>포함 사항</b><span class="product-extra">수정 2회 · 인쇄용 PDF(AI) + 웹용 이미지</span></li>
+                                <li><b>환불 정책</b><span>착수 전 100% 환불, 착수 후 진행 단계별 차등 환불 · <a href="refund-policy.html" target="_blank" rel="noopener">상세 보기</a></span></li>
+                            </ul>
+                            <div class="product-addon">
+                                <label>추가 사항 <em>(선택)</em>
+                                    <input type="text" class="product-addon-desc" maxlength="60" placeholder="예: 페이지 5장 추가, 영문 버전">
+                                </label>
+                                <label class="product-option-label">옵션 선택
+                                <select class="product-option">
+                                    <option value="leaflet" data-name="리플릿 디자인 (3단 접지)" data-amount="220000" data-period="결제 및 자료 수령일로부터 5영업일 이내 1차 시안 전달" data-extra="수정 2회 · 인쇄용 PDF(AI) + 웹용 이미지">리플릿 (3단 접지) — 220,000원</option>
+                                    <option value="brochure" data-name="브로셔 디자인 (8페이지)" data-amount="550000" data-period="결제 및 자료 수령일로부터 7영업일 이내 1차 시안 전달" data-extra="수정 2회 · 인쇄용 PDF(AI) + 웹용 PDF">브로셔 (8페이지) — 550,000원</option>
+                                    <option value="catalog" data-name="카탈로그 디자인 (기본형)" data-amount="1100000" data-period="결제 및 자료 수령일로부터 10영업일 이내 1차 시안 전달" data-extra="수정 2회 · 제품 정리 · 페이지 편집 · 인쇄용 PDF(AI) + 웹용 PDF">카탈로그 (기본형) — 1,100,000원</option>
+                                </select>
+                                </label>
+                                <label>추가 금액 <em>(선택)</em>
+                                    <span class="product-addon-amount-wrap">
+                                        <input type="text" class="product-addon-amount" inputmode="numeric" autocomplete="off" placeholder="0">
+                                        <span class="product-addon-unit">원</span>
+                                    </span>
+                                </label>
+                                <div class="product-total"><span>결제 금액</span><b class="product-total-value">0원</b></div>
+                            </div>
+                            <button type="button" class="product-buy" data-product-name="리플릿 디자인 (3단 접지)" data-product-amount="220000">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/><path d="M6 15h4"/></svg>
+                                카드로 구매하기
+                            </button>
+                        </div>
+                    </article>
+                </div>
+                <div class="services-note reveal-up" style="transition-delay: 0.3s;">
+                    <strong>제공 방식</strong> — 모든 상품은 무형의 디자인 용역 서비스로, 결과물은 이메일(또는 클라우드 링크)로 파일 전달됩니다. 별도의 배송은 없습니다.<br>
+                    <strong>제공 기간</strong> — 표기된 기간은 결제 완료 후 작업에 필요한 자료(원고·이미지·로고 등)를 모두 받은 날을 기준으로 한 영업일이며, 수정 요청에 따라 최종 납품일은 달라질 수 있습니다.<br>
+                    <strong>환불 정책</strong> — 작업 착수 전 100% 환불, 착수 후에는 진행 단계에 따라 차등 환불되며 최종 파일 전달 후에는 환불이 불가합니다. 자세한 내용은 <a href="refund-policy.html" target="_blank" rel="noopener">결제 · 취소 · 환불 규정</a>을 확인해 주세요.<br>
+                    <strong>결제 · 증빙</strong> — 토스페이먼츠 카드 결제(비회원 가능)로 진행되며, 세금계산서·현금영수증 발급이 필요하시면 결제 후 이메일로 요청해 주세요.
                 </div>
             </div>
         </section>
@@ -761,9 +1033,13 @@
                 <span id="pay-modal-title">Card Payment</span>
             </div>
             <form id="pay-form" class="email-modal-form" novalidate>
-                <p class="pay-modal-notice">
+                <p class="pay-modal-notice pay-modal-quote">
                     안내받으신 <strong>견적 금액</strong>을 입력해 주세요. 카드 결제 시 결제 대행 수수료가 일부 포함될 수 있으며,
                     결제 완료 후 세금계산서·현금영수증이 필요하시면 이메일로 요청해 주세요.
+                </p>
+                <p class="pay-modal-notice pay-modal-product">
+                    선택하신 <strong>정가 상품</strong>을 결제합니다. 결제 완료 후 안내 메일로 작업에 필요한 자료를 보내주시면 표기된 제공 기간 내에 진행됩니다.
+                    세금계산서·현금영수증이 필요하시면 결제 후 이메일로 요청해 주세요.
                 </p>
                 <label>프로젝트명 / 결제 내용
                     <input type="text" name="orderName" id="pay-order-name" maxlength="100" placeholder="예: 브랜딩 디자인 1차 결제" required>
@@ -798,7 +1074,8 @@
 
     <footer>
         <div class="footer-info">
-            <p>&copy; 2026 Triple On Design. All rights reserved. · <a href="refund-policy.html" style="color: inherit;">환불 규정</a></p>
+            <p class="footer-biz">트리플온디자인 &nbsp;·&nbsp; 대표 김혜림 &nbsp;·&nbsp; 사업자등록번호 182-27-02006 &nbsp;·&nbsp; 대전광역시 유성구 가정북로 96, B102 B-6 (34111) &nbsp;·&nbsp; Tel 010-5861-4892 &nbsp;·&nbsp; <a href="mailto:info@tripleondesign.com" style="color:inherit;">info@tripleondesign.com</a></p>
+            <p>&copy; 2026 Triple On Design. All rights reserved. &nbsp;·&nbsp; <a href="about.html#services" style="color:inherit;">서비스 · 가격</a> &nbsp;·&nbsp; <a href="refund-policy.html" style="color:inherit;">결제 · 환불 규정</a></p>
         </div>
     </footer>
 
@@ -1310,18 +1587,82 @@
                 errorBox.textContent = '';
                 errorBox.classList.remove('is-visible');
             }
-            function openModal() {
+            function openModal(product) {
                 clearError();
+                if (product) {
+                    // 정가 상품 결제: 상품명·금액을 고정
+                    modal.classList.add('is-product');
+                    form.orderName.value = product.name;
+                    amountInput.value = Number(product.amount).toLocaleString('ko-KR');
+                    amountInput.readOnly = true;
+                    amountDisplay.textContent = fmt(product.amount);
+                } else {
+                    modal.classList.remove('is-product');
+                    amountInput.readOnly = false;
+                }
                 modal.classList.add('is-open');
                 document.body.style.overflow = 'hidden';
-                setTimeout(function () { document.getElementById('pay-order-name').focus(); }, 50);
+                setTimeout(function () {
+                    document.getElementById(product ? 'pay-customer-name' : 'pay-order-name').focus();
+                }, 50);
             }
+            // 상품 카드: 옵션 선택 + 추가 사항/추가 금액 → 합산 금액으로 결제
+            document.querySelectorAll('.product-card').forEach(function (card) {
+                var buy = card.querySelector('.product-buy');
+                var sel = card.querySelector('.product-option');
+                var descInput = card.querySelector('.product-addon-desc');
+                var addInput = card.querySelector('.product-addon-amount');
+                var totalEl = card.querySelector('.product-total-value');
+                if (!buy) return;
+
+                function base() {
+                    if (sel) {
+                        var o = sel.options[sel.selectedIndex];
+                        return { name: o.dataset.name, amount: parseInt(o.dataset.amount, 10) || 0 };
+                    }
+                    return { name: buy.dataset.productName, amount: parseInt(buy.dataset.productAmount, 10) || 0 };
+                }
+                function addon() { return addInput ? parseAmount(addInput.value) : 0; }
+                function total() { return base().amount + addon(); }
+                function sync() {
+                    if (sel) {
+                        var o = sel.options[sel.selectedIndex];
+                        var pv = card.querySelector('.product-price-value');
+                        var pp = card.querySelector('.product-period');
+                        var pe = card.querySelector('.product-extra');
+                        if (pv) pv.textContent = fmt(o.dataset.amount);
+                        if (pp) pp.textContent = o.dataset.period;
+                        if (pe) pe.textContent = o.dataset.extra;
+                    }
+                    if (totalEl) totalEl.textContent = fmt(total());
+                }
+
+                if (sel) sel.addEventListener('change', sync);
+                if (addInput) {
+                    addInput.addEventListener('input', function () {
+                        var n = parseAmount(addInput.value);
+                        addInput.value = n ? n.toLocaleString('ko-KR') : '';
+                        sync();
+                    });
+                }
+                buy.addEventListener('click', function () {
+                    var b = base();
+                    var desc = descInput ? descInput.value.trim() : '';
+                    var add = addon();
+                    var name = b.name;
+                    if (desc) name += ' + ' + desc;
+                    else if (add) name += ' + 추가 작업';
+                    if (add) name += ' (추가 ' + fmt(add) + ')';
+                    openModal({ name: name.slice(0, 100), amount: b.amount + add });
+                });
+                sync();
+            });
             function closeModal() {
                 modal.classList.remove('is-open');
                 document.body.style.overflow = '';
             }
 
-            openBtn.addEventListener('click', openModal);
+            openBtn.addEventListener('click', function () { openModal(null); });
             closeBtn.addEventListener('click', closeModal);
             modal.addEventListener('click', function (e) { if (e.target === modal) closeModal(); });
             document.addEventListener('keydown', function (e) {
