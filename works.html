@@ -543,6 +543,27 @@
             margin: 0;
         }
 
+        .style-link {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 9px 18px;
+            border: 1px solid #2563eb;
+            border-radius: 18px;
+            background: #2563eb;
+            color: #ffffff;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-decoration: none;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+            transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .style-link:hover {
+            background: #1d4ed8;
+            border-color: #1d4ed8;
+            box-shadow: 0 6px 18px rgba(37, 99, 235, 0.5);
+        }
+
         .iframe-viewer {
             display: flex;
             flex-direction: column;
@@ -999,6 +1020,54 @@
             </div>
 
             <div class="works-grid">
+                <div class="work-card" data-category="branding" data-web-img="works/branding/tonx.jpg">
+                    <img src="works/branding/tonx_thumb.jpg" alt="TonX BIO">
+                    <div class="work-card-overlay">
+                        <div class="work-card-title">TonX BIO</div>
+                        <div class="work-card-category">Branding</div>
+                    </div>
+                </div>
+
+                <div class="work-card" data-category="branding" data-web-img="works/branding/oranc_TOD.jpg">
+                    <img src="works/branding/oranc_thumb.jpg" alt="ORANC 오란씨">
+                    <div class="work-card-overlay">
+                        <div class="work-card-title">ORANC 오란씨</div>
+                        <div class="work-card-category">Branding</div>
+                    </div>
+                </div>
+
+                <div class="work-card" data-category="branding" data-web-img="works/branding/ability.jpg">
+                    <img src="works/branding/ability_thumb.png" alt="ABILITY SYSTEMS">
+                    <div class="work-card-overlay">
+                        <div class="work-card-title">ABILITY SYSTEMS</div>
+                        <div class="work-card-category">Branding</div>
+                    </div>
+                </div>
+
+                <div class="work-card" data-category="branding" data-web-img="works/branding/SUN%20ROBOTICS.png">
+                    <img src="works/branding/SUN%20ROBOTICS.png" alt="SUN ROBOTICS">
+                    <div class="work-card-overlay">
+                        <div class="work-card-title">SUN ROBOTICS</div>
+                        <div class="work-card-category">Branding</div>
+                    </div>
+                </div>
+
+                <div class="work-card" data-category="branding" data-web-img="works/branding/kolab설명.jpg">
+                    <img src="works/branding/kolab_thumb.jpg" alt="KOLAB Brand Identity">
+                    <div class="work-card-overlay">
+                        <div class="work-card-title">KOLAB</div>
+                        <div class="work-card-category">Branding</div>
+                    </div>
+                </div>
+
+                <div class="work-card" data-category="branding" data-web-img="works/branding/ktx+srt.jpg">
+                    <img src="works/branding/ktx+srt_thumb.jpg" alt="KTX·SRT Rail+ 통합개통기념 교통카드">
+                    <div class="work-card-overlay">
+                        <div class="work-card-title">KTX·SRT Rail+</div>
+                        <div class="work-card-category">Branding</div>
+                    </div>
+                </div>
+
                 <div class="work-card" data-category="ppt" data-slides-folder="works/ppt/interleukins" data-slides-count="13" data-slides-prefix="in" data-slides-ext=".jpeg">
                     <img src="works/ppt/interleukins/in1.jpeg" alt="Interleukins">
                     <div class="work-card-overlay">
@@ -1402,7 +1471,38 @@
                 'MEDIPLAY': {
                     title: '성장과 커뮤니티의 정체성이 담긴 M 심볼',
                     tags: ['#커뮤니티플랫폼심볼', '#의료교육브랜드', '#이니셜심볼', '#심볼워드마크조합형']
+                },
+                'TonX BIO': {
+                    title: '원라인 바이오테크 스타일',
+                    tags: ['#바이오텍BI', '#신약개발기업', '#임상중개연구', '#연구기관브랜딩'],
+                    desc: 'TonX Sky에서 Trust Blue로 이어지는 블루 그러데이션 하나만 쓰고, 끊기지 않는 한 줄의 곡선으로 X와 T가 동시에 읽히도록 조형했습니다. 네 갈래가 만나는 중심을 원으로 비워 세포와 교차 연구의 은유를 담아 바이오텍 기업 BI 및 임상중개연구 기관 브랜딩에 적합합니다.'
+                },
+                'ORANC 오란씨': {
+                    title: '레트로 시트러스 팝 스타일',
+                    tags: ['#음료패키지', '#식품브랜드리뉴얼', '#로고디자인공모전', '#리테일패키지'],
+                    desc: '오렌지와 그린 두 원색만 남기고 나머지를 흰 여백으로 비워, 진열대에서 가장 조용한 캔이 먼저 눈에 띄도록 설계했습니다. 별을 오렌지 한가운데로 옮긴 심볼과 우상향 사선의 각진 로고타입으로 탄산의 역동감을 담아 음료 패키지 및 식품 브랜드 리뉴얼에 적합합니다.'
+                },
+                'ABILITY SYSTEMS': {
+                    title: '메탈릭 블루 테크 스타일',
+                    tags: ['#IT기업BI', '#AI솔루션', '#제조테크', '#리브랜딩'],
+                    desc: 'Ability Blue와 Trust Navy 두 단계 블루 그러데이션으로 아래의 신뢰가 위의 신기술을 받치는 구조를 만들고, 20년간 사용한 뱃머리 곡선을 이니셜 A의 삼분할 심볼로 계승했습니다. 메탈 사이니지부터 앱 아이콘까지 블루 단색 하나로 재현되어 IT·AI 기업 리브랜딩 및 제조 테크 기업 BI에 적합합니다.'
+                },
+                'SUN ROBOTICS': {
+                    title: '로고 콘테스트 1위 수상작',
+                    tags: ['#서울대로보틱스연구소', '#로고콘테스트1위', '#연구소BI'],
+                    desc: '클라이언트의 요청에 따라 포트폴리오에 직접 공개하지 않습니다.<br><a class="style-link" href="https://www.loud.kr/contest/view/207712" target="_blank" rel="noopener">공모 페이지에서 보기</a>'
+                },
+                'KOLAB': {
+                    title: '오픈 비커 모노크롬 스타일',
+                    tags: ['#공공플랫폼', '#연구기관BI', '#기하학심볼', '#글로벌커뮤니티'],
+                    desc: 'COLA Black과 OPEN Beige 두 색으로 팔레트를 제한하고, 한쪽을 열어둔 삼각비커 도형으로 K·O·L·A·B 다섯 글자를 조형했습니다. 크라프트지 명함부터 건물 사이니지까지 단일 심볼로 확장되어 국제 연구자 지원 공공 플랫폼 및 연구기관 BI에 적합합니다.'
+                },
+                'KTX·SRT Rail+': {
+                    title: '네온 글래스 플래티넘 스타일',
+                    tags: ['#교통카드', '#기념굿즈', '#통합브랜딩', '#컬렉터블패키지'],
+                    desc: '칠흑의 무광 카드면 위에 KTX 사파이어 블루와 SRT 아메시스트 퍼플을 유리처럼 발광하는 네온 라인으로 대비시키고, 두 열차가 맞닿고 나란히 달리는 네 가지 구도를 하나의 철도·순간·여정·흐름이라는 내러티브로 1SET에 담아 통합 기념 교통카드 및 컬렉터블 기념 굿즈 브랜딩에 적합합니다.'
                 }
+
             };
 
             function buildStyleHeader(cardTitle) {
